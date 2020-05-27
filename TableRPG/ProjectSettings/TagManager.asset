@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: rock
+    uniqueID: 3597550155
+    locked: 0
+  - name: New Layer
+    uniqueID: 2339830715
+    locked: 0
