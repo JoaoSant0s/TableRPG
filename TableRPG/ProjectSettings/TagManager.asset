@@ -13,9 +13,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Pillar
+  - Lights
+  - Walls
   - 
   - 
   - 
@@ -41,9 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: rock
+  - name: Lights
+    uniqueID: 1926624601
+    locked: 0
+  - name: Pillar
     uniqueID: 3597550155
     locked: 0
-  - name: New Layer
-    uniqueID: 2339830715
+  - name: Walls
+    uniqueID: 132698521
     locked: 0
