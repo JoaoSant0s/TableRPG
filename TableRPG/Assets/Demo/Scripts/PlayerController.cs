@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
@@ -12,9 +13,7 @@ public class PlayerController : MonoBehaviour
     private float velocity = 10f;
 
     [SerializeField]
-    private Light2D lightReference;
-
-    private bool moving;
+    private Light2DAdaptative currentLight;    
 
     private void Start()
     {
@@ -25,18 +24,13 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        this.moving = Move(horizontal, vertical);
+        
+        Move(horizontal, vertical);
     }
 
-    public bool Moving
+    public Light2D Light
     {
-        get { return this.moving; }
-    }
-
-    public Light2D LightReference
-    {
-        get { return this.lightReference; }
+        get { return this.currentLight.Light; }
     }
 
     private bool Move(float horizontal, float vertical)

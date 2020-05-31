@@ -8,6 +8,9 @@ public class LightController : MonoBehaviour
     [SerializeField]
     private Light2D globalLight;
 
+    [SerializeField]
+    private LayerMask layer;
+
     private List<Light2D> lights;
 
     private PlayerController playerRef;
@@ -29,7 +32,7 @@ public class LightController : MonoBehaviour
 
         foreach (var item in this.lights)
         {
-            if (playerRef.LightReference == item) continue;
+            if (playerRef.Light == item) continue;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(this.playerRef.transform.position, item.transform.position);
             Gizmos.color = Color.white;
@@ -38,8 +41,7 @@ public class LightController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (this.playerRef == null) return;
-        if (!this.playerRef.Moving) return;
+        if (this.playerRef == null) return;        
         DisableRayCastedLights();
     }
 
@@ -53,13 +55,11 @@ public class LightController : MonoBehaviour
     {
         foreach (var item in this.lights)
         {
-            if (playerRef.LightReference == item) continue;
-
-            int layerIndex = LayerMask.NameToLayer("Walls");            
+            if (playerRef.Light == item) continue;                        
 
             var direction = (item.transform.position - this.playerRef.transform.position);
 
-            RaycastHit2D value = Physics2D.Raycast(this.playerRef.transform.position, direction, Mathf.Infinity, 1 << layerIndex);
+            RaycastHit2D value = Physics2D.Raycast(this.playerRef.transform.position, direction, direction.magnitude, this.layer);
 
             var active = false;
 
