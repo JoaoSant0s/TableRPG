@@ -47,7 +47,7 @@ public class WallBuilder : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (this.state == BuilderState.NONE) return;
         BuildWall();

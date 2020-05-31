@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour
         if (PlayerStart != null) PlayerStart(this);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         
         Move(horizontal, vertical);
-    }
+    }    
 
     public Light2D Light
     {

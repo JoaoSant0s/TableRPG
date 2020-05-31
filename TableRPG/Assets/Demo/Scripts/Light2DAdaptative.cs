@@ -70,7 +70,7 @@ public class Light2DAdaptative : MonoBehaviour
         TryResizeLight();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         TryResizeLight();
     }
@@ -91,7 +91,8 @@ public class Light2DAdaptative : MonoBehaviour
             this.sides = lightNaturalPoints;
             Debug.Log("Create or reduce more points in Freeform light 2d component to see the correct draw form");
         }
-        ResizeLight();
+
+        ResizeLight();        
     }
 
     private void ResizeLight()
