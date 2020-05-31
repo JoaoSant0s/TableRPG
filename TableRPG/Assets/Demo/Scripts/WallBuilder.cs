@@ -24,6 +24,12 @@ public class WallBuilder : MonoBehaviour
     private Wall wallPrefab;
 
     [SerializeField]
+    private float minWallScale;
+
+    [SerializeField]
+    private Vector2 wallScaleOffset;
+
+    [SerializeField]
     private List<Wall> walls;
 
     private BuilderState state = BuilderState.NONE;
@@ -135,7 +141,19 @@ public class WallBuilder : MonoBehaviour
         Vector3 direction = (worldPoint - this.currentWall.Position);
 
         this.currentWall.Rotate(direction);
-        this.currentWall.Scale(direction);
+
+        var scale = ScaleOffset(direction);
+
+        this.currentWall.Scale(scale);
+    }
+
+    private float ScaleOffset(Vector3 direction)
+    {
+        var directionScale = direction.ApplyOffset(this.wallScaleOffset);        
+
+        var scale = Mathf.Max(this.minWallScale, directionScale.magnitude);
+
+        return scale;
     }
 
     private Vector3 MouseWorldPosition()

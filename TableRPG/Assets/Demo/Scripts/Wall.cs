@@ -19,10 +19,10 @@ public class Wall : MonoBehaviour
         transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    public void Scale(Vector3 direction)
+    public void Scale(float scale)
     {
         var localScale = transform.localScale;
-        localScale.x = direction.magnitude;
+        localScale.x = scale;
         transform.localScale = localScale;
     }
 }

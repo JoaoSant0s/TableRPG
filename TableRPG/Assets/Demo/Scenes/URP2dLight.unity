@@ -1398,6 +1398,8 @@ MonoBehaviour:
   wallsArea: {fileID: 1671912420}
   wallPrefab: {fileID: 6091530182766144224, guid: ae62c7224edb12c489069a55e8944dcd,
     type: 3}
+  minWallScale: 0.25
+  wallScaleOffset: {x: 0.05, y: 0.05}
   walls: []
 --- !u!4 &1269753584
 Transform:
