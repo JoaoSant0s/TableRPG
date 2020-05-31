@@ -17,11 +17,19 @@ public class WorldUIController : MonoBehaviour
     [Header("Images references")]
 
     [SerializeField]
+    private ContentSizeFitter menuContentSize;
+
+    [SerializeField]
     private Image[] imagesToCustomize;
 
     private void Awake()
     {
         WorldController.ChangeWorldState += ChangeState;
+    }
+
+    private void Start()
+    {
+        RefreshMenuContentSize();
     }
 
     private void OnDestroy()
@@ -39,6 +47,13 @@ public class WorldUIController : MonoBehaviour
         {
             ChangeImagesColors(this.noneColor);
         }
+        RefreshMenuContentSize();
+    }
+
+    private void RefreshMenuContentSize()
+    {
+        this.menuContentSize.gameObject.SetActive(false);
+        this.menuContentSize.gameObject.SetActive(true);
     }
 
     private void ChangeImagesColors(Color color)

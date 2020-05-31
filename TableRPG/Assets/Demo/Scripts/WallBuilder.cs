@@ -25,6 +25,7 @@ public class WallBuilder : MonoBehaviour
 
     [SerializeField]
     private List<Wall> walls;
+
     private BuilderState state = BuilderState.NONE;
     private Wall currentWall;
 
@@ -65,6 +66,7 @@ public class WallBuilder : MonoBehaviour
         else
         {
             this.state = BuilderState.NONE;
+            RemoveCurrentWall();
         }
     }
 
@@ -77,31 +79,63 @@ public class WallBuilder : MonoBehaviour
     {
         if (!TryBuildWall()) return;
 
-        if (Input.GetMouseButtonUp((int)MouseButton.RIGHT))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Z))
         {
-            if (this.currentWall != null)
+            UndoLastWall();
+        }
+        else
+        {
+            if (Input.GetMouseButtonUp((int)MouseButton.RIGHT))
             {
-                Walls.Remove(this.currentWall);
-                Destroy(this.currentWall.gameObject);
+                RemoveCurrentWall();
+            }
+
+            if (Input.GetMouseButtonDown((int)MouseButton.LEFT))
+            {
+                CreateCurrentWall();
+            }
+            else if (!Input.GetMouseButtonUp((int)MouseButton.LEFT) && this.currentWall != null)
+            {
+                UpdateCurrentWall();
             }
         }
+    }
 
-        if (Input.GetMouseButtonDown((int)MouseButton.LEFT))
+    private void UndoLastWall()
+    {
+        if (Walls.Count == 0) return;
+        this.currentWall = null;
+        var wall = Walls[Walls.Count - 1];
+
+        Walls.Remove(wall);
+        Destroy(wall.gameObject);
+    }
+
+    private void RemoveCurrentWall()
+    {
+        if (this.currentWall != null)
         {
-            Vector3 worldPoint = MouseWorldPosition();
-
-            Wall wall = Instantiate(this.wallPrefab, worldPoint, Quaternion.identity, this.wallsArea);
-            Walls.Add(wall);
-            this.currentWall = wall;
+            Walls.Remove(this.currentWall);
+            Destroy(this.currentWall.gameObject);
         }
-        else if (!Input.GetMouseButtonUp((int)MouseButton.LEFT) && this.currentWall != null)
-        {
-            Vector3 worldPoint = MouseWorldPosition();
-            Vector3 direction = (worldPoint - this.currentWall.Position);
+    }
 
-            this.currentWall.Rotate(direction);
-            this.currentWall.Scale(direction);
-        }
+    private void CreateCurrentWall()
+    {
+        Vector3 worldPoint = MouseWorldPosition();
+
+        Wall wall = Instantiate(this.wallPrefab, worldPoint, Quaternion.identity, this.wallsArea);
+        Walls.Add(wall);
+        this.currentWall = wall;
+    }
+
+    private void UpdateCurrentWall()
+    {
+        Vector3 worldPoint = MouseWorldPosition();
+        Vector3 direction = (worldPoint - this.currentWall.Position);
+
+        this.currentWall.Rotate(direction);
+        this.currentWall.Scale(direction);
     }
 
     private Vector3 MouseWorldPosition()

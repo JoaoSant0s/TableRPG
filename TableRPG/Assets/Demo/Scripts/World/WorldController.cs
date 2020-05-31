@@ -30,7 +30,8 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private void OnValidate() {
+    private void OnValidate()
+    {
         if (ChangeWorldState != null) ChangeWorldState(this.state);
     }
 
