@@ -24,11 +24,8 @@ public class WallBuilder : MonoBehaviour
     private Wall wallPrefab;
 
     [SerializeField]
-    private BuilderState state = BuilderState.NONE;    
-    [SerializeField]
     private List<Wall> walls;
-
-    private bool movingMouse;
+    private BuilderState state = BuilderState.NONE;
     private Wall currentWall;
 
     public List<Wall> Walls
@@ -41,7 +38,7 @@ public class WallBuilder : MonoBehaviour
             }
             return this.walls;
         }
-    }   
+    }
 
     void Update()
     {
@@ -49,9 +46,36 @@ public class WallBuilder : MonoBehaviour
         BuildWall();
     }
 
+    private void Awake()
+    {
+        WorldController.ChangeWorldState += ChangeState;
+    }
+
+    private void OnDestroy()
+    {
+        WorldController.ChangeWorldState -= ChangeState;
+    }
+
+    private void ChangeState(WorldState state)
+    {
+        if (state == WorldState.WALL)
+        {
+            this.state = BuilderState.BUILDING;
+        }
+        else
+        {
+            this.state = BuilderState.NONE;
+        }
+    }
+
+    private bool TryBuildWall()
+    {
+        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject();
+    }
+
     private void BuildWall()
     {
-        if (this.state != BuilderState.BUILDING) return;
+        if (!TryBuildWall()) return;
 
         if (Input.GetMouseButtonUp((int)MouseButton.RIGHT))
         {
