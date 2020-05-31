@@ -134,7 +134,7 @@ MonoBehaviour:
   - {x: 0, y: 0.125, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -83172
+  m_InstanceId: 52962
 --- !u!1 &3166129579497285727
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,8 +144,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2427490131668750308}
+  - component: {fileID: 9187260025714508998}
   - component: {fileID: 8676245197368434763}
-  m_Layer: 10
+  - component: {fileID: 2467975605772457480}
+  - component: {fileID: 6533057625385688890}
+  m_Layer: 11
   m_Name: DragElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,6 +169,18 @@ Transform:
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9187260025714508998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166129579497285727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d8ce58bb009a84888123c29d271991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &8676245197368434763
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -216,6 +231,48 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &2467975605772457480
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166129579497285727}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
+--- !u!61 &6533057625385688890
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166129579497285727}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.4, y: 0.4}
+    newSize: {x: 0.84, y: 0.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &4223946400459778222
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,4 +319,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallTransform: {fileID: 1834222539046552117}
-  dragElement: {fileID: 2427490131668750308}
+  dragElement: {fileID: 9187260025714508998}

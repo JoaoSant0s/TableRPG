@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WallBuilder : MonoBehaviour
 {
+    public delegate void OnWallInteractions(bool interaction);
+    public static OnWallInteractions WallInteractions;
+
     public enum MouseButton
     {
         LEFT,
@@ -30,6 +33,8 @@ public class WallBuilder : MonoBehaviour
     private Vector2 wallScaleOffset;
 
     [SerializeField]
+    private LayerMask layersExcludeInput;
+
     private List<Wall> walls;
 
     private BuilderState state = BuilderState.NONE;
@@ -68,17 +73,27 @@ public class WallBuilder : MonoBehaviour
         if (state == WorldState.WALL)
         {
             this.state = BuilderState.BUILDING;
+            EnableWallInteractions(true);
         }
         else
         {
+            EnableWallInteractions(false);
             this.state = BuilderState.NONE;
             RemoveCurrentWall();
         }
-    }    
+    }
+
+    private void EnableWallInteractions(bool active)
+    {
+        if (WallInteractions != null)
+        {
+            WallInteractions(active);
+        }
+    }
 
     private void BuildWall()
     {
-        if (!TryBuildWall()) return;
+        if (!CanBuildWall()) return;
 
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Z))
         {
@@ -88,11 +103,13 @@ public class WallBuilder : MonoBehaviour
         {
             if (Input.GetMouseButtonUp((int)MouseButton.RIGHT))
             {
+                EnableWallInteractions(true);
                 RemoveCurrentWall();
             }
 
             if (Input.GetMouseButtonDown((int)MouseButton.LEFT))
             {
+                EnableWallInteractions(false);
                 CreateCurrentWall();
             }
             else if (!Input.GetMouseButtonUp((int)MouseButton.LEFT) && this.currentWall != null)
@@ -102,9 +119,22 @@ public class WallBuilder : MonoBehaviour
         }
     }
 
-    private bool TryBuildWall()
+    private bool CanBuildWall()
     {
-        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject();
+        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject() && !this.IsPointOverWallInteractionsArea();
+    }
+
+    private bool IsPointOverWallInteractionsArea()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity, this.layersExcludeInput);
+
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void UndoLastWall()
@@ -149,7 +179,7 @@ public class WallBuilder : MonoBehaviour
 
     private float ScaleOffset(Vector3 direction)
     {
-        var directionScale = direction.ApplyOffset(this.wallScaleOffset);        
+        var directionScale = direction.ApplyOffset(this.wallScaleOffset);
 
         var scale = Mathf.Max(this.minWallScale, directionScale.magnitude);
 

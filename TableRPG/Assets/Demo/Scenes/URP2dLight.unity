@@ -1046,6 +1046,7 @@ GameObject:
   - component: {fileID: 1019018265}
   - component: {fileID: 1019018268}
   - component: {fileID: 1019018269}
+  - component: {fileID: 1019018270}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1183,6 +1184,22 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1019018270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019018264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 2615
+  m_MaxRayIntersections: 0
 --- !u!1 &1174349546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,7 +1417,9 @@ MonoBehaviour:
     type: 3}
   minWallScale: 0.25
   wallScaleOffset: {x: 0.05, y: 0.05}
-  walls: []
+  layersExcludeInput:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!4 &1269753584
 Transform:
   m_ObjectHideFlags: 0

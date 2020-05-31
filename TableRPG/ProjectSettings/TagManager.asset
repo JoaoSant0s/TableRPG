@@ -13,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - Pillar
+  - 
   - Lights
   - Walls
-  - 
+  - WallsInteractions
   - 
   - 
   - 
@@ -44,9 +44,9 @@ TagManager:
   - name: Lights
     uniqueID: 1926624601
     locked: 0
-  - name: Pillar
-    uniqueID: 3597550155
-    locked: 0
   - name: Walls
     uniqueID: 132698521
+    locked: 0
+  - name: WallsInteractions
+    uniqueID: 1551930955
     locked: 0
