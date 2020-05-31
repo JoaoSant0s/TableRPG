@@ -47,7 +47,7 @@ public class WallBuilder : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (this.state == BuilderState.NONE) return;
         BuildWall();
@@ -74,12 +74,7 @@ public class WallBuilder : MonoBehaviour
             this.state = BuilderState.NONE;
             RemoveCurrentWall();
         }
-    }
-
-    private bool TryBuildWall()
-    {
-        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject();
-    }
+    }    
 
     private void BuildWall()
     {
@@ -105,6 +100,11 @@ public class WallBuilder : MonoBehaviour
                 UpdateCurrentWall();
             }
         }
+    }
+
+    private bool TryBuildWall()
+    {
+        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject();
     }
 
     private void UndoLastWall()

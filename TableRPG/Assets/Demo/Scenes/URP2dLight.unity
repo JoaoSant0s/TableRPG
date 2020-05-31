@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallsArea: {fileID: 1671912420}
-  wallPrefab: {fileID: 6091530182766144224, guid: ae62c7224edb12c489069a55e8944dcd,
+  wallPrefab: {fileID: 2403801545315089624, guid: 484e39d2e1657d249ad1b82a90789751,
     type: 3}
   minWallScale: 0.25
   wallScaleOffset: {x: 0.05, y: 0.05}

@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
+    [SerializeField]
+    private Transform wallTransform;
+
+    [SerializeField]
+    private Transform dragElement;
+
     public Vector3 Position
     {
         get { return this.transform.position; }
@@ -21,8 +27,17 @@ public class Wall : MonoBehaviour
 
     public void Scale(float scale)
     {
-        var localScale = transform.localScale;
+        var localScale = this.wallTransform.localScale;
         localScale.x = scale;
-        transform.localScale = localScale;
+        this.wallTransform.localScale = localScale;
+
+        UpdateDragPosition(scale);
+    }
+
+    private void UpdateDragPosition(float scale)
+    {
+        var localPosition = this.dragElement.localPosition;
+        localPosition.x = scale / 2;
+        this.dragElement.localPosition = localPosition;
     }
 }
