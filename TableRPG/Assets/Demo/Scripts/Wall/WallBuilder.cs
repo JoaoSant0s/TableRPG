@@ -109,8 +109,8 @@ public class WallBuilder : MonoBehaviour
 
             if (Input.GetMouseButtonDown((int)MouseButton.LEFT))
             {
-                EnableWallInteractions(false);
                 CreateCurrentWall();
+                EnableWallInteractions(false);
             }
             else if (!Input.GetMouseButtonUp((int)MouseButton.LEFT) && this.currentWall != null)
             {

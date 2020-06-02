@@ -20,4 +20,14 @@ public static class ExtensionMethods
         vector.z = Mathf.Abs(vector.z);
         return vector;
     }
+
+    public static Vector3 ScreenToWorldPoint(this Vector3 vector)
+    {
+        return Camera.main.ScreenToWorldPoint(vector);
+    }
+
+    public static Vector2 ScreenToWorldPoint(this Vector2 vector)
+    {
+        return Camera.main.ScreenToWorldPoint(vector);
+    }
 }

@@ -11,6 +11,11 @@ public class Wall : MonoBehaviour
     [SerializeField]
     private WallDragger dragElement;
 
+    [SerializeField]
+    private WallRotateScale rotateScaleElement;
+
+    private Vector3 wallOffset;
+
     public Vector3 Position
     {
         get { return this.transform.position; }
@@ -18,20 +23,47 @@ public class Wall : MonoBehaviour
 
     private void Awake()
     {
-        WallBuilder.WallInteractions += EnableInteractions;
-        this.dragElement.ChangeWallPosition += ChangeWallPosition;
+        RegisterEvent();
+
         EnableInteractions(false);
     }
 
     private void OnDestroy()
     {
+        UnRegisterEvent();
+    }
+
+    private void RegisterEvent()
+    {
+        WallBuilder.WallInteractions += EnableInteractions;
+
+        this.dragElement.StartChangeWallPosition += SaveWallOffset;
+        this.dragElement.ChangeWallPosition += ChangeWallPosition;
+
+
+        this.rotateScaleElement.StartChangeWallPosition += SaveWallOffset;
+
+        this.rotateScaleElement.ChangeWallPosition += ChangeWallRotationAndScale;
+    }
+
+    private void UnRegisterEvent()
+    {
+        this.dragElement.StartChangeWallPosition -= SaveWallOffset;
         this.dragElement.ChangeWallPosition -= ChangeWallPosition;
+
+
+        this.rotateScaleElement.StartChangeWallPosition -= SaveWallOffset;
+
+        this.rotateScaleElement.ChangeWallPosition -= ChangeWallRotationAndScale;
+
         WallBuilder.WallInteractions -= EnableInteractions;
     }
 
     private void EnableInteractions(bool enable)
     {
         this.dragElement.gameObject.SetActive(enable);
+        this.rotateScaleElement.gameObject.SetActive(enable);
+        this.rotateScaleElement.UpdateElements();
     }
 
     public void Rotate(Vector3 direction)
@@ -45,25 +77,44 @@ public class Wall : MonoBehaviour
 
     public void Scale(float scale)
     {
+        ScaleWall(scale);
+
+        UpdateDragElementPosition(scale);
+        UpdateRotateScaleElementPosition(scale);
+    }
+
+    private void ScaleWall(float scale)
+    {
         var localScale = this.wallTransform.localScale;
         localScale.x = scale;
         this.wallTransform.localScale = localScale;
-
-        UpdateDragPosition(scale);
     }
 
-    public void ChangeWallPosition(Vector3 position)
+    private void SaveWallOffset(Vector3 position)
     {
-        // var absVector = this.dragElement.LocalPosition.Abs();
-        // var transPosition = position.ApplyOffset(absVector);
-
-        transform.position = position;
+        this.wallOffset = position - transform.position;
     }
 
-    private void UpdateDragPosition(float scale)
+    private void ChangeWallPosition(Vector3 position)
     {
-        var localPosition = this.dragElement.transform.localPosition;
-        localPosition.x = scale / 2;
-        this.dragElement.transform.localPosition = localPosition;
+        transform.position = position - this.wallOffset;
+    }
+
+    private void ChangeWallRotationAndScale(Vector3 position)
+    {
+        var direction = this.wallOffset + (position - this.wallOffset) - Position;
+
+        Rotate(direction);
+        Scale(direction.magnitude);
+    }
+
+    private void UpdateDragElementPosition(float scale)
+    {
+        this.dragElement.UpdateLocalPosition(scale);
+    }
+
+    private void UpdateRotateScaleElementPosition(float scale)
+    {
+        this.rotateScaleElement.UpdateLocalPosition(scale);
     }
 }
