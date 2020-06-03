@@ -15,4 +15,13 @@ public static class UtilWrapper
     
         return results.Count > 0;
     }
+
+    public static bool CheckLeftButton(PointerEventData.InputButton input)
+    {
+        return input == PointerEventData.InputButton.Left;
+    }
+    public  static bool CheckRightButton(PointerEventData.InputButton input)
+    {
+        return input == PointerEventData.InputButton.Right;
+    }
 }

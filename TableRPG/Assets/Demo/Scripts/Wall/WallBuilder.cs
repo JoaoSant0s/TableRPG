@@ -22,7 +22,7 @@ public class WallBuilder : MonoBehaviour
 
     [SerializeField]
     private Transform wallsArea;
-
+    
     [SerializeField]
     private Wall wallPrefab;
 
@@ -67,7 +67,6 @@ public class WallBuilder : MonoBehaviour
     {
         WorldController.ChangeWorldState -= ChangeState;
     }
-
     private void ChangeState(WorldState state)
     {
         if (state == WorldState.WALL)
@@ -101,7 +100,7 @@ public class WallBuilder : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonUp((int)MouseButton.RIGHT))
+            if (Input.GetMouseButtonUp((int)MouseButton.RIGHT) && this.currentWall != null)
             {
                 EnableWallInteractions(true);
                 RemoveCurrentWall();

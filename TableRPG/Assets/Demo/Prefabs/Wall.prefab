@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1834222539046552117}
+  - component: {fileID: 1834222539046552118}
   - component: {fileID: 1834222539046552119}
   - component: {fileID: 1834222539046552112}
-  - component: {fileID: 1834222539046552118}
   m_Layer: 10
   m_Name: WallTransform
   m_TagString: Untagged
@@ -33,6 +33,32 @@ Transform:
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1834222539046552118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834222539046552116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000059f5d5724b426ed699d1e807
+  m_ShapePath:
+  - {x: 0, y: -0.125, z: 0}
+  - {x: 1, y: -0.125, z: 0}
+  - {x: 1, y: 0.125, z: 0}
+  - {x: 0, y: 0.125, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 21244
 --- !u!212 &1834222539046552119
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -109,32 +135,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1834222539046552118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834222539046552116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 0000000059f5d5724b426ed699d1e807
-  m_ShapePath:
-  - {x: 0, y: -0.125, z: 0}
-  - {x: 1, y: -0.125, z: 0}
-  - {x: 1, y: 0.125, z: 0}
-  - {x: 0, y: 0.125, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 45970
 --- !u!1 &3166129579497285727
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2427490131668750308}
   - component: {fileID: 9187260025714508998}
+  - component: {fileID: 7095701335360277690}
   - component: {fileID: 8676245197368434763}
   - component: {fileID: 2467975605772457480}
   m_Layer: 11
@@ -163,7 +164,7 @@ Transform:
   m_GameObject: {fileID: 3166129579497285727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 1
@@ -178,6 +179,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d8ce58bb009a84888123c29d271991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7095701335360277690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166129579497285727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e892ea5b0360f548b0292ee62f72d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &8676245197368434763
@@ -218,7 +231,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6cb9d077a80b69847a902a0b3e7456c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -293,6 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallTransform: {fileID: 1834222539046552117}
+  wallInfo: {fileID: 7095701335360277690}
   dragElement: {fileID: 9187260025714508998}
   rotateScaleElement: {fileID: 839202552661883394}
 --- !u!1 &4683612731223393704
@@ -323,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 4683612731223393704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 2
@@ -379,7 +393,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: d5e0432fc8911ae4eb7184d398a69b48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

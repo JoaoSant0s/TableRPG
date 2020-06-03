@@ -12,6 +12,8 @@ public class WallRotateScale : WallInteractor
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+        if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
+
         Vector3 newPosition = TransformPosition(eventData.position);
         this.offsetDrag = Vector3.zero;
 
@@ -20,19 +22,24 @@ public class WallRotateScale : WallInteractor
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
+
         Vector3 newPosition = TransformPosition(eventData.position);
 
         if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
     }
     public override void OnDrag(PointerEventData eventData)
     {
-        Vector3 newPosition = TransformPosition(eventData.position);
+        if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
 
+        Vector3 newPosition = TransformPosition(eventData.position);
 
         if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
     }
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
+
         Vector3 newPosition = TransformPosition(eventData.position);
         this.offsetDrag = this.offsetWall;
 

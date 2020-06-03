@@ -5,8 +5,14 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
+    public delegate void OnClickToShowInfo(Wall wall, Vector2 position);
+    public static OnClickToShowInfo ClickToShowInfo;
+
     [SerializeField]
     private Transform wallTransform;
+
+    [SerializeField]
+    private WallInfo wallInfo;
 
     [SerializeField]
     private WallDragger dragElement;
@@ -15,6 +21,8 @@ public class Wall : MonoBehaviour
     private WallRotateScale rotateScaleElement;
 
     private Vector3 wallOffset;
+
+    private bool editMode;
 
     public Vector3 Position
     {
@@ -39,10 +47,9 @@ public class Wall : MonoBehaviour
 
         this.dragElement.StartChangeWallPosition += SaveWallOffset;
         this.dragElement.ChangeWallPosition += ChangeWallPosition;
-
+        this.wallInfo.ClickWallRight += TryShowWallInfo;
 
         this.rotateScaleElement.StartChangeWallPosition += SaveWallOffset;
-
         this.rotateScaleElement.ChangeWallPosition += ChangeWallRotationAndScale;
     }
 
@@ -50,10 +57,9 @@ public class Wall : MonoBehaviour
     {
         this.dragElement.StartChangeWallPosition -= SaveWallOffset;
         this.dragElement.ChangeWallPosition -= ChangeWallPosition;
-
+        this.wallInfo.ClickWallRight -= TryShowWallInfo;
 
         this.rotateScaleElement.StartChangeWallPosition -= SaveWallOffset;
-
         this.rotateScaleElement.ChangeWallPosition -= ChangeWallRotationAndScale;
 
         WallBuilder.WallInteractions -= EnableInteractions;
@@ -61,6 +67,7 @@ public class Wall : MonoBehaviour
 
     private void EnableInteractions(bool enable)
     {
+        this.editMode = enable;
         this.dragElement.gameObject.SetActive(enable);
         this.rotateScaleElement.gameObject.SetActive(enable);
         this.rotateScaleElement.UpdateElements();
@@ -88,6 +95,16 @@ public class Wall : MonoBehaviour
         var localScale = this.wallTransform.localScale;
         localScale.x = scale;
         this.wallTransform.localScale = localScale;
+    }
+
+    private void TryShowWallInfo(Vector2 position)
+    {
+        if (!this.editMode) return;
+
+        if (ClickToShowInfo != null)
+        {
+            ClickToShowInfo(this, position);
+        }
     }
 
     private void SaveWallOffset(Vector3 position)

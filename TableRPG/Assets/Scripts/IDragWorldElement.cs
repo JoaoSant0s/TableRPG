@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class IDragWorldElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
-    public delegate void OnChangeWallPosition(Vector3 position);
-    public OnChangeWallPosition ChangeWallPosition;
-    public OnChangeWallPosition StartChangeWallPosition;
+    public delegate void OnDragElement(Vector3 position);
+    public OnDragElement DragElement;
+    public OnDragElement PrepareToDragElement;
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
@@ -15,7 +15,7 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         Vector3 newPosition = TransformPosition(eventData.position);
 
-        if (StartChangeWallPosition != null) StartChangeWallPosition(newPosition);
+        if (PrepareToDragElement != null) PrepareToDragElement(newPosition);
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
@@ -24,7 +24,7 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         Vector3 newPosition = TransformPosition(eventData.position);
 
-        if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
+        if (DragElement != null) DragElement(newPosition);
     }
     public virtual void OnDrag(PointerEventData eventData)
     {
@@ -32,7 +32,7 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         Vector3 newPosition = TransformPosition(eventData.position);
 
-        if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
+        if (DragElement != null) DragElement(newPosition);
     }
     public virtual void OnEndDrag(PointerEventData eventData)
     {
@@ -40,8 +40,8 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         Vector3 newPosition = TransformPosition(eventData.position);
 
-        if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
-    }    
+        if (DragElement != null) DragElement(newPosition);
+    }
 
     protected Vector3 TransformPosition(Vector2 position)
     {
