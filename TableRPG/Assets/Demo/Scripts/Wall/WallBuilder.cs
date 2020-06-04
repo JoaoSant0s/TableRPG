@@ -7,6 +7,12 @@ public class WallBuilder : MonoBehaviour
     public delegate void OnWallInteractions(bool interaction);
     public static OnWallInteractions WallInteractions;
 
+    public delegate void OnSavingWallData(WallData interaction);
+    public static OnSavingWallData SavingWallData;
+
+    public delegate void OnRemoveWallPane();
+    public static OnRemoveWallPane RemoveWallPane;
+
     public enum MouseButton
     {
         LEFT,
@@ -22,7 +28,7 @@ public class WallBuilder : MonoBehaviour
 
     [SerializeField]
     private Transform wallsArea;
-    
+
     [SerializeField]
     private Wall wallPrefab;
 
@@ -61,11 +67,15 @@ public class WallBuilder : MonoBehaviour
     private void Awake()
     {
         WorldController.ChangeWorldState += ChangeState;
+        WallUIConfig.SaveWall += SaveWallConfig;
+        WallUIConfig.LoadWall += LoadWall;
     }
 
     private void OnDestroy()
     {
         WorldController.ChangeWorldState -= ChangeState;
+        WallUIConfig.SaveWall -= SaveWallConfig;
+        WallUIConfig.LoadWall -= LoadWall;
     }
     private void ChangeState(WorldState state)
     {
@@ -82,6 +92,60 @@ public class WallBuilder : MonoBehaviour
         }
     }
 
+    private void LoadWall(WallData data)
+    {
+        DeleteCurrentWall();
+
+        GenerateLoadedWall(data);
+    }
+
+    private void DeleteCurrentWall()
+    {
+        EnableWallInteractions(false);
+
+        this.currentWall = null;
+
+        for (int i = 0; i < Walls.Count; i++)
+        {
+            var wall = Walls[i];
+            Destroy(wall.gameObject);
+        }
+        Walls.Clear();
+
+        if (RemoveWallPane != null)
+        {
+            RemoveWallPane();
+        }
+    }
+
+    private void GenerateLoadedWall(WallData data)
+    {
+        for (int i = 0; i < data.WallDefinitions.Count; i++)
+        {
+            WallConfig config = data.WallDefinitions[i];
+            CreateWallByConfig(config);
+        }
+
+        EnableWallInteractions(true);
+    }
+
+    private void CreateWallByConfig(WallConfig config)
+    {
+        Wall wall = Instantiate(this.wallPrefab, config.position, Quaternion.identity, this.wallsArea);
+
+        wall.Rotate(config.rotation);
+        wall.Scale(config.scale);
+    }
+
+    private void SaveWallConfig()
+    {
+        var wallData = new WallData(Walls);
+        if (SavingWallData != null)
+        {
+            SavingWallData(wallData);
+        }
+    }
+
     private void EnableWallInteractions(bool active)
     {
         if (WallInteractions != null)
@@ -90,11 +154,20 @@ public class WallBuilder : MonoBehaviour
         }
     }
 
+    private bool CheckUndoAction()
+    {
+#if UNITY_EDITOR
+        return Input.GetKey(KeyCode.LeftShift) && Input.GetKeyUp(KeyCode.Z);
+#else
+        return Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Z);
+#endif
+    }
+
     private void BuildWall()
     {
         if (!CanBuildWall()) return;
 
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Z))
+        if (CheckUndoAction())
         {
             UndoLastWall();
         }

@@ -26,7 +26,17 @@ public class Wall : MonoBehaviour
 
     public Vector3 Position
     {
-        get { return this.transform.position; }
+        get { return transform.position; }
+    }
+
+    public Quaternion Quaternion
+    {
+        get { return transform.localRotation; }
+    }
+
+    public float GetScale
+    {
+        get { return this.wallTransform.localScale.x; }
     }
 
     private void Awake()
@@ -80,6 +90,11 @@ public class Wall : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    public void Rotate(Quaternion quaternion)
+    {
+        transform.localRotation = quaternion;
     }
 
     public void Scale(float scale)

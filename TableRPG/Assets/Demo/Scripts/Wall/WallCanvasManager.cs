@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WallCanvasManager : MonoBehaviour
 {
+
+    [SerializeField]
+    private WallUIConfig wallUIConfig;
+
     [SerializeField]
     private Transform canvasWorldArea;
 
@@ -13,7 +17,6 @@ public class WallCanvasManager : MonoBehaviour
     [SerializeField]
     private Vector2 offset;
 
-    [SerializeField]
     private Dictionary<Wall, WallUIInfo> wallDictionary;
 
     public Dictionary<Wall, WallUIInfo> WallDictionary
@@ -33,6 +36,7 @@ public class WallCanvasManager : MonoBehaviour
         Wall.ClickToShowInfo += OpenInfo;
         WorldController.ChangeWorldState += ChangeState;
         WallUIInfo.RemoveWall += RemovePanel;
+        WallBuilder.RemoveWallPane += RemoveAllPanels;
     }
 
     private void OnDestroy()
@@ -40,12 +44,24 @@ public class WallCanvasManager : MonoBehaviour
         Wall.ClickToShowInfo -= OpenInfo;
         WorldController.ChangeWorldState -= ChangeState;
         WallUIInfo.RemoveWall -= RemovePanel;
+        WallBuilder.RemoveWallPane -= RemoveAllPanels;
     }
 
     private void ChangeState(WorldState state)
     {
-        if (state == WorldState.WALL) return;
+        if (state == WorldState.WALL)
+        {
+            this.wallUIConfig.gameObject.SetActive(true);
+        }
+        else
+        {
+            this.wallUIConfig.gameObject.SetActive(false);
+            RemoveAllPanels();
+        }
+    }
 
+    private void RemoveAllPanels()
+    {
         foreach (var item in WallDictionary)
         {
             Destroy(item.Value.gameObject);
@@ -57,7 +73,7 @@ public class WallCanvasManager : MonoBehaviour
     private void RemovePanel(Wall wall)
     {
         if (!WallDictionary.ContainsKey(wall)) return;
-        
+
         var panel = WallDictionary[wall];
         WallDictionary.Remove(wall);
         Destroy(panel.gameObject);

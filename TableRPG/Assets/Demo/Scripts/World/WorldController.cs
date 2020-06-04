@@ -38,6 +38,10 @@ public class WorldController : MonoBehaviour
     private void Start()
     {
         this.State = WorldState.NONE;
+        if (ChangeWorldState != null)
+        {
+            ChangeWorldState(this.State);
+        }
     }
 
     public void ActiveWallBuilding()
