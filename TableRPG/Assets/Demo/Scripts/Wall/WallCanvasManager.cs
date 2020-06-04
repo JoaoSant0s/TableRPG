@@ -13,17 +13,18 @@ public class WallCanvasManager : MonoBehaviour
     [SerializeField]
     private Vector2 offset;
 
-    private List<WallUIInfo> wallUIlist;
+    [SerializeField]
+    private Dictionary<Wall, WallUIInfo> wallDictionary;
 
-    public List<WallUIInfo> WallUIlist
+    public Dictionary<Wall, WallUIInfo> WallDictionary
     {
         get
         {
-            if (this.wallUIlist == null)
+            if (this.wallDictionary == null)
             {
-                this.wallUIlist = new List<WallUIInfo>();
+                this.wallDictionary = new Dictionary<Wall, WallUIInfo>();
             }
-            return this.wallUIlist;
+            return this.wallDictionary;
         }
     }
 
@@ -31,29 +32,43 @@ public class WallCanvasManager : MonoBehaviour
     {
         Wall.ClickToShowInfo += OpenInfo;
         WorldController.ChangeWorldState += ChangeState;
+        WallUIInfo.RemoveWall += RemovePanel;
     }
 
     private void OnDestroy()
     {
         Wall.ClickToShowInfo -= OpenInfo;
         WorldController.ChangeWorldState -= ChangeState;
+        WallUIInfo.RemoveWall -= RemovePanel;
     }
 
     private void ChangeState(WorldState state)
     {
         if (state == WorldState.WALL) return;
 
-        for (int i = 0; i < WallUIlist.Count; i++)
+        foreach (var item in WallDictionary)
         {
-            Destroy(WallUIlist[i].gameObject);
+            Destroy(item.Value.gameObject);
         }
-        WallUIlist.Clear();
+
+        WallDictionary.Clear();
+    }
+
+    private void RemovePanel(Wall wall)
+    {
+        if (!WallDictionary.ContainsKey(wall)) return;
+        
+        var panel = WallDictionary[wall];
+        WallDictionary.Remove(wall);
+        Destroy(panel.gameObject);
     }
 
     private void OpenInfo(Wall wall, Vector2 position)
     {
+        if (WallDictionary.ContainsKey(wall)) return;
+
         WallUIInfo infoPanel = Instantiate(this.wallUIInfoPrefab, (position + this.offset), Quaternion.identity, this.canvasWorldArea);
         infoPanel.ExtractWallInfo(wall);
-        this.wallUIlist.Add(infoPanel);
+        WallDictionary.Add(wall, infoPanel);
     }
 }

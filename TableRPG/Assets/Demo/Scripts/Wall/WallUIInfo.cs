@@ -5,8 +5,14 @@ using UnityEngine.EventSystems;
 
 public class WallUIInfo : MonoBehaviour
 {
+    public delegate void OnRemoveWall(Wall wall);
+    public static OnRemoveWall RemoveWall;
+
     [SerializeField]
     private WallUIInfoDrag dragElement;
+
+    [SerializeField]
+    private Wall linkedWall;
 
     private Vector3 offset;
 
@@ -34,6 +40,18 @@ public class WallUIInfo : MonoBehaviour
 
     public void ExtractWallInfo(Wall wall)
     {
+        this.linkedWall = wall;
         Debug.Log(wall);
     }
+
+    #region UI
+
+    public void OnClosePanel()
+    {
+        if (RemoveWall != null)
+        {
+            RemoveWall(this.linkedWall);
+        }
+    }
+    #endregion UI
 }
