@@ -11,8 +11,8 @@ public class CameraTargetZoom : MonoBehaviour
     private float minOrthographicSize = 2f;
     [SerializeField]
     private float maxOrthographicSize = 10f;
-    private const float divisionFactor = 150f;
-
+    [SerializeField]
+    private float divisionFactor = 175f;
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
     private InputCamera controls;
@@ -39,7 +39,7 @@ public class CameraTargetZoom : MonoBehaviour
 
     public void Zoom(Vector2 scroll)
     {
-        var size = this.virtualCamera.m_Lens.OrthographicSize + (-scroll.y / divisionFactor);
+        var size = this.virtualCamera.m_Lens.OrthographicSize + (-scroll.y / this.divisionFactor);
 
         var sizeCorrection = Mathf.Clamp(size, this.minOrthographicSize, this.maxOrthographicSize);
 

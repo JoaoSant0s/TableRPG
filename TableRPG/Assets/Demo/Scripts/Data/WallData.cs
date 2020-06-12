@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class WallData
 {
+    [SerializeField]
     private List<WallConfig> wallsDefinitions;
 
     public WallData(List<Wall> walls)

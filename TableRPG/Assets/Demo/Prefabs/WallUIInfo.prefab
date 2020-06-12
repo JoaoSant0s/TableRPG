@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 3162145725515360524}
   - component: {fileID: 3162145725515360527}
   - component: {fileID: 3162145725515360526}
+  - component: {fileID: 8910410546765263908}
   m_Layer: 5
   m_Name: WallUIInfo
   m_TagString: Untagged
@@ -472,6 +473,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!210 &8910410546765263908
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162145725515360520}
+  m_Enabled: 1
+  m_SortingLayerID: -1143308773
+  m_SortingLayer: 4
+  m_SortingOrder: 1
 --- !u!1 &3162145725617887217
 GameObject:
   m_ObjectHideFlags: 0

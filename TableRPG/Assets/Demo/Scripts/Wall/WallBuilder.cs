@@ -135,6 +135,8 @@ public class WallBuilder : MonoBehaviour
 
         wall.Rotate(config.rotation);
         wall.Scale(config.scale);
+        
+        Walls.Add(wall);
     }
 
     private void SaveWallConfig()
