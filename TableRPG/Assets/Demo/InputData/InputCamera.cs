@@ -59,7 +59,7 @@ public class @InputCamera : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""e71b5667-702b-4370-a6c0-b332a3572a49"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Press(pressPoint=0.1)"",
+                    ""interactions"": ""Press(pressPoint=0.01)"",
                     ""processors"": """",
                     ""groups"": ""computer"",
                     ""action"": ""StartMovement"",

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class CameraTargetMovement : MonoBehaviour
 {
     [SerializeField]
     [Range(0.1f, 1f)]
     private float velocity;
 
-    private InputCamera controls;
-    private bool moving;
+    private InputCamera controls;    
     private Vector3 lastPosition;
 
     private const float velocityDivisionFactor = 10f;
@@ -17,17 +16,13 @@ public class CameraTargetMovement : MonoBehaviour
         this.controls = new InputCamera();
 
         this.controls.Camera.StartMovement.performed += ctx => SetMoving(true);
-        this.controls.Camera.StartMovement.canceled += ctx => SetMoving(false);
-
-        this.controls.Camera.Movement.performed += ctx => TryMove(ctx.ReadValue<Vector2>());
+        this.controls.Camera.StartMovement.canceled += ctx => SetMoving(false);        
     }
 
     private void OnDestroy()
     {
         this.controls.Camera.StartMovement.performed -= ctx => SetMoving(true);
-        this.controls.Camera.StartMovement.canceled -= ctx => SetMoving(false);
-
-        this.controls.Camera.Movement.performed -= ctx => TryMove(ctx.ReadValue<Vector2>());
+        this.controls.Camera.StartMovement.canceled -= ctx => SetMoving(false);        
     }    
 
     private void OnEnable()
@@ -40,6 +35,19 @@ public class CameraTargetMovement : MonoBehaviour
         this.controls.Disable();
     }
 
+    private void SubscribeMovementEvent(){        
+        this.controls.Camera.Movement.performed += MoveContext;
+    }    
+
+    private void DisubscriveMovementEvent(){        
+        this.controls.Camera.Movement.performed -= MoveContext;    
+    }
+
+    private void MoveContext(InputAction.CallbackContext ctx)
+    {
+        Move(ctx.ReadValue<Vector2>());
+    }
+
     private void PrepareMovement()
     {
         var screenPoint = this.controls.Camera.Movement.ReadValue<Vector2>();
@@ -50,14 +58,16 @@ public class CameraTargetMovement : MonoBehaviour
 
     private void SetMoving(bool isMoving)
     {
-        if (isMoving) PrepareMovement();
-        this.moving = isMoving;
+        if(isMoving){
+            PrepareMovement();
+            SubscribeMovementEvent();
+        }else{
+            DisubscriveMovementEvent();
+        }                
     }
 
-    private void TryMove(Vector2 position)
-    {
-        if (!this.moving) return;
-
+    private void Move(Vector2 position)
+    {               
         Vector3 currentPoint = position.ScreenToWorldPoint();
 
         var offset = currentPoint - this.lastPosition;
