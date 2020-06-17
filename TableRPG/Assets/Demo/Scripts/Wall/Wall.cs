@@ -2,14 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class Wall : MonoBehaviour
 {
     public delegate void OnClickToShowInfo(Wall wall, Vector2 position);
     public static OnClickToShowInfo ClickToShowInfo;
 
+    [Header("Components")]
+
+    [SerializeField]
+    private ShadowCaster2D shadowCaster2D;
+
+    [SerializeField]
+    private BoxCollider2D boxCollider;
+
+    [Header("Wall child elements")]
+
     [SerializeField]
     private Transform wallTransform;
+
+    [SerializeField]
+    private SpriteRenderer wallSpriteRender;
+
+    [Header("Clickable elements")]
 
     [SerializeField]
     private WallInfo wallInfo;
@@ -37,6 +53,24 @@ public class Wall : MonoBehaviour
     public float GetScale
     {
         get { return this.wallTransform.localScale.x; }
+    }
+
+    public bool EnableShadowCaster2D
+    {
+        get { return this.shadowCaster2D.castsShadows; }
+        set { this.shadowCaster2D.castsShadows = value; }
+    }
+
+    public bool EnableBoxCollider2D
+    {
+        get { return this.boxCollider.isTrigger; }
+        set { this.boxCollider.isTrigger = value; }
+    }
+
+    public Color WallColor
+    {
+        get { return this.wallSpriteRender.color; }
+        set { this.wallSpriteRender.color = value; }
     }
 
     private void Awake()
