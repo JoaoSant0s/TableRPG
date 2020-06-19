@@ -5,7 +5,6 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-[ExecuteAlways]
 public class LoadTexture : MonoBehaviour
 {
     [SerializeField]
@@ -24,17 +23,17 @@ public class LoadTexture : MonoBehaviour
 
     private void OnValidate()
     {
-        this.texturePersistence = $"{Application.persistentDataPath}/texture.dap";
-        Debug.Log(this.texturePersistence);
+        // this.texturePersistence = $"{Application.persistentDataPath}/texture.dap";
+        // Debug.Log(this.texturePersistence);
 
-        if(this.loadSave){
-            this.loadSave = false;
-            LoadTexturePersistence();
-        }else if (this.saveTexture)
-        {
-            this.saveTexture = false;            
-            SaveTexturePersistence();
-        }
+        // if(this.loadSave){
+        //     this.loadSave = false;
+        //     LoadTexturePersistence();
+        // }else if (this.saveTexture)
+        // {
+        //     this.saveTexture = false;            
+        //     SaveTexturePersistence();
+        // }
     }
 
     private void SaveTexturePersistence(){        
