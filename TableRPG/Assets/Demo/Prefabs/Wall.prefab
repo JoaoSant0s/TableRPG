@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1834222539046552116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0.15, z: 1}
+  m_LocalScale: {x: 0, y: 0.05, z: 1}
   m_Children:
   - {fileID: 6102319219004162117}
   m_Father: {fileID: 1774765260374131091}
@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0, y: 0.125, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 22656
+  m_InstanceId: 36918
 --- !u!61 &1834222539046552112
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 3166129579497285727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 1
@@ -290,7 +290,7 @@ Transform:
   m_GameObject: {fileID: 4683612731223393704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1774765260374131091}
   m_RootOrder: 2

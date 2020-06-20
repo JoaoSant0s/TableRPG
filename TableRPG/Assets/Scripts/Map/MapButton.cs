@@ -35,16 +35,20 @@ namespace TableRPG
 
         #endregion
 
-        #region public methods
+        #region public methods        
 
-        public void OpenMenuButton()
+        public void ToggleMenuButton()
         {
-            this.animator.Play(this.openAnimation);
-        }
+            if (this.isOpened)
+            {
+                this.animator.Play(this.closeAnimation);
+            }
+            else
+            {
+                this.animator.Play(this.openAnimation);
+            }
 
-        public void CloseMenuButton()
-        {
-            this.animator.Play(this.closeAnimation);
+            this.isOpened = !this.isOpened;
         }
         #endregion
 
@@ -53,9 +57,6 @@ namespace TableRPG
 
         public void OnClick()
         {
-            if (this.isOpened) return;
-            this.isOpened = true;
-
             if (ClickMapButton == null) return;
 
             ClickMapButton(this);
@@ -67,20 +68,5 @@ namespace TableRPG
         }
 
         #endregion
-
-        #region Animation
-
-        public void SetOpenState()
-        {
-            this.isOpened = true;
-        }
-
-        public void SetCloseState()
-        {
-            this.isOpened = false;
-        }
-        #endregion
-
-
     }
 }

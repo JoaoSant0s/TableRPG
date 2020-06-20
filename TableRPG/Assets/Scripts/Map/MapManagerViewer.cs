@@ -6,11 +6,16 @@ namespace TableRPG
 {
     public class MapManagerViewer : MonoBehaviour
     {
-
+        [Header("Map elements")]
         [SerializeField]
         private MapButton mapButtonPrefab;
 
-        private MapButton lastButtonMap;
+        [Header("Objects references")]
+        [SerializeField]
+        private RectTransform mapButtonArea;
+
+        [SerializeField]
+        private GameObject buttonCreateMap;
 
         #region MonoBehaviour methods
 
@@ -30,14 +35,14 @@ namespace TableRPG
 
         private void ToggleButtonsSelection(MapButton mapButton)
         {
-            if (this.lastButtonMap != null)
-            {
-                this.lastButtonMap.CloseMenuButton();
-            }
+            mapButton.ToggleMenuButton();
+        }
 
-            mapButton.OpenMenuButton();
-
-            this.lastButtonMap = mapButton;
+        private void RefreshButtonPosition()
+        {
+            this.buttonCreateMap.SetActive(false);
+            Canvas.ForceUpdateCanvases();
+            this.buttonCreateMap.SetActive(true);
         }
 
         #endregion
@@ -46,8 +51,10 @@ namespace TableRPG
 
         public void OnCreateMap()
         {
-
+            Instantiate(this.mapButtonPrefab, this.mapButtonArea, false);
+            RefreshButtonPosition();
         }
+
         #endregion
     }
 }

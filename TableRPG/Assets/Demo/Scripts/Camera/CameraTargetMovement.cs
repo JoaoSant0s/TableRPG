@@ -6,7 +6,7 @@ public class CameraTargetMovement : MonoBehaviour
     [Range(0.1f, 1f)]
     private float velocity;
 
-    private InputCamera controls;    
+    private InputCamera controls;
     private Vector3 lastPosition;
 
     private const float velocityDivisionFactor = 10f;
@@ -16,14 +16,14 @@ public class CameraTargetMovement : MonoBehaviour
         this.controls = new InputCamera();
 
         this.controls.Camera.StartMovement.performed += ctx => SetMoving(true);
-        this.controls.Camera.StartMovement.canceled += ctx => SetMoving(false);        
+        this.controls.Camera.StartMovement.canceled += ctx => SetMoving(false);
     }
 
     private void OnDestroy()
     {
         this.controls.Camera.StartMovement.performed -= ctx => SetMoving(true);
-        this.controls.Camera.StartMovement.canceled -= ctx => SetMoving(false);        
-    }    
+        this.controls.Camera.StartMovement.canceled -= ctx => SetMoving(false);
+    }
 
     private void OnEnable()
     {
@@ -35,16 +35,20 @@ public class CameraTargetMovement : MonoBehaviour
         this.controls.Disable();
     }
 
-    private void SubscribeMovementEvent(){        
+    private void SubscribeMovementEvent()
+    {
         this.controls.Camera.Movement.performed += MoveContext;
-    }    
+    }
 
-    private void DisubscriveMovementEvent(){        
-        this.controls.Camera.Movement.performed -= MoveContext;    
+    private void DisubscriveMovementEvent()
+    {
+        this.controls.Camera.Movement.performed -= MoveContext;
     }
 
     private void MoveContext(InputAction.CallbackContext ctx)
     {
+        if (UtilWrapper.IsPointOverUIObject()) return;
+
         Move(ctx.ReadValue<Vector2>());
     }
 
@@ -58,20 +62,23 @@ public class CameraTargetMovement : MonoBehaviour
 
     private void SetMoving(bool isMoving)
     {
-        if(isMoving){
+        if (isMoving)
+        {
             PrepareMovement();
             SubscribeMovementEvent();
-        }else{
+        }
+        else
+        {
             DisubscriveMovementEvent();
-        }                
+        }
     }
 
     private void Move(Vector2 position)
-    {               
+    {
         Vector3 currentPoint = position.ScreenToWorldPoint();
 
         var offset = currentPoint - this.lastPosition;
 
-        transform.position -= (offset * this.velocity/velocityDivisionFactor);
+        transform.position -= (offset * this.velocity / velocityDivisionFactor);
     }
 }

@@ -12,7 +12,7 @@ public static class UtilWrapper
         eventDataCurrentPosition.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-    
+
         return results.Count > 0;
     }
 
@@ -20,7 +20,7 @@ public static class UtilWrapper
     {
         return input == PointerEventData.InputButton.Left;
     }
-    public  static bool CheckRightButton(PointerEventData.InputButton input)
+    public static bool CheckRightButton(PointerEventData.InputButton input)
     {
         return input == PointerEventData.InputButton.Right;
     }

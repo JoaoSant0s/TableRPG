@@ -39,6 +39,8 @@ public class CameraTargetZoom : MonoBehaviour
 
     public void Zoom(Vector2 scroll)
     {
+        if (UtilWrapper.IsPointOverUIObject()) return;
+
         var size = this.virtualCamera.m_Lens.OrthographicSize + (-scroll.y / this.divisionFactor);
 
         var sizeCorrection = Mathf.Clamp(size, this.minOrthographicSize, this.maxOrthographicSize);
