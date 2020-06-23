@@ -9,7 +9,7 @@ public class WorldUIController : MonoBehaviour
 {
     [Header("World State Color")]
     [SerializeField]
-    private WorldStateToColorData worldStateColor;
+    private WorldStateToColorDictionary worldStateColor;
 
     [Header("Images references")]
 

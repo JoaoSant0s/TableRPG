@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace TableRPG
 {
-    [CreateAssetMenu(fileName = "WorldStateToColorData", menuName = "TableRPG/WorldStateToColorData", order = 0)]
-    public class WorldStateToColorData : ScriptableObject
+    [CreateAssetMenu(fileName = "WorldStateToColorDictionary", menuName = "TableRPG/WorldStateToColorDictionary", order = 0)]
+    public class WorldStateToColorDictionary : ScriptableObject
     {
         [SerializeField]
         private List<WorldStateColorObject> worldStatesColors;

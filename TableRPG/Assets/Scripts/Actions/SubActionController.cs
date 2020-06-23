@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TableRPG
-{
-    public enum SubActionType
-    {
-        TEST_1,
-        TEST_2
-    }
-
+{    
     public class SubActionController : MonoBehaviour
     {
         [SerializeField]
-        private SubActionType type;
+        private SubActionViewer viewerType;        
 
         [Header("Components")]
 
@@ -29,10 +23,10 @@ namespace TableRPG
 
 
         #region  Getters And Setters
-        public SubActionType Type
+        public System.Type Type
         {
-            get { return this.type; }
-        }
+            get { return this.viewerType.GetType(); }
+        }        
 
         public bool IsHiding{
             get{return this.isHiding;}
@@ -42,12 +36,11 @@ namespace TableRPG
         #region public methods
 
         public void HideAndDestroySubAction()
-        {
+        {            
             if (this.isHiding) return;
             this.isHiding = true;
 
-            this.animator.Play(this.closeAnimation);
-
+            this.animator.Play(this.closeAnimation);            
         }
         #endregion
 

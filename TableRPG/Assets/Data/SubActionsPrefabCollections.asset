@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39111c5f63c0ab14ea05aebfbc98d661, type: 3}
   m_Name: SubActionsPrefabCollections
   m_EditorClassIdentifier: 
+  subActionWall: {fileID: 7792488862156925422, guid: 8f15beeeafdb60c469ef1cdb2312dbc6,
+    type: 3}
   subActionTest1: {fileID: 7792488862156925422, guid: 3eb900d01de0c8944bdb384dba59c249,
     type: 3}
   subActionTest2: {fileID: 7792488862156925422, guid: cbabb25aabbf8424697afc67247f7185,
