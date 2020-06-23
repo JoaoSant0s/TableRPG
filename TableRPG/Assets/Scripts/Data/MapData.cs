@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace TableRPG
 {
-    public class SubActionViewer : MonoBehaviour
+    [System.Serializable]
+    public class MapData : MonoBehaviour
     {
-        [Header("Buttons")]
         [SerializeField]
-        protected SubActionsButtons subActionsButtons;
+        private WallData wallData;
     }
 }

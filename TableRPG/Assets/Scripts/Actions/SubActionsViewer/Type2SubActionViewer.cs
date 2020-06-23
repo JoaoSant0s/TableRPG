@@ -6,10 +6,10 @@ namespace TableRPG
 {
     public class Type2SubActionViewer : SubActionViewer
     {
-        
         #region UI
         public void OnClickGeneric()
         {
+            this.subActionsButtons.SelectButton(0, true);
             Debug.Log("OnClickGeneric");
         }
         #endregion

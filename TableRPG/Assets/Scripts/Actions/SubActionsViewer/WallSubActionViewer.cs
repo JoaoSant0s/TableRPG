@@ -10,11 +10,13 @@ namespace TableRPG
 
         public void OnGenerateWall()
         {
+            this.subActionsButtons.SelectButton(0, true);
             Debug.Log("OnGenerateWall");
         }
 
         public void OnGenerateDoor()
         {
+            this.subActionsButtons.SelectButton(1, true);
             Debug.Log("OnGenerateDoor");
         }
 

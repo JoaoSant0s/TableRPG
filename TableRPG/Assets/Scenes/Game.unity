@@ -1808,9 +1808,9 @@ RectTransform:
   m_Father: {fileID: 861567293}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &696355864
@@ -2401,9 +2401,9 @@ RectTransform:
   m_Father: {fileID: 861567293}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &832382582
@@ -3174,9 +3174,10 @@ MonoBehaviour:
     type: 2}
   subActionsArea: {fileID: 330393456}
   subActionsButtons:
-    wallSelectImage: {fileID: 1702018562}
-    type1SelectImage: {fileID: 696355864}
-    type2SelectImage: {fileID: 832382582}
+    selectImages:
+    - {fileID: 1702018562}
+    - {fileID: 696355864}
+    - {fileID: 832382582}
 --- !u!4 &1213905740
 Transform:
   m_ObjectHideFlags: 0
@@ -10358,9 +10359,9 @@ RectTransform:
   m_Father: {fileID: 861567293}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.5, y: -80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 110, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1702018562

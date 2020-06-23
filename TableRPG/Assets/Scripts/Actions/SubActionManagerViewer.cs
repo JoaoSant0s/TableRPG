@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace TableRPG
 {
@@ -67,7 +65,7 @@ namespace TableRPG
         private void ActiveWallAction()
         {
             var isHidding = ToggleSubAction(this.subActionsCollections.subActionWall);
-            this.subActionsButtons.SelectWallButton(isHidding);
+            this.subActionsButtons.SelectButton(0, isHidding);
 
             InvokeChangeWorldState(WorldState.WALL, isHidding);
         }
@@ -75,7 +73,7 @@ namespace TableRPG
         private void ActiveSubAction1()
         {
             var isHidding = ToggleSubAction(this.subActionsCollections.subActionTest1);
-            this.subActionsButtons.SelectSubAction1Button(isHidding);
+            this.subActionsButtons.SelectButton(1, isHidding);
 
             InvokeChangeWorldState(WorldState.TEST_1, isHidding);
         }
@@ -83,7 +81,7 @@ namespace TableRPG
         private void ActiveSubAction2()
         {
             var isHidding = ToggleSubAction(this.subActionsCollections.subActionTest2);
-            this.subActionsButtons.SelectSubAction2Button(isHidding);
+            this.subActionsButtons.SelectButton(2, isHidding);
 
             InvokeChangeWorldState(WorldState.TEST_2, isHidding);
         }
@@ -129,68 +127,19 @@ namespace TableRPG
         #region UI
 
         public void OnActiveWallAction()
-        {            
+        {
             ActiveWallAction();
         }
 
         public void OnActiveSubAction1()
-        {            
+        {
             ActiveSubAction1();
         }
 
         public void OnActiveSubAction2()
-        {            
+        {
             ActiveSubAction2();
         }
-        #endregion
-    }
-
-    [System.Serializable]
-    public class SubActionsButtons
-    {
-        [Header("Buttons images")]
-        [SerializeField]
-        public Image wallSelectImage;
-
-        [SerializeField]
-        public Image type1SelectImage;
-
-        [SerializeField]
-        public Image type2SelectImage;
-
-        #region public methods        
-
-        public void SelectWallButton(bool isHidding)
-        {
-            ActiveImageSelected(this.wallSelectImage, isHidding);
-        }
-
-        public void SelectSubAction1Button(bool isHidding)
-        {
-            ActiveImageSelected(this.type1SelectImage, isHidding);
-        }
-
-        public void SelectSubAction2Button(bool isHidding)
-        {
-            ActiveImageSelected(this.type2SelectImage, isHidding);
-        }
-
-        #endregion
-
-        #region private methods       
-
-        private void ActiveImageSelected(Image image, bool activing)
-        {
-            Image[] images = new Image[] { this.wallSelectImage, this.type1SelectImage, this.type2SelectImage };
-
-            for (int i = 0; i < images.Length; i++)
-            {
-                Image comparableImage = images[i];
-
-                comparableImage.enabled = (comparableImage == image && activing);
-            }
-        }
-
         #endregion
     }
 }
