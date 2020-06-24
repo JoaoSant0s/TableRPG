@@ -22,7 +22,7 @@ public class Debugs : MonoBehaviour
 
         foreach (var item in list)
         {
-            debubLog += string.Format(", {0}", item);
+            debubLog += string.Format(" {0}", item);
         }
 
         return debubLog;

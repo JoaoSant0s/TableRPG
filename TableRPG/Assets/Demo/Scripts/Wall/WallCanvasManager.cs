@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class WallCanvasManager : MonoBehaviour
 {
-
-    [SerializeField]
-    private WallUIConfig wallUIConfig;
-
     [SerializeField]
     private Transform canvasWorldArea;
 
@@ -49,13 +45,8 @@ public class WallCanvasManager : MonoBehaviour
 
     private void ChangeState(WorldState state)
     {
-        if (state == WorldState.WALL)
+        if (state != WorldState.WALL)
         {
-            this.wallUIConfig.gameObject.SetActive(true);
-        }
-        else
-        {
-            this.wallUIConfig.gameObject.SetActive(false);
             RemoveAllPanels();
         }
     }

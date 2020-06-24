@@ -9,6 +9,9 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public OnChangeWallPosition ChangeWallPosition;
     public OnChangeWallPosition StartChangeWallPosition;
 
+    public delegate void OnEndWallManipulation();
+    public static OnEndWallManipulation EndWallManipulation;
+
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
@@ -40,8 +43,8 @@ public class WallInteractor : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         Vector3 newPosition = TransformPosition(eventData.position);
 
-        if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
-    }    
+        if (ChangeWallPosition != null) ChangeWallPosition(newPosition);        
+    }
 
     protected Vector3 TransformPosition(Vector2 position)
     {

@@ -10,9 +10,10 @@ namespace TableRPG
         [SerializeField]
         private List<WallConfig> wallsDefinitions;
 
+        public WallData() { }
+
         public WallData(List<Wall> walls)
         {
-
             for (int i = 0; i < walls.Count; i++)
             {
                 Wall wall = walls[i];

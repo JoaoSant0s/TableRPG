@@ -9,6 +9,12 @@ namespace TableRPG
         public delegate void OnClickMapButton(MapButton id);
         public static OnClickMapButton ClickMapButton;
 
+        public delegate void OnLoadContent(int mapID);
+        public static OnLoadContent LoadContent;
+
+        public delegate void OnDeleteContent(int mapID);
+        public static OnDeleteContent DeleteContent;
+
         [Header("Components")]
 
         [SerializeField]
@@ -26,16 +32,6 @@ namespace TableRPG
         private bool isOpened;
         private int id;
 
-        #region Getters And Setters
-
-        public int Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
-
-        #endregion
-
         #region public methods        
 
         public void ToggleMenuButton()
@@ -51,6 +47,12 @@ namespace TableRPG
 
             this.isOpened = !this.isOpened;
         }
+
+        public void MapControllerId(int mapId)
+        {
+            this.id = mapId;
+        }
+
         #endregion
 
 
@@ -64,8 +66,13 @@ namespace TableRPG
         }
 
         public void OnLoadMap()
-        {
-            Debug.Log("OnLoadMap");
+        {            
+            if (LoadContent != null) LoadContent(this.id);
+        }
+
+        public void OnDeleteMap()
+        {            
+            if (DeleteContent != null) DeleteContent(this.id);
         }
 
         #endregion

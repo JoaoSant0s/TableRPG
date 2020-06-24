@@ -68,6 +68,17 @@ public class @InputCamera : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""27b018a4-8489-4164-a774-425442985d9a"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press(pressPoint=0.01)"",
+                    ""processors"": """",
+                    ""groups"": ""computer"",
+                    ""action"": ""StartMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""669eafec-37c7-4ad7-a6bf-5e84173c7670"",
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": ""Press"",

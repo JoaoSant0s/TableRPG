@@ -6,6 +6,7 @@ namespace TableRPG
 {
     public class MapManagerViewer : MonoBehaviour
     {
+
         [Header("Map elements")]
         [SerializeField]
         private MapButton mapButtonPrefab;
@@ -17,16 +18,22 @@ namespace TableRPG
         [SerializeField]
         private GameObject buttonCreateMap;
 
+        [Header("Controllers references")]
+        [SerializeField]
+        private MapManagerController mapManagerController;
+
         #region MonoBehaviour methods
 
         private void Awake()
         {
             MapButton.ClickMapButton += ToggleButtonsSelection;
+            MapManagerController.CreateMapButton += CreateMapButton;
         }
 
         private void OnDestroy()
         {
             MapButton.ClickMapButton -= ToggleButtonsSelection;
+            MapManagerController.CreateMapButton -= CreateMapButton;
         }
 
         #endregion
@@ -51,8 +58,27 @@ namespace TableRPG
 
         public void OnCreateMap()
         {
-            Instantiate(this.mapButtonPrefab, this.mapButtonArea, false);
+            MapButton mapButton = CreateMap();
+            MapController map = this.mapManagerController.Create();
+
+            mapButton.MapControllerId(map.Id);
+        }
+
+        #endregion
+
+        #region private methods
+        private MapButton CreateMap()
+        {
+            MapButton mapButton = Instantiate(this.mapButtonPrefab, this.mapButtonArea, false);
             RefreshButtonPosition();
+            return mapButton;
+        }
+
+        private void CreateMapButton(MapController map)
+        {
+            MapButton mapButton = CreateMap();
+
+            mapButton.MapControllerId(map.Id);
         }
 
         #endregion

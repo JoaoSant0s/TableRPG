@@ -44,6 +44,7 @@ public class WallRotateScale : WallInteractor
         this.offsetDrag = this.offsetWall;
 
         if (ChangeWallPosition != null) ChangeWallPosition(newPosition);
+        if (EndWallManipulation != null) EndWallManipulation();
     }
 
     public void UpdateElements(){
