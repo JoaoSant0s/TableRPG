@@ -12,4 +12,11 @@ public class WallDragger : WallInteractor
         localPosition.x = scale / 2;
         transform.localPosition = localPosition;
     }
+
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+       base.OnEndDrag(eventData);
+       
+        if (EndWallManipulation != null) EndWallManipulation();
+    }
 }

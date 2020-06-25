@@ -5,7 +5,9 @@ using UnityEngine;
 public enum WorldState
 {
     NONE,
-    WALL
+    WALL,
+    TEST_1,
+    TEST_2
 }
 
 [ExecuteAlways]
@@ -20,7 +22,7 @@ public class WorldController : MonoBehaviour
     [SerializeField]
     private WorldState state;
 
-    public WorldState State
+    private WorldState State
     {
         get { return this.state; }
         set
@@ -28,25 +30,20 @@ public class WorldController : MonoBehaviour
             this.state = value;
             if (ChangeWorldState != null) ChangeWorldState(this.state);
         }
-    }
-
-    private void OnValidate()
-    {
-        if (ChangeWorldState != null) ChangeWorldState(this.state);
-    }
+    }    
 
     private void Start()
     {
         this.State = WorldState.NONE;
+        if (ChangeWorldState != null)
+        {
+            ChangeWorldState(this.State);
+        }
     }
 
-    public void ActiveWallBuilding()
+    public void UpdateToState(WorldState state)
     {
-        this.State = WorldState.WALL;
+        this.State = state;
     }
 
-    public void ActiveOtherState()
-    {
-        this.State = WorldState.NONE;
-    }
 }

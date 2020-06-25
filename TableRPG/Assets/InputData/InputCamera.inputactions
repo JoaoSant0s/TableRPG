@@ -1,0 +1,99 @@
+{
+    "name": "InputCamera",
+    "maps": [
+        {
+            "name": "Camera",
+            "id": "0e0d8284-2ad9-44e8-81fc-56b0388d0b11",
+            "actions": [
+                {
+                    "name": "StartMovement",
+                    "type": "Button",
+                    "id": "4c83d12a-328c-420b-bff8-a8f0485694d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "df334ea7-8176-4c12-9bd1-31d7f9174048",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "1c5fc29f-f757-4c8f-a598-92e6cb69206f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5588fd22-8cfa-4691-a5bb-f47d0bed826b",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "computer",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e71b5667-702b-4370-a6c0-b332a3572a49",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(pressPoint=0.01)",
+                    "processors": "",
+                    "groups": "computer",
+                    "action": "StartMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27b018a4-8489-4164-a774-425442985d9a",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "Press(pressPoint=0.01)",
+                    "processors": "",
+                    "groups": "computer",
+                    "action": "StartMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "669eafec-37c7-4ad7-a6bf-5e84173c7670",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "computer",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "computer",
+            "bindingGroup": "computer",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

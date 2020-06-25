@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TableRPG;
 
 [ExecuteAlways]
 public class WorldUIController : MonoBehaviour
 {
-    [Header("Walls")]
+    [Header("World State Color")]
     [SerializeField]
-    private Color wallColor;
-
-    [Header("None")]
-    [SerializeField]
-    private Color noneColor;
+    private WorldStateToColorDictionary worldStateColor;
 
     [Header("Images references")]
-
-    [SerializeField]
-    private ContentSizeFitter menuContentSize;
 
     [SerializeField]
     private Image[] imagesToCustomize;
@@ -27,11 +21,6 @@ public class WorldUIController : MonoBehaviour
         WorldController.ChangeWorldState += ChangeState;
     }
 
-    private void Start()
-    {
-        RefreshMenuContentSize();
-    }
-
     private void OnDestroy()
     {
         WorldController.ChangeWorldState -= ChangeState;
@@ -39,21 +28,9 @@ public class WorldUIController : MonoBehaviour
 
     private void ChangeState(WorldState state)
     {
-        if (state == WorldState.WALL)
-        {
-            ChangeImagesColors(this.wallColor);
-        }
-        else
-        {
-            ChangeImagesColors(this.noneColor);
-        }
-        RefreshMenuContentSize();
-    }
+        Color color = worldStateColor.GetColorByWorldState(state);
 
-    private void RefreshMenuContentSize()
-    {
-        this.menuContentSize.gameObject.SetActive(false);
-        this.menuContentSize.gameObject.SetActive(true);
+        ChangeImagesColors(color);
     }
 
     private void ChangeImagesColors(Color color)
@@ -61,6 +38,18 @@ public class WorldUIController : MonoBehaviour
         for (int i = 0; i < this.imagesToCustomize.Length; i++)
         {
             this.imagesToCustomize[i].color = color;
+        }
+
+        UpdateDynamicVisuals(color);
+    }
+
+    private void UpdateDynamicVisuals(Color color)
+    {
+        SubActionController subAction = FindObjectOfType<SubActionController>();
+
+        if (subAction != null)
+        {
+            subAction.gameObject.GetComponent<Image>().color = color;
         }
     }
 }
