@@ -2800,10 +2800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f32be3d47d52a047bbda54581d24268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRender: {fileID: 2101433568}
-  saveTexture: 0
-  loadSave: 0
-  fileName: C:/Users/Ricar/Desktop/tree.png
+  extensionsType: 000000000100000002000000
+  multiselect: 1
 --- !u!4 &1045299277
 Transform:
   m_ObjectHideFlags: 0

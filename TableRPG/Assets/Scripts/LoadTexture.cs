@@ -4,66 +4,74 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using SFB;
 
-public class LoadTexture : MonoBehaviour
+namespace TableRPG
 {
-    [SerializeField]
-    private SpriteRenderer spriteRender;
-
-    [SerializeField]
-    private bool saveTexture;
-
-    [SerializeField]
-    private bool loadSave;    
-
-    [SerializeField]
-    private string fileName = "C:/Users/Ricar/Desktop/tree.png";  
-
-    private string texturePersistence;  
-
-    private void OnValidate()
+    public enum Extensions
     {
-        // this.texturePersistence = $"{Application.persistentDataPath}/texture.dap";
-        // Debugs.Log(this.texturePersistence);
-
-        // if(this.loadSave){
-        //     this.loadSave = false;
-        //     LoadTexturePersistence();
-        // }else if (this.saveTexture)
-        // {
-        //     this.saveTexture = false;            
-        //     SaveTexturePersistence();
-        // }
+        PNG,
+        JPG,
+        JPEG,
+        TXT
     }
+    public class LoadTexture : MonoBehaviour
+    {        
+        [SerializeField]
+        private Extensions[] extensionsType;
+        [SerializeField]
+        private bool multiselect;        
 
-    private void SaveTexturePersistence(){        
-        if (!File.Exists(this.fileName)) return;
+        private void Start()
+        {
+            //LoadTexturePersistence();
+        }
 
-        byte[] imageBytes = File.ReadAllBytes(this.fileName);
+        private void SaveTexturePersistence()
+        {
+            // var bf = new BinaryFormatter();
 
-        var bf = new BinaryFormatter();
+            // FileStream file = File.Open(this.texturePersistence, FileMode.Open);
 
-        FileStream file = File.Create(this.texturePersistence);
+            // var imageBytes = (byte[])bf.Deserialize(file);
 
-        bf.Serialize(file, imageBytes);
+            // file.Close();
 
-        file.Close();
+            // Texture2D skin = new Texture2D(1, 1);
+            // skin.LoadImage(imageBytes);
+
+            // this.spriteRender.sprite = Sprite.Create(skin, new Rect(0, 0, skin.width, skin.height), new Vector2(0, 0));
+            // Debugs.Log(this.spriteRender);
+        }
+
+        private void LoadTexturePersistence()
+        {
+            var extensions = Array.ConvertAll(this.extensionsType, new Converter<Extensions, string>(ExtensionsToString));
+
+            var paths = StandaloneFileBrowser.OpenFilePanel("Title", "", new[] { new ExtensionFilter("", extensions) }, this.multiselect);
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                Debugs.Log(paths[i]);
+            }
+
+            // if (!File.Exists(this.fileName)) return;
+
+            // byte[] imageBytes = File.ReadAllBytes(this.fileName);
+
+            // var bf = new BinaryFormatter();
+
+            // FileStream file = File.Create(this.texturePersistence);
+
+            // bf.Serialize(file, imageBytes);
+
+            // file.Close();            
+        }
+
+        private static string ExtensionsToString(Extensions extension)
+        {
+            return extension.ToString().ToLower();
+        }
+
     }
-
-    private void LoadTexturePersistence(){
-        var bf = new BinaryFormatter();
-
-        FileStream file = File.Open(this.texturePersistence, FileMode.Open);
-
-        var imageBytes = (byte[])bf.Deserialize(file);       
-
-        file.Close();        
-
-        Texture2D skin = new Texture2D(1, 1);
-        skin.LoadImage(imageBytes);
-
-        this.spriteRender.sprite = Sprite.Create(skin, new Rect(0, 0, skin.width, skin.height), new Vector2(0, 0));
-        Debugs.Log(this.spriteRender);
-    }    
-
 }

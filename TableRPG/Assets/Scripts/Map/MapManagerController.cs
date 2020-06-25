@@ -27,7 +27,7 @@ namespace TableRPG
 
         private void Start()
         {
-            LoadMapCollections();
+            LoadMapCollections();            
         }
 
         private void OnDestroy()
@@ -68,11 +68,11 @@ namespace TableRPG
 
         #endregion
 
-        #region private methods
+        #region private methods        
 
         private void LoadMapCollections()
         {
-            var mapsPath = Paths.Maps;            
+            var mapsPath = Paths.Maps;
 
             var files = Directory.EnumerateFiles(mapsPath);
 
@@ -120,7 +120,7 @@ namespace TableRPG
 
         private void LoadMapContent(int id)
         {
-            MapController map = FindMapById(id);            
+            MapController map = FindMapById(id);
 
             if (UpdateMapContent != null) UpdateMapContent(map);
         }
