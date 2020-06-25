@@ -21,14 +21,25 @@ public class WallBuilder : MonoBehaviour
     public enum BuilderState
     {
         NONE,
-        BUILDING
+        WALL,
+        DOOR
     }
 
     [SerializeField]
     private Transform wallsArea;
 
     [SerializeField]
+    private LayerMask layersExcludeInput;
+
+    [Header("Prefabs")]
+
+    [SerializeField]
     private Wall wallPrefab;
+
+    [SerializeField]
+    private Wall doorPrefab;
+
+    [Header("Wall manipulation Settings")]
 
     [SerializeField]
     private float minWallScale;
@@ -36,11 +47,7 @@ public class WallBuilder : MonoBehaviour
     [SerializeField]
     private Vector2 wallScaleOffset;
 
-    [SerializeField]
-    private LayerMask layersExcludeInput;
-
     private List<Wall> walls;
-
     private BuilderState state = BuilderState.NONE;
     private Wall currentWall;
     private MapController mapController;
@@ -63,6 +70,9 @@ public class WallBuilder : MonoBehaviour
 
         MapManagerController.UpdateMapContent += LoadMap;
         WallInteractor.EndWallManipulation += UpdateWallData;
+
+        WallSubActionViewer.GenerateWall += SetWallState;
+        WallSubActionViewer.GenerateDoor += SetDoorState;
     }
 
     private void OnDestroy()
@@ -71,6 +81,9 @@ public class WallBuilder : MonoBehaviour
 
         MapManagerController.UpdateMapContent -= LoadMap;
         WallInteractor.EndWallManipulation += UpdateWallData;
+
+        WallSubActionViewer.GenerateWall -= SetWallState;
+        WallSubActionViewer.GenerateDoor -= SetDoorState;
     }
 
     void Update()
@@ -79,19 +92,25 @@ public class WallBuilder : MonoBehaviour
         BuildWall();
     }
 
+    private void SetWallState()
+    {
+        this.state = BuilderState.WALL;
+        EnableWallInteractions(true);
+    }
+
+    private void SetDoorState()
+    {
+        this.state = BuilderState.DOOR;
+        EnableWallInteractions(true);
+    }
+
     private void ChangeState(WorldState state)
     {
-        if (state == WorldState.WALL)
-        {
-            this.state = BuilderState.BUILDING;
-            EnableWallInteractions(true);
-        }
-        else
-        {
-            EnableWallInteractions(false);
-            this.state = BuilderState.NONE;
-            RemoveCurrentWall();
-        }
+        if (state == WorldState.WALL) return;
+
+        EnableWallInteractions(false);
+        this.state = BuilderState.NONE;
+        RemoveCurrentWall();
     }
 
     private void LoadMap(MapController map)
@@ -128,7 +147,7 @@ public class WallBuilder : MonoBehaviour
     }
 
     private void GenerateLoadedWall(WallData data)
-    {        
+    {
         for (int i = 0; i < data.WallDefinitions.Count; i++)
         {
             WallConfig config = data.WallDefinitions[i];
@@ -140,13 +159,13 @@ public class WallBuilder : MonoBehaviour
 
     private void CreateWallByConfig(WallConfig config)
     {
-        Wall wall = Instantiate(this.wallPrefab, config.position, Quaternion.identity, this.wallsArea);
+        Wall wall = Instantiate(UsePrefabMode(config.type), config.position, Quaternion.identity, this.wallsArea);
 
         wall.Rotate(config.rotation);
         wall.Scale(config.scale);
 
         Walls.Add(wall);
-    }
+    }   
 
     private void EnableWallInteractions(bool active)
     {
@@ -185,7 +204,7 @@ public class WallBuilder : MonoBehaviour
 
     private bool CanBuildWall()
     {
-        return this.state == BuilderState.BUILDING && !UtilWrapper.IsPointOverUIObject() && !this.IsPointOverWallInteractionsArea();
+        return this.state != BuilderState.NONE && !UtilWrapper.IsPointOverUIObject() && !this.IsPointOverWallInteractionsArea();
     }
 
     private bool IsPointOverWallInteractionsArea()
@@ -214,9 +233,35 @@ public class WallBuilder : MonoBehaviour
     {
         Vector3 worldPoint = MouseWorldPosition();
 
-        Wall wall = Instantiate(this.wallPrefab, worldPoint, Quaternion.identity, this.wallsArea);
+        Wall wall = Instantiate(UsePrefabMode(), worldPoint, Quaternion.identity, this.wallsArea);
         Walls.Add(wall);
         this.currentWall = wall;
+    }
+
+    private Wall UsePrefabMode()
+    {
+        switch (this.state)
+        {
+            case BuilderState.DOOR:
+                return this.doorPrefab;
+            case BuilderState.WALL:
+                return this.wallPrefab;
+            default:
+                return this.wallPrefab;
+        }
+    }
+
+    private Wall UsePrefabMode(WallType type)
+    {
+        switch (type)
+        {
+            case WallType.DOOR:
+                return this.doorPrefab;
+            case WallType.WALL:
+                return this.wallPrefab;
+            default:
+                return this.wallPrefab;
+        }
     }
 
     private void UpdateCurrentWall()

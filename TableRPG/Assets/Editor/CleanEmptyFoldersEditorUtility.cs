@@ -23,7 +23,7 @@ namespace Common.Utilities
                 }
             }
 
-            Debug.Log("Deleted Folders:\n" + (deletedFolders.Length > 0 ? deletedFolders : "NONE"));
+            Debugs.Log("Deleted Folders:\n" + (deletedFolders.Length > 0 ? deletedFolders : "NONE"));
         }
 
         private static string ScanDirectory(DirectoryInfo subDirectory)

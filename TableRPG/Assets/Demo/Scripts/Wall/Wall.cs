@@ -10,6 +10,8 @@ public class Wall : MonoBehaviour
     public static OnClickToShowInfo ClickToShowInfo;
 
     [Header("Components")]
+    
+    [Header("Wall settings")]
 
     [SerializeField]
     private ShadowCaster2D shadowCaster2D;
@@ -31,10 +33,10 @@ public class Wall : MonoBehaviour
     private WallInfo wallInfo;
 
     [SerializeField]
-    private WallDragger dragElement;
+    protected WallDragger dragElement;
 
     [SerializeField]
-    private WallRotateScale rotateScaleElement;
+    protected WallRotateScale rotateScaleElement;
 
     private Vector3 wallOffset;
 
@@ -109,7 +111,7 @@ public class Wall : MonoBehaviour
         WallBuilder.WallInteractions -= EnableInteractions;
     }
 
-    private void EnableInteractions(bool enable)
+    protected virtual void EnableInteractions(bool enable)
     {
         this.editMode = enable;
         this.dragElement.gameObject.SetActive(enable);
@@ -135,8 +137,7 @@ public class Wall : MonoBehaviour
     {
         ScaleWall(scale);
 
-        UpdateDragElementPosition(scale);
-        UpdateRotateScaleElementPosition(scale);
+        UpdateElementsPosition(scale);        
     }
 
     private void ScaleWall(float scale)
@@ -174,13 +175,8 @@ public class Wall : MonoBehaviour
         Scale(direction.magnitude);
     }
 
-    private void UpdateDragElementPosition(float scale)
-    {
+    protected virtual void UpdateElementsPosition(float scale){
         this.dragElement.UpdateLocalPosition(scale);
-    }
-
-    private void UpdateRotateScaleElementPosition(float scale)
-    {
         this.rotateScaleElement.UpdateLocalPosition(scale);
-    }
+    }    
 }

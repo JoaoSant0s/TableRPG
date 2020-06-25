@@ -27,6 +27,18 @@ namespace TableRPG
 
         #region MonoBehaviour methods
 
+        private void Start()
+        {
+            MapManagerController.UpdateMapContent += HideSubActions;
+            MapManagerController.CreateMapButton += HideSubActions;        
+        }
+
+        private void Awake()
+        {
+            MapManagerController.UpdateMapContent -= HideSubActions;
+            MapManagerController.CreateMapButton -= HideSubActions;
+        }
+
         private void Update()
         {
             if (CheckWallHotKeys())
@@ -46,6 +58,16 @@ namespace TableRPG
         #endregion
 
         #region private methods
+
+        private void HideSubActions(MapController map = null)
+        {
+            if (!CanHideLastSubAction()) return;
+
+            this.lastSubActionControllerActived.HideAndDestroySubAction();
+
+            this.subActionsButtons.DefaultStateButtons();
+            InvokeChangeWorldState(WorldState.NONE, false);
+        }
 
         private bool CheckWallHotKeys()
         {

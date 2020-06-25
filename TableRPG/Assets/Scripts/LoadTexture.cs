@@ -24,7 +24,7 @@ public class LoadTexture : MonoBehaviour
     private void OnValidate()
     {
         // this.texturePersistence = $"{Application.persistentDataPath}/texture.dap";
-        // Debug.Log(this.texturePersistence);
+        // Debugs.Log(this.texturePersistence);
 
         // if(this.loadSave){
         //     this.loadSave = false;
@@ -63,7 +63,7 @@ public class LoadTexture : MonoBehaviour
         skin.LoadImage(imageBytes);
 
         this.spriteRender.sprite = Sprite.Create(skin, new Rect(0, 0, skin.width, skin.height), new Vector2(0, 0));
-        Debug.Log(this.spriteRender);
+        Debugs.Log(this.spriteRender);
     }    
 
 }

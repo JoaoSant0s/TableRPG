@@ -10,7 +10,7 @@ namespace TableRPG
         public void OnClickGeneric()
         {
             this.subActionsButtons.SelectButton(0, true);
-            Debug.Log("OnClickGeneric");
+            Debugs.Log("OnClickGeneric");
         }
         #endregion
     }

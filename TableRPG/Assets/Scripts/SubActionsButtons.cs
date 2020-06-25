@@ -22,6 +22,15 @@ namespace TableRPG
             }
         }
 
+        public void DefaultStateButtons(){
+            for (int i = 0; i < this.selectImages.Count; i++)
+            {
+                Image comparableImage = this.selectImages[i];
+
+                comparableImage.enabled = false;
+            }
+        }
+
         #endregion
     }
 }

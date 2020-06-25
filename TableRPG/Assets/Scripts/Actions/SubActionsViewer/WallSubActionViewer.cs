@@ -6,18 +6,23 @@ namespace TableRPG
 {
     public class WallSubActionViewer : SubActionViewer
     {
+        public delegate void OnChangeBuilder();
+        public static OnChangeBuilder GenerateWall;
+        public static OnChangeBuilder GenerateDoor;
+
         #region UI
 
         public void OnGenerateWall()
         {
             this.subActionsButtons.SelectButton(0, true);
-            Debug.Log("OnGenerateWall");
+            if (GenerateWall != null) GenerateWall();
         }
 
         public void OnGenerateDoor()
         {
             this.subActionsButtons.SelectButton(1, true);
-            Debug.Log("OnGenerateDoor");
+
+            if (GenerateDoor != null) GenerateDoor();
         }
 
         #endregion
