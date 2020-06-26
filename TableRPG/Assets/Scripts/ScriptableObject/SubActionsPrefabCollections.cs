@@ -9,7 +9,6 @@ namespace TableRPG
     {
         public SubActionController subActionWall;     
         public SubActionController subActionTest1;
-
         public SubActionController subActionTest2;
     }
 }

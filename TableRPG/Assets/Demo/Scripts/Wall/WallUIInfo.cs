@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TableRPG;
 
-public class WallUIInfo : MonoBehaviour
+public class WallUIInfo : WindowProperties
 {
     public delegate void OnRemoveWall(Wall wall);
-    public static OnRemoveWall RemoveWall;
+    public static OnRemoveWall RemoveWall;  
+
+    [Header("Wall UI Config")] 
 
     [SerializeField]
     private WallUIInfoDrag dragElement;
@@ -29,8 +32,7 @@ public class WallUIInfo : MonoBehaviour
     {
         this.dragElement.PrepareToDragElement -= SaveDragOffset;
         this.dragElement.DragElement -= ChangeInfoPosition;
-    }
-
+    }      
     private void UpdateButtonsVisuals()
     {
         this.buttonsUI.EnableBlockLightButton(this.linkedWall.EnableShadowCaster2D);
@@ -104,7 +106,7 @@ public class WallUIInfoButtons
     public Image colorImage;
 
     public void EnableBlockLightButton(bool value)
-    {        
+    {
         this.blockLightButton.image.color = value ? Color.white : this.disabledColor;
     }
 

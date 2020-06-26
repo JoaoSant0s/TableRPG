@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Demo/InputData/InputCamera.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/InputData/InputCamera.inputactions'
 
 using System;
 using System.Collections;
