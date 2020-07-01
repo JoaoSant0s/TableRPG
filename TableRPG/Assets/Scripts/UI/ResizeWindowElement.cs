@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 namespace TableRPG
 {
-    public class ResizeWindowElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+    public class ResizeWindowElement : WindowCanvas, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
     {
         [SerializeField]
-        private WallUIInfo wallInfo;
+        private WindowProperties wallInfo;
 
         private Vector2 startPosition;
 
@@ -25,7 +25,7 @@ namespace TableRPG
         {
             if (!UtilWrapper.CheckLeftButton(eventData.button)) return;
 
-            this.startPosition = TransformPosition(eventData.position);            
+            this.startPosition = TransformPosition(eventData.position);
         }
         public virtual void OnDrag(PointerEventData eventData)
         {
@@ -45,6 +45,8 @@ namespace TableRPG
 
         protected Vector3 TransformPosition(Vector2 position)
         {
+            position = CorrectInpuLimits(position);
+            
             Vector3 newPosition = position.ScreenToWorldPoint();
             newPosition.z = transform.position.z;
             return newPosition;

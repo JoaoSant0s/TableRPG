@@ -30,7 +30,7 @@ namespace TableRPG
         private void Start()
         {
             MapManagerController.UpdateMapContent += HideSubActions;
-            MapManagerController.CreateMapButton += HideSubActions;        
+            MapManagerController.CreateMapButton += HideSubActions;
         }
 
         private void Awake()
@@ -41,15 +41,15 @@ namespace TableRPG
 
         private void Update()
         {
-            if (CheckWallHotKeys())
+            if (HotKeysCollections.ButtonAlpha1)
             {
                 ActiveWallAction();
             }
-            else if (CheckAction1HotKeys())
+            else if (HotKeysCollections.ButtonAlpha2)
             {
                 ActiveSubAction1();
             }
-            else if (CheckAction2HotKeys())
+            else if (HotKeysCollections.ButtonAlpha3)
             {
                 ActiveSubAction2();
             }
@@ -67,21 +67,6 @@ namespace TableRPG
 
             this.subActionsButtons.DefaultStateButtons();
             InvokeChangeWorldState(WorldState.NONE, false);
-        }
-
-        private bool CheckWallHotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha1);
-        }
-
-        private bool CheckAction1HotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha2);
-        }
-
-        private bool CheckAction2HotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha3);
         }
 
         private void ActiveWallAction()
