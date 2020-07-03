@@ -9,10 +9,10 @@ namespace TableRPG
         public delegate void OnClickMapButton(MapButton id);
         public static OnClickMapButton ClickMapButton;
 
-        public delegate void OnLoadContent(int mapID);
+        public delegate void OnLoadContent(string mapID);
         public static OnLoadContent LoadContent;
 
-        public delegate void OnDeleteContent(int mapID);
+        public delegate void OnDeleteContent(string mapID);
         public static OnDeleteContent DeleteContent;
 
         [Header("Components")]
@@ -30,7 +30,7 @@ namespace TableRPG
 
         [SerializeField]
         private bool isOpened;
-        private int id;
+        private string id;
 
         #region public methods        
 
@@ -48,7 +48,7 @@ namespace TableRPG
             this.isOpened = !this.isOpened;
         }
 
-        public void MapControllerId(int mapId)
+        public void MapControllerId(string mapId)
         {
             this.id = mapId;
         }

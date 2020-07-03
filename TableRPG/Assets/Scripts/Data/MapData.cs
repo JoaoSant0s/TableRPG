@@ -8,7 +8,7 @@ namespace TableRPG
     public class MapData
     {
         [SerializeField]
-        private int id;
+        private string id;
 
         [SerializeField]
         private WallData wallData;
@@ -20,7 +20,7 @@ namespace TableRPG
         }
 
         #region getters and setters
-        public int Id
+        public string Id
         {
             get { return this.id; }
         }

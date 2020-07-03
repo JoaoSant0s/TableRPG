@@ -111,21 +111,22 @@ namespace TableRPG
             return mapData;
         }
 
-        private MapController FindMapById(int id)
-        {
-            MapController map = MapCollections.Find(context => context.Id == id);
 
-            return map;
-        }
-
-        private void LoadMapContent(int id)
+        private void LoadMapContent(string id)
         {
             MapController map = FindMapById(id);
 
             if (UpdateMapContent != null) UpdateMapContent(map);
         }
 
-        private void DeleteMapContent(int id)
+        private MapController FindMapById(string id)
+        {
+            MapController map = MapCollections.Find(context => context.Id.Equals(id));
+
+            return map;
+        }
+
+        private void DeleteMapContent(string id)
         {
             //TODO
         }

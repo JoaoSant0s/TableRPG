@@ -9,7 +9,7 @@ namespace TableRPG
     public class MapController
     {
         private WallData wallData;
-        private int id;
+        private string id;
 
         private string fileName;
         private string directoryPath;
@@ -18,8 +18,9 @@ namespace TableRPG
         {
             this.directoryPath = Paths.Maps;
 
-            this.id = GetHashCode();
-            
+            var hashDifference = Random.Range(int.MinValue, int.MaxValue);
+            this.id = $"{GetHashCode()}_{hashDifference}";
+
             this.fileName = $"Map_{this.id}.dap";
             SaveData();
         }
@@ -31,12 +32,12 @@ namespace TableRPG
             this.id = data.Id;
 
             this.wallData = data.WallData;
-            this.fileName = $"Map_{data.Id}.dap";            
+            this.fileName = $"Map_{data.Id}.dap";
         }
 
         #region getters and setters
 
-        public int Id
+        public string Id
         {
             get { return this.id; }
         }
