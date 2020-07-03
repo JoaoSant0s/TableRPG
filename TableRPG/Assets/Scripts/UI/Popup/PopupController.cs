@@ -41,7 +41,7 @@ namespace TableRPG
         #region UI
         public void OnCloseButton()
         {
-            if (ClosePopup != null) ClosePopup(this);
+            PopupManager.Instance.RemoveSeletedPopup(this);            
         }
         #endregion
     }

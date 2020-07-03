@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TableRPG
 {
-    public class PopupManager : MonoBehaviour
+    public class PopupManager : SingletonBehaviour<PopupManager>
     {
         [SerializeField]
         private RectTransform popupsAreas;
@@ -25,8 +25,9 @@ namespace TableRPG
                 return this.instantiatedPopups;
             }
         }
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             PopupController.ClosePopup += RemoveSeletedPopup;
         }
 
@@ -47,24 +48,59 @@ namespace TableRPG
             }
         }
 
+        #region Wall region
+
+        public void ShowWallPopup(Wall wall)
+        {
+            CloseWallPopup(wall);
+            var wallPopup = ShowPopup<WallPopupController>();
+            wallPopup.ExtractWallInfo(wall);
+        }
+
+        public void CloseWallPopup(Wall wall)
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (WallPopupController)popups[i];
+                if (popup.IsSameWall(wall))
+                {
+                    RemovePopup(popup);
+                }
+            }
+        }
+        public void CloseAllWallPopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                RemovePopup(popups[i]);
+            }
+        }
+        
+
+        #endregion
+
         public T ShowPopup<T>() where T : PopupController
         {
-            var popupPrefabs = this.popupPrefabs.Find(context => context is T) as T;
+            var popupPrefabs = GetPopupPrefab<T>();
             var popup = Instantiate(popupPrefabs, this.popupsAreas);
             InstantiatedPopups.Add(popup);
             return popup;
         }
 
+        private T GetPopupPrefab<T>() where T : PopupController
+        {
+            var popupPrefab = this.popupPrefabs.Find(context => context is T) as T;
+            return popupPrefab;
+        }
+
         private void CrealteTestPopup()
         {
             ShowPopup<PopupController>();
-        }
-        private bool CheckCloseLastPopupHotKey()
-        {
-            return Input.GetKeyUp(KeyCode.Escape);
-        }
+        }        
 
-        private void RemoveSeletedPopup<T>(T popup) where T : PopupController
+        public void RemoveSeletedPopup<T>(T popup) where T : PopupController
         {
             if (InstantiatedPopups.Count == 0) return;
 
