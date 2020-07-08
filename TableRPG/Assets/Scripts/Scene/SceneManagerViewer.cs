@@ -9,47 +9,35 @@ namespace TableRPG
 
         [Header("Scene elements")]
         [SerializeField]
-        private SceneButton mapButtonPrefab;
+        private SceneButton sceneButtonPrefab;
 
         [Header("Objects references")]
         [SerializeField]
-        private RectTransform mapButtonArea;
-
-        [SerializeField]
-        private GameObject buttonCreateScene;
+        private RectTransform sceneButtonArea;
 
         [Header("Controllers references")]
         [SerializeField]
-        private SceneManagerController mapManagerController;
+        private SceneManagerController sceneManagerController;
 
         #region MonoBehaviour methods
 
         private void Awake()
         {
-            SceneButton.ClickSceneButton += ToggleButtonsSelection;
             SceneManagerController.CreateSceneButton += CreateSceneButton;
         }
 
         private void OnDestroy()
         {
-            SceneButton.ClickSceneButton -= ToggleButtonsSelection;
             SceneManagerController.CreateSceneButton -= CreateSceneButton;
         }
 
         #endregion
 
-        #region private methods
-
-        private void ToggleButtonsSelection(SceneButton mapButton)
-        {
-            mapButton.ToggleMenuButton();
-        }
+        #region private methods        
 
         private void RefreshButtonPosition()
         {
-            this.buttonCreateScene.SetActive(false);
             Canvas.ForceUpdateCanvases();
-            this.buttonCreateScene.SetActive(true);
         }
 
         #endregion
@@ -58,10 +46,10 @@ namespace TableRPG
 
         public void OnCreatScene()
         {
-            SceneButton mapButton = CreatScene();
-            SceneController map = this.mapManagerController.Create();
+            SceneButton sceneButton = CreatScene();
+            SceneController scene = this.sceneManagerController.Create();
 
-            mapButton.SceneControllerId(map.Id);
+            sceneButton.SceneControllerId(scene.Id);
         }
 
         #endregion
@@ -69,16 +57,16 @@ namespace TableRPG
         #region private methods
         private SceneButton CreatScene()
         {
-            SceneButton mapButton = Instantiate(this.mapButtonPrefab, this.mapButtonArea, false);
+            SceneButton sceneButton = Instantiate(this.sceneButtonPrefab, this.sceneButtonArea, false);
             RefreshButtonPosition();
-            return mapButton;
+            return sceneButton;
         }
 
-        private void CreateSceneButton(SceneController map)
+        private void CreateSceneButton(SceneController scene)
         {
-            SceneButton mapButton = CreatScene();
+            SceneButton sceneButton = CreatScene();
 
-            mapButton.SceneControllerId(map.Id);
+            sceneButton.SceneControllerId(scene.Id);
         }
 
         #endregion
