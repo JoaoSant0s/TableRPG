@@ -50,7 +50,7 @@ public class WallBuilder : MonoBehaviour
     private List<Wall> walls;
     private BuilderState state = BuilderState.NONE;
     private Wall currentWall;
-    private MapController mapController;
+    private SceneController mapController;
 
     public List<Wall> Walls
     {
@@ -68,7 +68,7 @@ public class WallBuilder : MonoBehaviour
     {
         WorldController.ChangeWorldState += ChangeState;
 
-        MapManagerController.UpdateMapContent += LoadMap;
+        SceneManagerController.UpdateSceneContent += LoadScene;
         WallInteractor.EndWallManipulation += UpdateWallData;
 
         WallSubActionViewer.GenerateWall += SetWallState;
@@ -79,7 +79,7 @@ public class WallBuilder : MonoBehaviour
     {
         WorldController.ChangeWorldState -= ChangeState;
 
-        MapManagerController.UpdateMapContent -= LoadMap;
+        SceneManagerController.UpdateSceneContent -= LoadScene;
         WallInteractor.EndWallManipulation += UpdateWallData;
 
         WallSubActionViewer.GenerateWall -= SetWallState;
@@ -113,7 +113,7 @@ public class WallBuilder : MonoBehaviour
         RemoveCurrentWall();
     }
 
-    private void LoadMap(MapController map)
+    private void LoadScene(SceneController map)
     {
         this.mapController = map;
         LoadWall(map.WallData);

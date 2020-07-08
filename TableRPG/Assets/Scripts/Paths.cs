@@ -6,9 +6,9 @@ namespace TableRPG
 {
     public class Paths
     {
-        public static string Maps
+        public static string Scenes
         {
-            get { return $"{Application.persistentDataPath}/Maps"; }
+            get { return $"{Application.persistentDataPath}/Scenes"; }
         }
     }
 }

@@ -425,7 +425,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5113396326133932502}
-        m_MethodName: OnLoadMap
+        m_MethodName: OnLoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace TableRPG
 {
-    public class MapController
+    public class SceneController
     {
         private WallData wallData;
         private string id;
@@ -14,25 +14,25 @@ namespace TableRPG
         private string fileName;
         private string directoryPath;
 
-        public MapController()
+        public SceneController()
         {
-            this.directoryPath = Paths.Maps;
+            this.directoryPath = Paths.Scenes;
 
             var hashDifference = Random.Range(int.MinValue, int.MaxValue);
             this.id = $"{GetHashCode()}_{hashDifference}";
 
-            this.fileName = $"Map_{this.id}.dap";
+            this.fileName = $"Scene_{this.id}.dap";
             SaveData();
         }
 
-        public MapController(MapData data)
+        public SceneController(SceneData data)
         {
-            this.directoryPath = Paths.Maps;
+            this.directoryPath = Paths.Scenes;
 
             this.id = data.Id;
 
             this.wallData = data.WallData;
-            this.fileName = $"Map_{data.Id}.dap";
+            this.fileName = $"Scene_{data.Id}.dap";
         }
 
         #region getters and setters
@@ -80,7 +80,7 @@ namespace TableRPG
 
         private void SaveData()
         {
-            MapData map = new MapData(this);
+            SceneData map = new SceneData(this);
 
             string json = JsonUtility.ToJson(map);
 

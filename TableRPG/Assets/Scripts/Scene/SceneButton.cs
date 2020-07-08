@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace TableRPG
 {
-    public class MapButton : MonoBehaviour
+    public class SceneButton : MonoBehaviour
     {
-        public delegate void OnClickMapButton(MapButton id);
-        public static OnClickMapButton ClickMapButton;
+        public delegate void OnClickSceneButton(SceneButton id);
+        public static OnClickSceneButton ClickSceneButton;
 
         public delegate void OnLoadContent(string mapID);
         public static OnLoadContent LoadContent;
@@ -48,7 +48,7 @@ namespace TableRPG
             this.isOpened = !this.isOpened;
         }
 
-        public void MapControllerId(string mapId)
+        public void SceneControllerId(string mapId)
         {
             this.id = mapId;
         }
@@ -60,17 +60,17 @@ namespace TableRPG
 
         public void OnClick()
         {
-            if (ClickMapButton == null) return;
+            if (ClickSceneButton == null) return;
 
-            ClickMapButton(this);
+            ClickSceneButton(this);
         }
 
-        public void OnLoadMap()
+        public void OnLoadScene()
         {            
             if (LoadContent != null) LoadContent(this.id);
         }
 
-        public void OnDeleteMap()
+        public void OnDeleteScene()
         {            
             if (DeleteContent != null) DeleteContent(this.id);
         }

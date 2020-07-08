@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TableRPG
 {
     [System.Serializable]
-    public class MapData
+    public class SceneData
     {
         [SerializeField]
         private string id;
@@ -13,7 +13,7 @@ namespace TableRPG
         [SerializeField]
         private WallData wallData;
 
-        public MapData(MapController controller)
+        public SceneData(SceneController controller)
         {
             this.id = controller.Id;
             this.wallData = controller.WallData;

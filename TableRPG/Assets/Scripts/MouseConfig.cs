@@ -12,21 +12,18 @@ namespace TableRPG
         {
             LoadTextures();
             Cursor.SetCursor(mouseTextures.resizeTexture, mouseTextures.hotSpot, mouseTextures.cursorMode);
-
         }
 
         public static void SetDragMouse()
         {
             LoadTextures();
             Cursor.SetCursor(mouseTextures.dragTexture, mouseTextures.hotSpot, mouseTextures.cursorMode);
-
         }
 
         public static void SetDefaultMouse()
         {
             LoadTextures();
             Cursor.SetCursor(mouseTextures.defaultTexture, Vector2.zero, mouseTextures.cursorMode);
-
         }
 
         private static void LoadTextures()

@@ -29,14 +29,14 @@ namespace TableRPG
 
         private void Start()
         {
-            MapManagerController.UpdateMapContent += HideSubActions;
-            MapManagerController.CreateMapButton += HideSubActions;
+            SceneManagerController.UpdateSceneContent += HideSubActions;
+            SceneManagerController.CreateSceneButton += HideSubActions;
         }
 
         private void Awake()
         {
-            MapManagerController.UpdateMapContent -= HideSubActions;
-            MapManagerController.CreateMapButton -= HideSubActions;
+            SceneManagerController.UpdateSceneContent -= HideSubActions;
+            SceneManagerController.CreateSceneButton -= HideSubActions;
         }
 
         private void Update()
@@ -59,7 +59,7 @@ namespace TableRPG
 
         #region private methods
 
-        private void HideSubActions(MapController map = null)
+        private void HideSubActions(SceneController map = null)
         {
             if (!CanHideLastSubAction()) return;
 
