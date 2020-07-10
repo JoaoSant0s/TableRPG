@@ -11,11 +11,15 @@ namespace TableRPG
         private string id;
 
         [SerializeField]
+        private bool pinned;
+
+        [SerializeField]
         private WallData wallData;
 
         public SceneData(SceneController controller)
         {
             this.id = controller.Id;
+            this.pinned = controller.Pinned;
             this.wallData = controller.WallData;
         }
 
@@ -23,6 +27,10 @@ namespace TableRPG
         public string Id
         {
             get { return this.id; }
+        }
+        public bool Pinned
+        {
+            get { return this.pinned; }
         }
         public WallData WallData
         {

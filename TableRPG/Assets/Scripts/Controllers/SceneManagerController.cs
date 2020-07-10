@@ -17,6 +17,8 @@ namespace TableRPG
 
         public List<SceneController> maps;
 
+        private SceneController currentScene;
+
         #region monoBehaviour methods
 
         private void Awake()
@@ -27,7 +29,7 @@ namespace TableRPG
 
         private void Start()
         {
-            LoadSceneCollections();            
+            LoadSceneCollections();
         }
 
         private void OnDestroy()
@@ -62,6 +64,17 @@ namespace TableRPG
             SceneCollections.Add(map);
 
             if (UpdateSceneContent != null) UpdateSceneContent(map);
+
+            return map;
+        }
+
+        public SceneController CurrentScene(){
+            return this.currentScene;
+        }
+
+        public SceneController FindSceneById(string id)
+        {
+            SceneController map = SceneCollections.Find(context => context.Id.Equals(id));
 
             return map;
         }
@@ -116,15 +129,12 @@ namespace TableRPG
         {
             SceneController map = FindSceneById(id);
 
+            if(this.currentScene == map) return;
+
+            this.currentScene = map;
+
             if (UpdateSceneContent != null) UpdateSceneContent(map);
-        }
-
-        private SceneController FindSceneById(string id)
-        {
-            SceneController map = SceneCollections.Find(context => context.Id.Equals(id));
-
-            return map;
-        }
+        }        
 
         private void DeleteSceneContent(string id)
         {

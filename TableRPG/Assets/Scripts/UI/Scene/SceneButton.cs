@@ -15,25 +15,30 @@ namespace TableRPG
 
         [Header("Components")]
         [SerializeField]
-        private Image background;
+        protected Image background;
 
-        private string id;
+        protected string id;
 
-        #region monoBehaviour methods
+        #region monoBehaviour methods        
 
-        private void Awake()
-        {
-            SceneButton.LoadContent += EnableSelection;
-        }
-
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             SceneButton.LoadContent -= EnableSelection;
         }
 
         #endregion
 
-        #region public methods                
+        #region public methods   
+
+        public virtual void Init()
+        {
+            SceneButton.LoadContent += EnableSelection;
+        }
+
+        public bool EqualsId(string idRef)
+        {
+            return this.id.Equals(idRef);
+        }
 
         public void SceneControllerId(string mapId)
         {
@@ -44,7 +49,7 @@ namespace TableRPG
 
         #region private methods                
 
-        public void EnableSelection(string mapId)
+        protected void EnableSelection(string mapId)
         {
             this.background.enabled = this.id.Equals(mapId);
         }
@@ -57,11 +62,6 @@ namespace TableRPG
         public void OnLoadScene()
         {
             if (LoadContent != null) LoadContent(this.id);
-        }
-
-        public void OnDeleteScene()
-        {
-            if (DeleteContent != null) DeleteContent(this.id);
         }
 
         #endregion

@@ -10,6 +10,7 @@ namespace TableRPG
     {
         private WallData wallData;
         private string id;
+        private bool pinned;
 
         private string fileName;
         private string directoryPath;
@@ -30,6 +31,7 @@ namespace TableRPG
             this.directoryPath = Paths.Scenes;
 
             this.id = data.Id;
+            this.pinned = data.Pinned;
 
             this.wallData = data.WallData;
             this.fileName = $"Scene_{data.Id}.dap";
@@ -40,6 +42,11 @@ namespace TableRPG
         public string Id
         {
             get { return this.id; }
+        }
+        public bool Pinned
+        {
+            get { return this.pinned; }
+            set { this.pinned = value; }
         }
         public WallData WallData
         {
@@ -72,6 +79,11 @@ namespace TableRPG
         public override string ToString()
         {
             return this.id + " " + this.wallData;
+        }
+
+        public void SaveAllData()
+        {
+            SaveData();
         }
 
         #endregion
