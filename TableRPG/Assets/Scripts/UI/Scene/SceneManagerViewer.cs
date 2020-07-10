@@ -6,7 +6,6 @@ namespace TableRPG
 {
     public class SceneManagerViewer : MonoBehaviour
     {
-
         [Header("Scene elements")]
         [SerializeField]
         private SceneButton sceneButtonPrefab;
