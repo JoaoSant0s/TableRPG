@@ -15,13 +15,16 @@ namespace TableRPG
         {
             SceneButton.LoadContent += EnableSelection;
             SceneManagerViewer.RefreshPinnedButtons += EnableSelection;
+            SceneManagerViewer.CreateSceneButton += EnableSelection;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             SceneManagerViewer.RefreshPinnedButtons -= EnableSelection;
+            SceneManagerViewer.CreateSceneButton -= EnableSelection;
         }
+
         #endregion
 
         #region UI        

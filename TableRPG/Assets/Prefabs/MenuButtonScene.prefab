@@ -723,7 +723,7 @@ GameObject:
   - component: {fileID: 4515425416457861315}
   - component: {fileID: 4515425416457861314}
   m_Layer: 5
-  m_Name: Description
+  m_Name: SceneName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -746,7 +746,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 35, y: -15}
-  m_SizeDelta: {x: 225, y: 50}
+  m_SizeDelta: {x: 220, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4515425416457861315
 CanvasRenderer:
@@ -803,7 +803,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 31.55
+  m_fontSize: 30.85
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 4515425416632951503}
+  labelSceneName: {fileID: 4515425416457861314}
 --- !u!114 &4515425416632951503
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,8 +6,9 @@ namespace TableRPG
 {
     public class SceneManagerViewer : MonoBehaviour
     {
-        public delegate void OnRefreshPinnedButtons(string id);
-        public static OnRefreshPinnedButtons RefreshPinnedButtons;
+        public delegate void OnUpdateSceneButtons(string id);
+        public static OnUpdateSceneButtons RefreshPinnedButtons;
+        public static OnUpdateSceneButtons CreateSceneButton;
 
         [Header("Scene elements")]
         [SerializeField]
@@ -44,28 +45,27 @@ namespace TableRPG
 
         private void Awake()
         {
-            SceneManagerController.CreateSceneButton += CreateSceneButton;
+            SceneManagerController.CreateSceneButton += CreateScene;
             MenuSceneButton.EnablePinnedSceneButton += EnablePinnedSceneButton;
             PinnedSceneButton.RemovePinnecButton += RemovePinnedScene;
+            ScenePopupController.CreateScene += CreateScene;
         }
 
         private void OnDestroy()
         {
-            SceneManagerController.CreateSceneButton -= CreateSceneButton;
+            SceneManagerController.CreateSceneButton -= CreateScene;
             MenuSceneButton.EnablePinnedSceneButton -= EnablePinnedSceneButton;
             PinnedSceneButton.RemovePinnecButton -= RemovePinnedScene;
+            ScenePopupController.CreateScene -= CreateScene;
         }
 
         #endregion        
 
         #region UI
 
-        public void OnCreatScene()
+        public void OnShowCreateScene()
         {
-            SceneButton sceneButton = CreatScene();
-            SceneController scene = this.sceneManagerController.Create();
-
-            sceneButton.SceneControllerId(scene.Id);
+            PopupManager.Instance.ShowScenePopup();
         }
 
         #endregion
@@ -92,14 +92,14 @@ namespace TableRPG
 
             if (scene.Pinned)
             {
-                CretePinnedSceneButton(id);
+                CretePinnedSceneButton(scene);
             }
             else
             {
                 RemovePinnedSceneButton(id);
             }
 
-            if(CurrentScene == scene) StartCoroutine(RefreshPinnedButtonsRoutine(id));
+            if (CurrentScene == scene) StartCoroutine(RefreshPinnedButtonsRoutine(id));
 
             scene.SaveAllData();
         }
@@ -125,30 +125,48 @@ namespace TableRPG
             Destroy(button.gameObject);
         }
 
-        private void CretePinnedSceneButton(string id)
+        private void CretePinnedSceneButton(SceneController scene)
         {
             var pinnedButton = Instantiate(this.scenePinnedButtonPrefab, this.scenePinnedButtonArea, false);
-            pinnedButton.SceneControllerId(id);
+
+            pinnedButton.SetSceneController(scene);
             PinnedScenes.Add(pinnedButton);
         }
-        private SceneButton CreatScene()
+        private SceneButton CreatSceneButton()
         {
             var sceneButton = Instantiate(this.sceneButtonPrefab, this.sceneButtonArea, false);
             sceneButton.Init();
             return sceneButton;
         }
 
-        private void CreateSceneButton(SceneController scene)
+        private void CreateScene(SceneInfo info)
         {
-            SceneButton sceneButton = CreatScene();
+            SceneController scene = this.sceneManagerController.Create(info);
 
+            SceneButton sceneButton = CreatSceneButton();
+            sceneButton.SetSceneController(scene);
+
+            StartCoroutine(LoadSceneContentRoutine(scene));
+        }
+
+        IEnumerator LoadSceneContentRoutine(SceneController scene)
+        {
+            yield return new WaitForEndOfFrame();
+
+            this.sceneManagerController.LoadSceneContent(scene);
+            if (CreateSceneButton != null) CreateSceneButton(scene.Id);
+        }
+
+        private void CreateScene(SceneController scene)
+        {
             var id = scene.Id;
 
-            sceneButton.SceneControllerId(id);
+            SceneButton sceneButton = CreatSceneButton();
+            sceneButton.SetSceneController(scene);
 
             if (scene.Pinned)
             {
-                CretePinnedSceneButton(id);
+                CretePinnedSceneButton(scene);
             }
         }
 

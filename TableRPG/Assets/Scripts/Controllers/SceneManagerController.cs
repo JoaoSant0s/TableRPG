@@ -8,14 +8,14 @@ namespace TableRPG
 {
     public class SceneManagerController : MonoBehaviour
     {
-        public delegate void OnUpdateSceneContent(SceneController map = null);
+        public delegate void OnUpdateSceneContent(SceneController scene = null);
         public static OnUpdateSceneContent UpdateSceneContent;
         public static OnUpdateSceneContent CreateSceneButton;
 
         public delegate void OnSceneDefaultContent();
         public static OnSceneDefaultContent SceneDefaultContent;
 
-        public List<SceneController> maps;
+        private List<SceneController> scenes;
 
         private SceneController currentScene;
 
@@ -46,26 +46,26 @@ namespace TableRPG
         {
             get
             {
-                if (this.maps == null)
+                if (this.scenes == null)
                 {
-                    this.maps = new List<SceneController>();
+                    this.scenes = new List<SceneController>();
                 }
-                return this.maps;
+                return this.scenes;
             }
         }
         #endregion
 
         #region public methods
 
-        public SceneController Create()
+        public SceneController Create(SceneInfo info)
         {
-            SceneController map = new SceneController();
+            SceneController scene = new SceneController(info);
 
-            SceneCollections.Add(map);
+            SceneCollections.Add(scene);
 
-            if (UpdateSceneContent != null) UpdateSceneContent(map);
+            if (UpdateSceneContent != null) UpdateSceneContent(scene);
 
-            return map;
+            return scene;
         }
 
         public SceneController CurrentScene(){
@@ -74,9 +74,17 @@ namespace TableRPG
 
         public SceneController FindSceneById(string id)
         {
-            SceneController map = SceneCollections.Find(context => context.Id.Equals(id));
+            SceneController scene = SceneCollections.Find(context => context.Id.Equals(id));
 
-            return map;
+            return scene;
+        }
+
+        public void LoadSceneContent(SceneController scene){
+            if (this.currentScene == scene) return;
+            
+            this.currentScene = scene;
+
+            if (UpdateSceneContent != null) UpdateSceneContent(scene);
         }
 
         #endregion
@@ -85,9 +93,9 @@ namespace TableRPG
 
         private void LoadSceneCollections()
         {
-            var mapsPath = Paths.Scenes;
+            var scenesPath = Paths.Scenes;
 
-            var files = Directory.EnumerateFiles(mapsPath);
+            var files = Directory.EnumerateFiles(scenesPath);
 
             foreach (var filePath in files)
             {
@@ -101,13 +109,13 @@ namespace TableRPG
         {
             Debugs.Log("Load Scene:", filePath);
 
-            var mapData = LoadSceneFromPath(filePath);
+            var sceneData = LoadSceneFromPath(filePath);
 
-            SceneController map = new SceneController(mapData);
+            SceneController scene = new SceneController(sceneData);
 
-            SceneCollections.Add(map);
+            SceneCollections.Add(scene);
 
-            if (CreateSceneButton != null) CreateSceneButton(map);
+            if (CreateSceneButton != null) CreateSceneButton(scene);
         }
 
         private SceneData LoadSceneFromPath(string filePath)
@@ -118,22 +126,18 @@ namespace TableRPG
 
             var json = (string)bf.Deserialize(file);
 
-            var mapData = JsonUtility.FromJson<SceneData>(json);
+            var sceneData = JsonUtility.FromJson<SceneData>(json);
 
             file.Close();
-            return mapData;
+            return sceneData;
         }
 
 
         private void LoadSceneContent(string id)
         {
-            SceneController map = FindSceneById(id);
+            SceneController scene = FindSceneById(id);
 
-            if(this.currentScene == map) return;
-
-            this.currentScene = map;
-
-            if (UpdateSceneContent != null) UpdateSceneContent(map);
+            LoadSceneContent(scene);
         }        
 
         private void DeleteSceneContent(string id)

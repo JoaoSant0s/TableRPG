@@ -41,12 +41,16 @@ namespace TableRPG
             if (HotKeysCollections.ButtonEsc)
             {
                 RemoveLastPopup();
-            }
-            else if (HotKeysCollections.ButtonSpace)
-            {
-                CrealteTestPopup();
-            }
+            }            
         }
+
+        #region Scene region
+
+        public void ShowScenePopup(){
+            ShowPopup<ScenePopupController>();            
+        }
+
+        #endregion
 
         #region Wall region
 
@@ -56,8 +60,16 @@ namespace TableRPG
             var wallPopup = ShowPopup<WallPopupController>();
             wallPopup.ExtractWallInfo(wall);
         }
+        public void CloseAllWallPopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                RemovePopup(popups[i]);
+            }
+        }
 
-        public void CloseWallPopup(Wall wall)
+        private void CloseWallPopup(Wall wall)
         {
             var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
             for (int i = 0; i < popups.Count; i++)
@@ -67,14 +79,6 @@ namespace TableRPG
                 {
                     RemovePopup(popup);
                 }
-            }
-        }
-        public void CloseAllWallPopup()
-        {
-            var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
-            for (int i = 0; i < popups.Count; i++)
-            {
-                RemovePopup(popups[i]);
             }
         }
         

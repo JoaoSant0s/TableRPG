@@ -7,9 +7,21 @@ namespace TableRPG
     public class TabManagerViewer : MonoBehaviour
     {
         [SerializeField]
+        private int startSelectedTab = 0;
+        
+        [SerializeField]
         private List<TabObject> tabs;
 
         private int selectedTabId = -1;
+
+        #region Monobehaviour
+
+        private void Start()
+        {
+            SelectTab(this.startSelectedTab);
+        }
+
+        #endregion
 
         #region UI
         public void SelectTab(int id)

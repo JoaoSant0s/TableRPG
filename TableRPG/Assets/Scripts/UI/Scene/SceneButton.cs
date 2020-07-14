@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace TableRPG
 {
@@ -17,6 +18,9 @@ namespace TableRPG
         [SerializeField]
         protected Image background;
 
+        [SerializeField]
+        protected TextMeshProUGUI labelSceneName;
+
         protected string id;
 
         #region monoBehaviour methods        
@@ -24,6 +28,7 @@ namespace TableRPG
         protected virtual void OnDestroy()
         {
             SceneButton.LoadContent -= EnableSelection;
+            SceneManagerViewer.CreateSceneButton -= EnableSelection;
         }
 
         #endregion
@@ -33,6 +38,7 @@ namespace TableRPG
         public virtual void Init()
         {
             SceneButton.LoadContent += EnableSelection;
+            SceneManagerViewer.CreateSceneButton += EnableSelection;
         }
 
         public bool EqualsId(string idRef)
@@ -40,9 +46,10 @@ namespace TableRPG
             return this.id.Equals(idRef);
         }
 
-        public void SceneControllerId(string mapId)
+        public void SetSceneController(SceneController scene)
         {
-            this.id = mapId;
+            this.id = scene.Id;            
+            this.labelSceneName.text = scene.SceneName;
         }
 
         #endregion

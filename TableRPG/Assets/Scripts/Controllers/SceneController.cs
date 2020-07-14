@@ -11,11 +11,12 @@ namespace TableRPG
         private WallData wallData;
         private string id;
         private bool pinned;
+        private string sceneName;
 
         private string fileName;
         private string directoryPath;
 
-        public SceneController()
+        public SceneController(SceneInfo info)
         {
             this.directoryPath = Paths.Scenes;
 
@@ -23,7 +24,14 @@ namespace TableRPG
             this.id = $"{GetHashCode()}_{hashDifference}";
 
             this.fileName = $"Scene_{this.id}.dap";
+
+            SetSceneInfo(info);
             SaveData();
+        }
+
+        private void SetSceneInfo(SceneInfo info)
+        {
+            this.sceneName = info.SceneName;
         }
 
         public SceneController(SceneData data)
@@ -31,10 +39,9 @@ namespace TableRPG
             this.directoryPath = Paths.Scenes;
 
             this.id = data.Id;
-            this.pinned = data.Pinned;
-
-            this.wallData = data.WallData;
             this.fileName = $"Scene_{data.Id}.dap";
+
+            SetSceneContent(data);
         }
 
         #region getters and setters
@@ -47,6 +54,11 @@ namespace TableRPG
         {
             get { return this.pinned; }
             set { this.pinned = value; }
+        }
+
+        public string SceneName
+        {
+            get { return this.sceneName; }
         }
         public WallData WallData
         {
@@ -88,7 +100,15 @@ namespace TableRPG
 
         #endregion
 
-        #region private methods
+        #region private methods    
+
+        private void SetSceneContent(SceneData data)
+        {
+            this.pinned = data.Pinned;
+
+            this.sceneName = (data.SceneName != null) ? data.SceneName : "Default";
+            this.wallData = data.WallData;
+        }
 
         private void SaveData()
         {
@@ -115,5 +135,43 @@ namespace TableRPG
         }
 
         #endregion
+    }
+
+    [System.Serializable]
+    public class SceneInfo
+    {
+        private string sceneName;
+        private bool valid;
+
+        public SceneInfo(string _sceneName)
+        {
+            if (CheckValidScene(_sceneName))
+            {
+                valid = false;
+                return;
+            }
+
+            this.sceneName = _sceneName;
+
+            valid = true;
+        }
+
+        public bool Valid
+        {
+            get { return this.valid; }
+        }
+
+        public string SceneName
+        {
+            get
+            {
+                return this.sceneName;
+            }
+        }
+
+        private bool CheckValidScene(string _sceneName)
+        {
+            return string.IsNullOrEmpty(_sceneName);
+        }
     }
 }

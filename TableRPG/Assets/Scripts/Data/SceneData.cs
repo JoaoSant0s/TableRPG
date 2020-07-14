@@ -14,12 +14,16 @@ namespace TableRPG
         private bool pinned;
 
         [SerializeField]
+        private string sceneName;
+
+        [SerializeField]
         private WallData wallData;
 
         public SceneData(SceneController controller)
         {
             this.id = controller.Id;
             this.pinned = controller.Pinned;
+            this.sceneName = controller.SceneName;
             this.wallData = controller.WallData;
         }
 
@@ -31,6 +35,18 @@ namespace TableRPG
         public bool Pinned
         {
             get { return this.pinned; }
+        }
+
+        public string SceneName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.sceneName))
+                {
+                    return this.sceneName;
+                }
+                return "Default";
+            }
         }
         public WallData WallData
         {

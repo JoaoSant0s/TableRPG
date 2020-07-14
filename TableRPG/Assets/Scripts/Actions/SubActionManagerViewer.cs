@@ -41,6 +41,8 @@ namespace TableRPG
 
         private void Update()
         {
+            if(StaticState.InputFieldFocus) return;
+            
             if (HotKeysCollections.ButtonAlpha1)
             {
                 ActiveWallAction();

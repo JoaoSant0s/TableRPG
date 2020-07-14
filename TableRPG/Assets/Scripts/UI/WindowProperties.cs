@@ -8,9 +8,9 @@ namespace TableRPG
     {
         [Header("Windows Config")]
         [SerializeField]
-        private Vector2 minWindowSize = new Vector2(75, 75);
+        private Vector2 minWindowSize = new Vector2(800, 600);
         [SerializeField]
-        private float resizeMultiplier = 1f;
+        private float resizeMultiplier = 105f;
 
         private RectTransform rectTransform;
 
@@ -29,12 +29,7 @@ namespace TableRPG
             }
         }
 
-        #region public methods
-
-        private void Start()
-        {
-            RectTransform.sizeDelta = this.minWindowSize;
-        }
+        #region public methods        
 
         public void SetReferenceSize()
         {
