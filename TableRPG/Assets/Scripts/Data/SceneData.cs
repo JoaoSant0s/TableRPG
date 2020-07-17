@@ -17,6 +17,9 @@ namespace TableRPG
         private string sceneName;
 
         [SerializeField]
+        private BackgroundData backgroundData;
+
+        [SerializeField]
         private WallData wallData;
 
         public SceneData(SceneController controller)
@@ -24,6 +27,7 @@ namespace TableRPG
             this.id = controller.Id;
             this.pinned = controller.Pinned;
             this.sceneName = controller.SceneName;
+            this.backgroundData = controller.BackgroundData;
             this.wallData = controller.WallData;
         }
 
@@ -47,6 +51,11 @@ namespace TableRPG
                 }
                 return "Default";
             }
+        }
+
+        public BackgroundData BackgroundData
+        {
+            get { return this.backgroundData; }
         }
         public WallData WallData
         {

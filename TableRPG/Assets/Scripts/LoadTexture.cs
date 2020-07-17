@@ -8,26 +8,16 @@ using SFB;
 
 namespace TableRPG
 {
-    public enum Extensions
+    public enum TextureExtensions
     {
         PNG,
         JPG,
         JPEG,
         TXT
     }
-    public class LoadTexture : MonoBehaviour
-    {        
-        [SerializeField]
-        private Extensions[] extensionsType;
-        [SerializeField]
-        private bool multiselect;        
-
-        private void Start()
-        {
-            //LoadTexturePersistence();
-        }
-
-        private void SaveTexturePersistence()
+    public class LoadTexture
+    {
+        private static void SaveTexturePersistence()
         {
             // var bf = new BinaryFormatter();
 
@@ -44,16 +34,17 @@ namespace TableRPG
             // Debugs.Log(this.spriteRender);
         }
 
-        private void LoadTexturePersistence()
+        public static string[] LoadTexturePersistence(TextureExtensions[] extensionsType, bool multiselect = false)
         {
-            var extensions = Array.ConvertAll(this.extensionsType, new Converter<Extensions, string>(ExtensionsToString));
+            var extensions = Array.ConvertAll(extensionsType, new Converter<TextureExtensions, string>(TextureExtensionsToString));
 
-            var paths = StandaloneFileBrowser.OpenFilePanel("Title", "", new[] { new ExtensionFilter("", extensions) }, this.multiselect);
+            var paths = StandaloneFileBrowser.OpenFilePanel("Textures", "", new[] { new ExtensionFilter("", extensions) }, multiselect);
 
-            for (int i = 0; i < paths.Length; i++)
-            {
-                Debugs.Log(paths[i]);
-            }
+            return paths;
+            // for (int i = 0; i < paths.Length; i++)
+            // {
+            //     Debugs.Log(paths[i]);
+            // }
 
             // if (!File.Exists(this.fileName)) return;
 
@@ -68,7 +59,16 @@ namespace TableRPG
             // file.Close();            
         }
 
-        private static string ExtensionsToString(Extensions extension)
+        public static Sprite LoadSpriteByBytes(byte[] fileData, float pixelsPerUnit = 100)
+        {            
+            Texture2D skin = new Texture2D(1, 1);
+            skin.LoadImage(fileData);
+            
+            var sprite = Sprite.Create(skin, new Rect(0, 0, skin.width, skin.height), new Vector2(0.5f, 0.5f), pixelsPerUnit);            
+            return sprite;
+        }
+
+        private static string TextureExtensionsToString(TextureExtensions extension)
         {
             return extension.ToString().ToLower();
         }

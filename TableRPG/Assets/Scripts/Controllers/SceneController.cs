@@ -9,6 +9,7 @@ namespace TableRPG
     public class SceneController
     {
         private WallData wallData;
+        private BackgroundData backgroundData;
         private string id;
         private bool pinned;
         private string sceneName;
@@ -32,6 +33,7 @@ namespace TableRPG
         private void SetSceneInfo(SceneInfo info)
         {
             this.sceneName = info.SceneName;
+            this.BackgroundData = new BackgroundData(info.BackgroundTextureBytes, info.BackgroundPixelsPerUnit);
         }
 
         public SceneController(SceneData data)
@@ -60,6 +62,7 @@ namespace TableRPG
         {
             get { return this.sceneName; }
         }
+
         public WallData WallData
         {
             get
@@ -74,6 +77,23 @@ namespace TableRPG
             set
             {
                 this.wallData = value;
+            }
+        }
+
+        public BackgroundData BackgroundData
+        {
+            get
+            {
+                if (this.backgroundData == null)
+                {
+                    this.backgroundData = new BackgroundData();
+                }
+                return this.backgroundData;
+            }
+
+            set
+            {
+                this.backgroundData = value;
             }
         }
         #endregion
@@ -107,6 +127,7 @@ namespace TableRPG
             this.pinned = data.Pinned;
 
             this.sceneName = (data.SceneName != null) ? data.SceneName : "Default";
+            this.backgroundData = data.BackgroundData;
             this.wallData = data.WallData;
         }
 
@@ -141,16 +162,21 @@ namespace TableRPG
     public class SceneInfo
     {
         private string sceneName;
+        private byte[] backgroundTextureBytes;
+
+        private float backgroundPixelsPerUnit;
         private bool valid;
 
-        public SceneInfo(string _sceneName)
+        public SceneInfo(string _sceneName, byte[] _backgroundTextureBytes, string _backgroundPixelsPerUnit)
         {
-            if (CheckValidScene(_sceneName))
+            if (CheckValidScene(_sceneName, _backgroundTextureBytes, _backgroundPixelsPerUnit))
             {
                 valid = false;
                 return;
             }
 
+            this.backgroundTextureBytes = _backgroundTextureBytes;
+            this.backgroundPixelsPerUnit = float.Parse(_backgroundPixelsPerUnit);
             this.sceneName = _sceneName;
 
             valid = true;
@@ -169,9 +195,24 @@ namespace TableRPG
             }
         }
 
-        private bool CheckValidScene(string _sceneName)
+        public byte[] BackgroundTextureBytes
         {
-            return string.IsNullOrEmpty(_sceneName);
+            get
+            {
+                return this.backgroundTextureBytes;
+            }
+        }
+
+        public float BackgroundPixelsPerUnit
+        {
+            get { return this.backgroundPixelsPerUnit; }
+        }
+
+        private bool CheckValidScene(string _sceneName, byte[] _backgroundTextureBytes, string _backgroundPixelsPerUnit)
+        {
+            Debugs.Log(_sceneName, _backgroundTextureBytes.Length, _backgroundPixelsPerUnit);
+
+            return string.IsNullOrEmpty(_sceneName) || _backgroundTextureBytes == null || string.IsNullOrEmpty(_backgroundPixelsPerUnit);
         }
     }
 }
