@@ -18,8 +18,10 @@ namespace TableRPG
         private string directoryPath;
 
         public SceneController(SceneInfo info)
-        {
-            this.directoryPath = Paths.Scenes;
+        {            
+            var directoryName = WorldManagerController.Instance.DirectoryName;
+                        
+            this.directoryPath = Paths.ScenesCompletePath(directoryName);
 
             var hashDifference = Random.Range(int.MinValue, int.MaxValue);
             this.id = $"{GetHashCode()}_{hashDifference}";
@@ -38,7 +40,9 @@ namespace TableRPG
 
         public SceneController(SceneData data)
         {
-            this.directoryPath = Paths.Scenes;
+            var directoryName = WorldManagerController.Instance.DirectoryName;
+
+            this.directoryPath = Paths.ScenesCompletePath(directoryName);
 
             this.id = data.Id;
             this.fileName = $"Scene_{data.Id}.dap";

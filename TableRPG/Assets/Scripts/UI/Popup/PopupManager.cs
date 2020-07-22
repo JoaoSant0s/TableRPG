@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TableRPG
 {
-    public class PopupManager : SingletonBehaviour<PopupManager>
+    public class PopupManager : ContextBehaviour<PopupManager>
     {
         [SerializeField]
         private RectTransform popupsAreas;
@@ -52,6 +52,14 @@ namespace TableRPG
 
         #endregion
 
+        #region World region
+
+        public void ShowWorldPopup(){
+            ShowPopup<WorldPopupController>();
+        }
+
+        #endregion
+
         #region Wall region
 
         public void ShowWallPopup(Wall wall)
@@ -82,7 +90,6 @@ namespace TableRPG
             }
         }
         
-
         #endregion
 
         public T ShowPopup<T>() where T : PopupController

@@ -93,7 +93,9 @@ namespace TableRPG
 
         private void LoadSceneCollections()
         {
-            var scenesPath = Paths.Scenes;
+            var directoryName = WorldManagerController.Instance.DirectoryName;
+
+            var scenesPath = Paths.ScenesCompletePath(directoryName);            
 
             var files = Directory.EnumerateFiles(scenesPath);
 
