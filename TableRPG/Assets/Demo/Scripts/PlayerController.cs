@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using TableRPG;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private float velocity = 10f;
 
     [SerializeField]
-    private Light2DAdaptative currentLight;    
+    private Light2DAdaptative currentLight;
 
     private void Start()
     {
@@ -22,11 +23,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (StaticState.InputFieldFocus) return;
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        
+
         Move(horizontal, vertical);
-    }    
+    }
 
     public Light2D Light
     {

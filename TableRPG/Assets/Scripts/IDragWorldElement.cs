@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IDragWorldElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class IDragWorldElement : WindowCanvas, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
     public delegate void OnDragElement(Vector3 position);
     public OnDragElement DragElement;
@@ -45,6 +45,8 @@ public class IDragWorldElement : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     protected Vector3 TransformPosition(Vector2 position)
     {
+        position = CorrectInpuLimits(position);
+        
         Vector3 newPosition = position.ScreenToWorldPoint();
         newPosition.z = transform.position.z;
         return newPosition;

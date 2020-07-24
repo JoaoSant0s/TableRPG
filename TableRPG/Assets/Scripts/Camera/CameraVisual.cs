@@ -16,19 +16,19 @@ namespace TableRPG
 
         private void Awake()
         {
-            MapManagerController.UpdateMapContent += UpdateVisual;
-            MapManagerController.MapDefaultContent += DefaultVisual;
+            SceneManagerController.UpdateSceneContent += UpdateVisual;
+            SceneManagerController.SceneDefaultContent += DefaultVisual;
         }
 
         private void OnDestroy()
         {
-            MapManagerController.UpdateMapContent -= UpdateVisual;
-            MapManagerController.MapDefaultContent -= DefaultVisual;
+            SceneManagerController.UpdateSceneContent -= UpdateVisual;
+            SceneManagerController.SceneDefaultContent -= DefaultVisual;
         }
 
         #endregion
 
-        private void UpdateVisual(MapController map = null)
+        private void UpdateVisual(SceneController map = null)
         {
             this.cam.backgroundColor = this.statusValues.mapLoadedColor;
         }

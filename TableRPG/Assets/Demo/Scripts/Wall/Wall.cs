@@ -6,7 +6,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class Wall : MonoBehaviour
 {
-    public delegate void OnClickToShowInfo(Wall wall, Vector2 position);
+    public delegate void OnClickToShowInfo(Wall wall);
     public static OnClickToShowInfo ClickToShowInfo;
 
     [Header("Components")]
@@ -147,13 +147,13 @@ public class Wall : MonoBehaviour
         this.wallTransform.localScale = localScale;
     }
 
-    private void TryShowWallInfo(Vector2 position)
+    private void TryShowWallInfo()
     {
         if (!this.editMode) return;
 
         if (ClickToShowInfo != null)
         {
-            ClickToShowInfo(this, position);
+            ClickToShowInfo(this);
         }
     }
 

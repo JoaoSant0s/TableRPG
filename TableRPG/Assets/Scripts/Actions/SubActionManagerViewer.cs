@@ -29,27 +29,29 @@ namespace TableRPG
 
         private void Start()
         {
-            MapManagerController.UpdateMapContent += HideSubActions;
-            MapManagerController.CreateMapButton += HideSubActions;        
+            SceneManagerController.UpdateSceneContent += HideSubActions;
+            SceneManagerController.CreateSceneButton += HideSubActions;
         }
 
         private void Awake()
         {
-            MapManagerController.UpdateMapContent -= HideSubActions;
-            MapManagerController.CreateMapButton -= HideSubActions;
+            SceneManagerController.UpdateSceneContent -= HideSubActions;
+            SceneManagerController.CreateSceneButton -= HideSubActions;
         }
 
         private void Update()
         {
-            if (CheckWallHotKeys())
+            if(StaticState.InputFieldFocus) return;
+            
+            if (HotKeysCollections.ButtonAlpha1)
             {
                 ActiveWallAction();
             }
-            else if (CheckAction1HotKeys())
+            else if (HotKeysCollections.ButtonAlpha2)
             {
                 ActiveSubAction1();
             }
-            else if (CheckAction2HotKeys())
+            else if (HotKeysCollections.ButtonAlpha3)
             {
                 ActiveSubAction2();
             }
@@ -59,7 +61,7 @@ namespace TableRPG
 
         #region private methods
 
-        private void HideSubActions(MapController map = null)
+        private void HideSubActions(SceneController map = null)
         {
             if (!CanHideLastSubAction()) return;
 
@@ -67,21 +69,6 @@ namespace TableRPG
 
             this.subActionsButtons.DefaultStateButtons();
             InvokeChangeWorldState(WorldState.NONE, false);
-        }
-
-        private bool CheckWallHotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha1);
-        }
-
-        private bool CheckAction1HotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha2);
-        }
-
-        private bool CheckAction2HotKeys()
-        {
-            return Input.GetKeyUp(KeyCode.Alpha3);
         }
 
         private void ActiveWallAction()

@@ -5,14 +5,12 @@ using UnityEngine.EventSystems;
 
 public class WallInfo : MonoBehaviour, IPointerClickHandler
 {
-    public delegate void OnClickWallRight(Vector2 position);
+    public delegate void OnClickWallRight();
     public OnClickWallRight ClickWallRight;
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!UtilWrapper.CheckRightButton(eventData.button)) return;
-
-        var worlPosition = eventData.position.ScreenToWorldPoint();
-
-        if (ClickWallRight != null) ClickWallRight(worlPosition);
+        
+        if (ClickWallRight != null) ClickWallRight();
     }   
 }

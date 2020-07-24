@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using TableRPG;
+
 public class CameraTargetMovement : MonoBehaviour
 {
     [SerializeField]
@@ -38,17 +40,17 @@ public class CameraTargetMovement : MonoBehaviour
     private void SubscribeMovementEvent()
     {
         this.controls.Camera.Movement.performed += MoveContext;
+        MouseConfig.SetDragMouse();
     }
 
     private void DisubscriveMovementEvent()
     {
         this.controls.Camera.Movement.performed -= MoveContext;
+        MouseConfig.SetDefaultMouse();
     }
 
     private void MoveContext(InputAction.CallbackContext ctx)
     {
-        if (UtilWrapper.IsPointOverUIObject()) return;
-
         Move(ctx.ReadValue<Vector2>());
     }
 
