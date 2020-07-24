@@ -13,7 +13,8 @@ namespace TableRPG
         #region UI
         public void OnExitGame()
         {
-            SceneManager.LoadScene(this.sceneName, LoadSceneMode.Single);
+            CanvasLoadingController.Instance.EnableScene();
+            SceneManager.LoadSceneAsync(this.sceneName, LoadSceneMode.Single);
         }
         #endregion
     }

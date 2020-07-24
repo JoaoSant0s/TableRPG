@@ -112,7 +112,8 @@ namespace TableRPG
 
         private void LoadWorld(string worldId)
         {
-            SceneManager.LoadScene(this.sceneName, LoadSceneMode.Single);
+            CanvasLoadingController.Instance.EnableScene();
+            SceneManager.LoadSceneAsync(this.sceneName, LoadSceneMode.Single);
         }
 
         #endregion
