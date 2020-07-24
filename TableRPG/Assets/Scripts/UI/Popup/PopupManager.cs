@@ -41,20 +41,23 @@ namespace TableRPG
             if (HotKeysCollections.ButtonEsc)
             {
                 RemoveLastPopup();
-            }            
+            }
         }
 
         #region Scene region
 
-        public void ShowScenePopup(){
-            ShowPopup<ScenePopupController>();            
+        public void ShowScenePopup()
+        {
+            ShowPopup<ScenePopupController>();
         }
 
         #endregion
 
         #region World region
 
-        public void ShowWorldPopup(){
+        public void ShowWorldPopup()
+        {
+            CloseWorldPopup();
             ShowPopup<WorldPopupController>();
         }
 
@@ -77,6 +80,16 @@ namespace TableRPG
             }
         }
 
+        private void CloseWorldPopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is WorldPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (WorldPopupController)popups[i];
+                RemovePopup(popup);
+            }
+        }        
+
         private void CloseWallPopup(Wall wall)
         {
             var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
@@ -89,7 +102,7 @@ namespace TableRPG
                 }
             }
         }
-        
+
         #endregion
 
         public T ShowPopup<T>() where T : PopupController
@@ -109,7 +122,7 @@ namespace TableRPG
         private void CrealteTestPopup()
         {
             ShowPopup<PopupController>();
-        }        
+        }
 
         public void RemoveSeletedPopup<T>(T popup) where T : PopupController
         {
