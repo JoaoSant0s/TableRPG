@@ -14,9 +14,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Lights
+  - Walls
+  - WallsInteractions
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lights
+    uniqueID: 1926624601
+    locked: 0
+  - name: Walls
+    uniqueID: 132698521
+    locked: 0
+  - name: WallsInteractions
+    uniqueID: 1551930955
+    locked: 0
+  - name: UI
+    uniqueID: 3151658523
     locked: 0
