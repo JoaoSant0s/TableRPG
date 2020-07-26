@@ -68,7 +68,8 @@ namespace TableRPG
             return scene;
         }
 
-        public SceneController CurrentScene(){
+        public SceneController CurrentScene()
+        {
             return this.currentScene;
         }
 
@@ -79,9 +80,10 @@ namespace TableRPG
             return scene;
         }
 
-        public void LoadSceneContent(SceneController scene){
+        public void LoadSceneContent(SceneController scene)
+        {
             if (this.currentScene == scene) return;
-            
+
             this.currentScene = scene;
 
             if (UpdateSceneContent != null) UpdateSceneContent(scene);
@@ -93,9 +95,10 @@ namespace TableRPG
 
         private void LoadSceneCollections()
         {
+            if (!WorldManagerController.Instance) return;
             var directoryName = WorldManagerController.Instance.DirectoryName;
 
-            var scenesPath = Paths.ScenesCompletePath(directoryName);            
+            var scenesPath = Paths.ScenesCompletePath(directoryName);
 
             var files = Directory.EnumerateFiles(scenesPath);
 
@@ -140,7 +143,7 @@ namespace TableRPG
             SceneController scene = FindSceneById(id);
 
             LoadSceneContent(scene);
-        }        
+        }
 
         private void DeleteSceneContent(string id)
         {
