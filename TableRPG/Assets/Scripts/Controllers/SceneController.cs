@@ -10,6 +10,7 @@ namespace TableRPG
     {
         private WallData wallData;
         private BackgroundData backgroundData;
+        private GridData gridData;
         private string id;
         private bool pinned;
         private string sceneName;
@@ -18,9 +19,9 @@ namespace TableRPG
         private string directoryPath;
 
         public SceneController(SceneInfo info)
-        {            
+        {
             var directoryName = WorldManagerController.Instance.DirectoryName;
-                        
+
             this.directoryPath = Paths.ScenesCompletePath(directoryName);
 
             var hashDifference = Random.Range(int.MinValue, int.MaxValue);
@@ -34,8 +35,9 @@ namespace TableRPG
 
         private void SetSceneInfo(SceneInfo info)
         {
-            this.sceneName = info.SceneName;
-            this.BackgroundData = new BackgroundData(info.BackgroundTextureBytes, info.BackgroundPixelsPerUnit);
+            this.sceneName = info.sceneName;
+            this.BackgroundData = new BackgroundData(info.backgroundTextureBytes, info.backgroundPixelsPerUnit);
+            this.GridData = new GridData(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
         }
 
         public SceneController(SceneData data)
@@ -100,6 +102,22 @@ namespace TableRPG
                 this.backgroundData = value;
             }
         }
+
+        public GridData GridData
+        {
+            get
+            {
+                if (this.gridData == null)
+                {
+                    this.gridData = new GridData();
+                }
+                return this.gridData;
+            }
+            set
+            {
+                this.gridData = value;
+            }
+        }
         #endregion
 
 
@@ -133,6 +151,7 @@ namespace TableRPG
             this.sceneName = (data.SceneName != null) ? data.SceneName : "Default";
             this.backgroundData = data.BackgroundData;
             this.wallData = data.WallData;
+            this.gridData = data.GridData;
         }
 
         private void SaveData()
@@ -165,58 +184,40 @@ namespace TableRPG
     [System.Serializable]
     public class SceneInfo
     {
-        private string sceneName;
-        private byte[] backgroundTextureBytes;
+        public string sceneName;
+        public byte[] backgroundTextureBytes;
+        public float backgroundPixelsPerUnit;
 
-        private float backgroundPixelsPerUnit;
-        private bool valid;
+        public int gridType;
+        public int gridDrawExtent;
+        public int gridSize = 1;
+        public Vector2 gridOffset = new Vector2(0, 0);
 
-        public SceneInfo(string _sceneName, byte[] _backgroundTextureBytes, string _backgroundPixelsPerUnit)
+        public SceneInfo(SceneValues values)
         {
-            if (CheckValidScene(_sceneName, _backgroundTextureBytes, _backgroundPixelsPerUnit))
-            {
-                valid = false;
-                return;
-            }
+            this.sceneName = values.sceneName;
 
-            this.backgroundTextureBytes = _backgroundTextureBytes;
-            this.backgroundPixelsPerUnit = float.Parse(_backgroundPixelsPerUnit);
-            this.sceneName = _sceneName;
+            this.backgroundTextureBytes = values.backgroundTextureBytes;
+            this.backgroundPixelsPerUnit = float.Parse(values.backgroundPixelsPerUnit);
+            this.gridType = values.gridType;
+            this.gridDrawExtent = int.Parse(values.gridExtent);
+            this.gridSize = int.Parse(values.gridSize);
 
-            valid = true;
+            this.gridOffset = new Vector2(float.Parse(values.gridOffsetX.Replace(".", ",")), float.Parse(values.gridOffsetY.Replace(".", ",")));
         }
 
-        public bool Valid
+        public static bool CheckInvalidScene(SceneValues values)
         {
-            get { return this.valid; }
-        }
+            Debugs.Log(values.sceneName, values.backgroundTextureBytes, values.backgroundPixelsPerUnit);
+            Debugs.Log(values.gridOffsetX, values.gridOffsetY, values.gridSize, values.gridExtent);
 
-        public string SceneName
-        {
-            get
-            {
-                return this.sceneName;
-            }
-        }
+            var info = string.IsNullOrEmpty(values.sceneName) || values.backgroundTextureBytes == null || string.IsNullOrEmpty(values.backgroundPixelsPerUnit);
 
-        public byte[] BackgroundTextureBytes
-        {
-            get
-            {
-                return this.backgroundTextureBytes;
-            }
-        }
+            var grid = string.IsNullOrEmpty(values.gridOffsetX) || string.IsNullOrEmpty(values.gridOffsetY) || string.IsNullOrEmpty(values.gridSize) || string.IsNullOrEmpty(values.gridExtent);
 
-        public float BackgroundPixelsPerUnit
-        {
-            get { return this.backgroundPixelsPerUnit; }
-        }
+            Debugs.Log(info, grid);
 
-        private bool CheckValidScene(string _sceneName, byte[] _backgroundTextureBytes, string _backgroundPixelsPerUnit)
-        {
-            Debugs.Log(_sceneName, _backgroundTextureBytes.Length, _backgroundPixelsPerUnit);
-
-            return string.IsNullOrEmpty(_sceneName) || _backgroundTextureBytes == null || string.IsNullOrEmpty(_backgroundPixelsPerUnit);
+            return info || grid;
         }
     }
 }

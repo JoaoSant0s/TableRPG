@@ -7,6 +7,19 @@ using UnityEngine.UI;
 
 namespace TableRPG
 {
+    public struct SceneValues
+    {
+        public string backgroundPixelsPerUnit;
+        public string sceneName;
+        public byte[] backgroundTextureBytes;
+
+        public int gridType;
+        public string gridOffsetX;
+        public string gridOffsetY;
+        public string gridSize;
+        public string gridExtent;
+
+    }
     public class ScenePopupController : PopupController
     {
         public delegate void OnCreateScene(SceneInfo info);
@@ -31,20 +44,31 @@ namespace TableRPG
         [SerializeField]
         private TMP_Text backgroundSpriteHeight;
 
+        [Header("Grid Info")]
+
+        [SerializeField]
+        private TMP_Dropdown gridType;
+
+        [SerializeField]
+        private TMP_InputField gridOffsetX;
+
+        [SerializeField]
+        private TMP_InputField gridOffsetY;
+
+        [SerializeField]
+        private TMP_InputField gridSize;
+
+        [SerializeField]
+        private TMP_InputField gridExtent;
+
         private byte[] backgroundTextureBytes;
 
         #region UI
 
         public void OnCreateSceneButton()
         {
-            var info = new SceneInfo(this.sceneName.text, this.backgroundTextureBytes, this.backgroundPixelPerUnit.text);
-
-            Debugs.Log("Check scene validation:", info.Valid);
-
-            if (!info.Valid) return;
-
-            if (CreateScene != null) CreateScene(info);
-            OnCloseButton();
+            CanvasLoadingController.Instance.EnableScene();
+            StartCoroutine(CreateSceneRoutine());
         }
 
         public void OnLoadBackgroundSprite()
@@ -55,7 +79,7 @@ namespace TableRPG
             {
                 var filePath = texturesPaths[i];
 
-                this.backgroundTextureBytes = File.ReadAllBytes(filePath);                
+                this.backgroundTextureBytes = File.ReadAllBytes(filePath);
                 var sprite = LoadTexture.LoadSpriteByBytes(this.backgroundTextureBytes);
 
                 this.backgroundImage.sprite = sprite;
@@ -69,6 +93,45 @@ namespace TableRPG
             StaticState.InputFieldFocus = value;
         }
 
+        #endregion
+
+        #region private methods    
+
+        private IEnumerator CreateSceneRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            
+            var values = CreateSceneValues();
+
+            if (!SceneInfo.CheckInvalidScene(values))
+            {
+                var info = new SceneInfo(values);
+
+                if (CreateScene != null) CreateScene(info);
+                OnCloseButton();
+            }
+            else
+            {
+                CanvasLoadingController.Instance.EnableScene(false);
+            }
+        }
+        private SceneValues CreateSceneValues()
+        {
+            var value = new SceneValues();
+
+            value.backgroundPixelsPerUnit = this.backgroundPixelPerUnit.text;
+            value.sceneName = this.sceneName.text;
+            value.backgroundTextureBytes = this.backgroundTextureBytes;
+
+            value.gridType = this.gridType.value;
+            value.gridOffsetX = this.gridOffsetX.text;
+            value.gridOffsetY = this.gridOffsetY.text;
+            value.gridSize = this.gridSize.text;
+            value.gridExtent = this.gridExtent.text;
+
+            return value;
+        }
         #endregion
     }
 }

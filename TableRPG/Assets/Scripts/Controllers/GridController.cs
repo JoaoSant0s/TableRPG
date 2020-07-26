@@ -5,39 +5,92 @@ using UnityEngine.Rendering;
 
 namespace TableRPG
 {
+
+    public struct GridValues
+    {
+        public int gridType;
+        public int gridDrawExtent;
+        public int gridSize;
+        public Vector2 gridOffset;
+
+        public GridValues(GridData data)
+        {
+            this.gridType = data.GridType;
+            this.gridDrawExtent = data.GridDrawExtent;
+            this.gridSize = data.GridSize;
+            this.gridOffset = data.GridOffset;
+        }
+    }
+
     public class GridController : MonoBehaviour
     {
-        [Header("Grid")]
-        [SerializeField]
-        private int gridDrawExtent = 25;
-
-        [SerializeField]
-        private int gridSize = 1;
-
-        [SerializeField]
-        private Vector2 gridOffset;
-
         [Header("Line Render")]
         [SerializeField]
         private LineRenderer lindeRenderPrefab;
+        private GridValues gridValues;
+        private SceneController currentScene;
 
-        #region monobehaviour methods
-
-        private void OnValidate()
+        #region Getters and Setters
+        public Vector2 GridOffset
         {
-            this.gridDrawExtent = Mathf.Max(25, this.gridDrawExtent);
-            this.gridSize = Mathf.Min(Mathf.Max(1, this.gridSize), this.gridDrawExtent);
-            RenderGrid();
+            get { return this.gridValues.gridOffset; }
         }
 
-        private void Start()
+        public int GridSize
         {
+            get { return this.gridValues.gridSize; }
+        }
+
+        public int GridDrawExtent
+        {
+            get { return this.gridValues.gridDrawExtent; }
+        }
+        #endregion
+
+        #region monobehaviour methods        
+
+        private void Awake()
+        {
+            SceneManagerController.UpdateSceneContent += GenereteGrid;
+        }
+
+        private void OnDestroy()
+        {
+            SceneManagerController.UpdateSceneContent -= GenereteGrid;
+        }
+
+        #endregion
+
+        #region public methods
+
+        public void UpdateGrid(GridValues _gridValues)
+        {
+            this.gridValues = _gridValues;
+
             RenderGrid();
+            SaveSceneData();
         }
 
         #endregion
 
         #region private methods
+
+        private void SaveSceneData()
+        {
+            if (this.currentScene == null) return;
+
+            this.currentScene.GridData.UpdateValues(this.gridValues);
+            this.currentScene.SaveAllData();
+        }
+
+        private void GenereteGrid(SceneController scene = null)
+        {
+            this.currentScene = scene;
+
+            this.gridValues = new GridValues(scene.GridData);
+
+            RenderGrid();
+        }
 
         private void ClearGrid()
         {
@@ -49,8 +102,11 @@ namespace TableRPG
 
         private void RenderGrid()
         {
+            transform.localPosition = GridOffset;
+            
+            Debugs.Log("RenderGrid", GridOffset);
             ClearGrid();
-            int lineCount = Mathf.RoundToInt((gridDrawExtent * 2) / this.gridSize);
+            int lineCount = Mathf.RoundToInt((GridDrawExtent * 2) / GridSize);
 
             if (lineCount % 2 == 0) lineCount++;
 
@@ -60,20 +116,20 @@ namespace TableRPG
             {
                 int offset = i - halfLineCount;
 
-                float xCoord = offset * this.gridSize;
+                float xCoord = offset * GridSize;
 
-                float yCoord0 = halfLineCount * this.gridSize;
+                float yCoord0 = halfLineCount * GridSize;
                 float yCoord1 = -yCoord0;
 
-                Vector3 p0 = new Vector3(xCoord + this.gridOffset.x, yCoord0 + this.gridOffset.y, 0f);
-                Vector3 p1 = new Vector3(xCoord + this.gridOffset.x, yCoord1 + this.gridOffset.y, 0f);
+                Vector3 p0 = new Vector3(xCoord, yCoord0, 0f);
+                Vector3 p1 = new Vector3(xCoord, yCoord1, 0f);
 
                 var line = Instantiate(this.lindeRenderPrefab, transform);
                 line.SetPosition(0, p0);
                 line.SetPosition(1, p1);
 
-                p0 = new Vector3(yCoord0 + this.gridOffset.x, xCoord + this.gridOffset.y, 0f);
-                p1 = new Vector3(yCoord1 + this.gridOffset.x, xCoord + this.gridOffset.y, 0f);
+                p0 = new Vector3(yCoord0, xCoord, 0f);
+                p1 = new Vector3(yCoord1, xCoord, 0f);
 
                 line = Instantiate(this.lindeRenderPrefab, transform);
                 line.SetPosition(0, p0);

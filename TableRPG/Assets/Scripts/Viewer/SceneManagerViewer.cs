@@ -155,6 +155,8 @@ namespace TableRPG
 
             this.sceneManagerController.LoadSceneContent(scene);
             if (CreateSceneButton != null) CreateSceneButton(scene.Id);
+            
+            CanvasLoadingController.Instance.EnableScene(false);
         }
 
         private void CreateScene(SceneController scene)

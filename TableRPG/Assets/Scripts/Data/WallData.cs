@@ -9,6 +9,7 @@ namespace TableRPG
         WALL,
         DOOR
     }
+
     [System.Serializable]
     public class WallData
     {

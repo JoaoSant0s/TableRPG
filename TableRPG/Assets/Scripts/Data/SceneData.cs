@@ -22,6 +22,9 @@ namespace TableRPG
         [SerializeField]
         private WallData wallData;
 
+        [SerializeField]
+        private GridData gridData;
+
         public SceneData(SceneController controller)
         {
             this.id = controller.Id;
@@ -60,6 +63,11 @@ namespace TableRPG
         public WallData WallData
         {
             get { return this.wallData; }
+        }
+
+        public GridData GridData
+        {
+            get { return this.gridData; }
         }
         #endregion
     }
