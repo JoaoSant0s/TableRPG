@@ -15,8 +15,7 @@ namespace TableRPG
         [SerializeField]
         private RectTransform menuButtonsArea;
 
-        [SerializeField]
-        private string sceneName;
+        private const string sceneGame = "Game";
 
         private List<WorldButtonController> worldButtons;
 
@@ -41,7 +40,7 @@ namespace TableRPG
         }
 
         private void OnDestroy()
-        {        
+        {
             WorldPopupController.CreateWorldDirectory -= RefreshWorldButtons;
             WorldButtonController.LoadWorld -= LoadWorld;
         }
@@ -113,7 +112,7 @@ namespace TableRPG
         private void LoadWorld(string worldId)
         {
             CanvasLoadingController.Instance.EnableScene();
-            SceneManager.LoadSceneAsync(this.sceneName, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(sceneGame, LoadSceneMode.Single);
         }
 
         #endregion
