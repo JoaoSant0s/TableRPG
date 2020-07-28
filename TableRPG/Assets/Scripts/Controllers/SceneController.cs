@@ -156,9 +156,9 @@ namespace TableRPG
 
         private void SaveData()
         {
-            SceneData map = new SceneData(this);
+            SceneData scene = new SceneData(this);
 
-            string json = JsonUtility.ToJson(map);
+            string json = JsonUtility.ToJson(scene);
 
             if (!Directory.Exists(this.directoryPath))
             {
@@ -167,7 +167,7 @@ namespace TableRPG
 
             var completePath = $"{this.directoryPath}/{this.fileName}";
 
-            Debugs.Log("Save map in Path:", completePath);
+            Debugs.Log("Save scene in Path:", completePath);
 
             var bf = new BinaryFormatter();
 

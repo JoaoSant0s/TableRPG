@@ -8,10 +8,10 @@ namespace TableRPG
 {
     public class SceneButton : MonoBehaviour
     {
-        public delegate void OnLoadContent(string mapID);
+        public delegate void OnLoadContent(string sceneID);
         public static OnLoadContent LoadContent;
 
-        public delegate void OnDeleteContent(string mapID);
+        public delegate void OnDeleteContent(string sceneID);
         public static OnDeleteContent DeleteContent;
 
         [Header("Components")]
@@ -56,9 +56,9 @@ namespace TableRPG
 
         #region private methods                
 
-        protected void EnableSelection(string mapId)
+        protected virtual void EnableSelection(string sceneId)
         {
-            this.background.enabled = this.id.Equals(mapId);
+            this.background.enabled = this.id.Equals(sceneId);
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace TableRPG
 
         #region UI        
 
-        public void OnLoadScene()
+        public virtual void OnLoadScene()
         {
             if (LoadContent != null) LoadContent(this.id);
         }

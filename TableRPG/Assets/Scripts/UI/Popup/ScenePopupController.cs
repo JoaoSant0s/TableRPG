@@ -95,13 +95,20 @@ namespace TableRPG
 
         #endregion
 
+        #region public methods
+        public void Init(string sceneID)
+        {
+            Debugs.Log(sceneID);
+        }
+        #endregion
+
         #region private methods    
 
         private IEnumerator CreateSceneRoutine()
         {
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
-            
+
             var values = CreateSceneValues();
 
             if (!SceneInfo.CheckInvalidScene(values))

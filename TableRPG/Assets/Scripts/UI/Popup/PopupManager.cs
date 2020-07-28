@@ -51,6 +51,13 @@ namespace TableRPG
             ShowPopup<ScenePopupController>();
         }
 
+        public void ShowScenePopup(string sceneId)
+        {
+            CloseScenePopup();
+            var scene = ShowPopup<ScenePopupController>();
+            scene.Init(sceneId);
+        }
+
         #endregion
 
         #region World region
@@ -88,7 +95,7 @@ namespace TableRPG
                 var popup = (WorldPopupController)popups[i];
                 RemovePopup(popup);
             }
-        }        
+        }
 
         private void CloseWallPopup(Wall wall)
         {
@@ -100,6 +107,15 @@ namespace TableRPG
                 {
                     RemovePopup(popup);
                 }
+            }
+        }
+
+        private void CloseScenePopup(){
+            var popups = InstantiatedPopups.FindAll(context => context is ScenePopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (ScenePopupController)popups[i];
+                RemovePopup(popup);
             }
         }
 

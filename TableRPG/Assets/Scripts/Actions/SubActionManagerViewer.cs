@@ -61,7 +61,7 @@ namespace TableRPG
 
         #region private methods
 
-        private void HideSubActions(SceneController map = null)
+        private void HideSubActions(SceneController scene = null)
         {
             if (!CanHideLastSubAction()) return;
 

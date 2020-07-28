@@ -28,9 +28,9 @@ namespace TableRPG
 
         #endregion
 
-        private void UpdateVisual(SceneController map = null)
+        private void UpdateVisual(SceneController scene = null)
         {
-            this.cam.backgroundColor = this.statusValues.mapLoadedColor;
+            this.cam.backgroundColor = this.statusValues.sceneLoadedColor;
         }
 
         private void DefaultVisual()
@@ -42,7 +42,7 @@ namespace TableRPG
     [System.Serializable]
     public class CameraStatusValues
     {
-        public Color mapLoadedColor;
+        public Color sceneLoadedColor;
 
         public Color emptyColor;
     }
