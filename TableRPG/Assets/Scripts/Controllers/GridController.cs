@@ -103,8 +103,7 @@ namespace TableRPG
         private void RenderGrid()
         {
             transform.localPosition = GridOffset;
-            
-            Debugs.Log("RenderGrid", GridOffset);
+                        
             ClearGrid();
             int lineCount = Mathf.RoundToInt((GridDrawExtent * 2) / GridSize);
 

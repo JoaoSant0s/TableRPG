@@ -31,6 +31,7 @@ namespace TableRPG
             this.pinned = controller.Pinned;
             this.sceneName = controller.SceneName;
             this.backgroundData = controller.BackgroundData;
+            this.gridData = controller.GridData;
             this.wallData = controller.WallData;
         }
 

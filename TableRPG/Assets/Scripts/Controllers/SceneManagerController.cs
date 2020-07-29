@@ -6,7 +6,7 @@ using System.IO;
 
 namespace TableRPG
 {
-    public class SceneManagerController : MonoBehaviour
+    public class SceneManagerController : SingletonBehaviour<SceneManagerController>
     {
         public delegate void OnUpdateSceneContent(SceneController scene = null);
         public static OnUpdateSceneContent UpdateSceneContent;
@@ -21,8 +21,9 @@ namespace TableRPG
 
         #region monoBehaviour methods
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             SceneButton.LoadContent += LoadSceneContent;
             SceneButton.DeleteContent += DeleteSceneContent;
         }
@@ -53,6 +54,13 @@ namespace TableRPG
                 return this.scenes;
             }
         }
+
+        public SceneController CurrentScene
+        {
+            get{
+                return this.currentScene;
+            }            
+        }
         #endregion
 
         #region public methods
@@ -66,12 +74,7 @@ namespace TableRPG
             if (UpdateSceneContent != null) UpdateSceneContent(scene);
 
             return scene;
-        }
-
-        public SceneController CurrentScene()
-        {
-            return this.currentScene;
-        }
+        }        
 
         public SceneController FindSceneById(string id)
         {
@@ -85,6 +88,7 @@ namespace TableRPG
             if (this.currentScene == scene) return;
 
             this.currentScene = scene;
+            PopupManager.Instance.CloseAllPopups();
 
             if (UpdateSceneContent != null) UpdateSceneContent(scene);
         }

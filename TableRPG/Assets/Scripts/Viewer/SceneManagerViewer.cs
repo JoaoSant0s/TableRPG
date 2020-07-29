@@ -23,10 +23,6 @@ namespace TableRPG
         [SerializeField]
         private RectTransform scenePinnedButtonArea;
 
-        [Header("Controllers references")]
-        [SerializeField]
-        private SceneManagerController sceneManagerController;
-
         private List<PinnedSceneButton> pinnedScenes;
 
         public List<PinnedSceneButton> PinnedScenes
@@ -74,14 +70,18 @@ namespace TableRPG
 
         private SceneController FindSceneById(string id)
         {
-            return this.sceneManagerController.FindSceneById(id);
+            return SceneManagerController.FindSceneById(id);
+        }
+
+        private SceneManagerController SceneManagerController{
+            get{ return SceneManagerController.Instance;}
         }
 
         private SceneController CurrentScene
         {
             get
             {
-                return this.sceneManagerController.CurrentScene();
+                return SceneManagerController.CurrentScene;                
             }
         }
 
@@ -141,7 +141,7 @@ namespace TableRPG
 
         private void CreateScene(SceneInfo info)
         {
-            SceneController scene = this.sceneManagerController.Create(info);
+            SceneController scene = SceneManagerController.Create(info);
 
             SceneButton sceneButton = CreatSceneButton();
             sceneButton.SetSceneController(scene);
@@ -153,7 +153,7 @@ namespace TableRPG
         {
             yield return new WaitForEndOfFrame();
 
-            this.sceneManagerController.LoadSceneContent(scene);
+            SceneManagerController.LoadSceneContent(scene);
             if (CreateSceneButton != null) CreateSceneButton(scene.Id);
             
             CanvasLoadingController.Instance.EnableScene(false);

@@ -17,8 +17,7 @@ namespace TableRPG
 
         public BackgroundData(byte[] _backgroundSpriteBytes, float _pixelsPerUnits)
         {
-            this.backgroundSpriteBytes = _backgroundSpriteBytes;
-            this.pixelsPerUnits = _pixelsPerUnits;
+            UpdateValues(_backgroundSpriteBytes, _pixelsPerUnits);
         }
 
         public byte[] BackgroundSpriteBytes
@@ -30,5 +29,12 @@ namespace TableRPG
         {
             get { return this.pixelsPerUnits; }
         }
+
+        public void UpdateValues(byte[] _backgroundSpriteBytes, float _pixelsPerUnits)
+        {
+            this.backgroundSpriteBytes = _backgroundSpriteBytes;
+            this.pixelsPerUnits = _pixelsPerUnits;
+        }
+
     }
 }

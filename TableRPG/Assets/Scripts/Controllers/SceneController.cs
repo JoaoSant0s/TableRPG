@@ -29,15 +29,26 @@ namespace TableRPG
 
             this.fileName = $"Scene_{this.id}.dap";
 
-            SetSceneInfo(info);
-            SaveData();
+            CreateScene(info);
         }
 
-        private void SetSceneInfo(SceneInfo info)
+        private void CreateScene(SceneInfo info)
         {
             this.sceneName = info.sceneName;
             this.BackgroundData = new BackgroundData(info.backgroundTextureBytes, info.backgroundPixelsPerUnit);
             this.GridData = new GridData(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
+
+            SaveData();
+        }
+
+        public void SetSceneInfo(SceneInfo info)
+        {
+            this.sceneName = info.sceneName;
+
+            this.BackgroundData.UpdateValues(info.backgroundTextureBytes, info.backgroundPixelsPerUnit);
+            this.GridData.UpdateValues(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
+
+            SaveData();
         }
 
         public SceneController(SceneData data)

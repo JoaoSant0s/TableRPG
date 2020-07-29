@@ -63,6 +63,14 @@ namespace TableRPG
             this.gridOffset = values.gridOffset;
         }
 
+        public void UpdateValues(int _gridType, int _gridDrawExtent, int _gridSize, Vector2 _gridOffset)
+        {
+            this.gridType = _gridType;
+            this.gridDrawExtent = _gridDrawExtent;
+            this.gridSize = _gridSize;
+            this.gridOffset = _gridOffset;
+        }
+
         #endregion
     }
 }

@@ -61,7 +61,17 @@ namespace TableRPG
         [SerializeField]
         private TMP_InputField gridExtent;
 
+        [Header("General Buttons")]
+
+        [SerializeField]
+        private Button createScene;
+
+        [SerializeField]
+        private Button saveScene;
+
         private byte[] backgroundTextureBytes;
+
+        private SceneController localSceneController;
 
         #region UI
 
@@ -69,6 +79,22 @@ namespace TableRPG
         {
             CanvasLoadingController.Instance.EnableScene();
             StartCoroutine(CreateSceneRoutine());
+        }
+
+        public void OnSaveSceneButton()
+        {
+            if (this.localSceneController == null)
+            {
+                Debugs.Log("No scene Controller selected");
+                return;
+            }
+
+            var values = CreateSceneValues();
+            var info = new SceneInfo(values);
+
+            this.localSceneController.SetSceneInfo(info);
+
+            StartCoroutine(CloseButtonRoutine());
         }
 
         public void OnLoadBackgroundSprite()
@@ -96,13 +122,26 @@ namespace TableRPG
         #endregion
 
         #region public methods
-        public void Init(string sceneID)
+        public void Init(string sceneId)
         {
-            Debugs.Log(sceneID);
+            this.localSceneController = SceneManagerController.Instance.FindSceneById(sceneId);
+
+            this.createScene.gameObject.SetActive(false);
+            this.saveScene.gameObject.SetActive(true);
+
+            SetInputContent();
         }
         #endregion
 
         #region private methods    
+
+        private IEnumerator CloseButtonRoutine()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            OnCloseButton();
+        }
 
         private IEnumerator CreateSceneRoutine()
         {
@@ -123,6 +162,7 @@ namespace TableRPG
                 CanvasLoadingController.Instance.EnableScene(false);
             }
         }
+
         private SceneValues CreateSceneValues()
         {
             var value = new SceneValues();
@@ -138,6 +178,40 @@ namespace TableRPG
             value.gridExtent = this.gridExtent.text;
 
             return value;
+        }
+
+        private void SetInputContent()
+        {
+            var scene = this.localSceneController;
+
+            this.sceneName.text = scene.SceneName;
+            this.backgroundPixelPerUnit.text = scene.BackgroundData.PixelsPerUnits.ToString();
+            this.backgroundTextureBytes = scene.BackgroundData.BackgroundSpriteBytes;
+
+            this.gridType.value = scene.GridData.GridType;
+            this.gridOffsetX.text = scene.GridData.GridOffset.x.ToString();
+            this.gridOffsetY.text = scene.GridData.GridOffset.y.ToString();
+            this.gridSize.text = scene.GridData.GridSize.ToString();
+            this.gridExtent.text = scene.GridData.GridDrawExtent.ToString();
+
+            var sprite = LoadTexture.LoadSpriteByBytes(this.backgroundTextureBytes);
+
+            this.backgroundImage.sprite = sprite;
+            this.backgroundSpriteWidth.text = string.Format("Width: {0}px", sprite.texture.width);
+            this.backgroundSpriteHeight.text = string.Format("Height: {0}px", sprite.texture.height);
+
+            RefreshComponentAlignment();
+        }
+
+        private void RefreshComponentAlignment()
+        {
+            this.sceneName.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.backgroundPixelPerUnit.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+
+            this.gridOffsetX.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.gridOffsetY.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.gridSize.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.gridExtent.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
         }
         #endregion
     }

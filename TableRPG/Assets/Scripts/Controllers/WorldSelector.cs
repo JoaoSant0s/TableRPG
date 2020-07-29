@@ -17,20 +17,6 @@ namespace TableRPG
 
         private const string sceneGame = "Game";
 
-        private List<WorldButtonController> worldButtons;
-
-        public List<WorldButtonController> WorldButtons
-        {
-            get
-            {
-                if (this.worldButtons == null)
-                {
-                    this.worldButtons = new List<WorldButtonController>();
-                }
-                return this.worldButtons;
-            }
-        }
-
         #region MonoBehaviour
 
         private void Awake()
@@ -74,7 +60,6 @@ namespace TableRPG
                 var button = Instantiate(this.buttonPrefab, this.menuButtonsArea);
                 button.Init(worldConfig);
                 WorldManagerController.Instance.AddWorldConfigData(worldConfig);
-                WorldButtons.Add(button);
             }
         }
 
@@ -86,13 +71,10 @@ namespace TableRPG
 
         private void CleanWorldButtons()
         {
-            for (int i = 0; i < WorldButtons.Count; i++)
+            foreach (Transform child in this.menuButtonsArea)
             {
-                var world = WorldButtons[i];
-                Destroy(world.gameObject);
+                Destroy(child.gameObject);
             }
-
-            WorldButtons.Clear();
         }
 
         private WorldConfigData LoadWorldFromPath(string filePath)
