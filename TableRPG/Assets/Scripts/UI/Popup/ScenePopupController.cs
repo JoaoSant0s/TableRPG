@@ -25,6 +25,16 @@ namespace TableRPG
         public delegate void OnCreateScene(SceneInfo info);
         public static OnCreateScene CreateScene;
 
+        public delegate void OnUpdateBackground(BackgroundData data);
+        public static OnUpdateBackground UpdateBackground;
+
+        public delegate void OnUpdateGrid(GridData grid);
+        public static OnUpdateGrid UpdateGrid;
+
+        public delegate void OnUpdateSceneName(string sceneId, string sceneName);
+
+        public static OnUpdateSceneName UpdateSceneName;
+
         [Header("General Info")]
 
         [SerializeField]
@@ -71,7 +81,16 @@ namespace TableRPG
 
         private byte[] backgroundTextureBytes;
 
-        private SceneController localSceneController;
+        private SceneController referencedSceneController;
+
+        #region monobehaviour methods
+
+        private void Start()
+        {
+            SetCharacterValidation();
+        }
+
+        #endregion
 
         #region UI
 
@@ -83,7 +102,7 @@ namespace TableRPG
 
         public void OnSaveSceneButton()
         {
-            if (this.localSceneController == null)
+            if (this.referencedSceneController == null)
             {
                 Debugs.Log("No scene Controller selected");
                 return;
@@ -92,7 +111,9 @@ namespace TableRPG
             var values = CreateSceneValues();
             var info = new SceneInfo(values);
 
-            this.localSceneController.SetSceneInfo(info);
+            this.referencedSceneController.SetSceneInfo(info);
+
+            if (UpdateSceneName != null) UpdateSceneName(this.referencedSceneController.Id, this.sceneName.text);
 
             StartCoroutine(CloseButtonRoutine());
         }
@@ -101,22 +122,39 @@ namespace TableRPG
         {
             string[] texturesPaths = LoadTexture.LoadTexturePersistence(new TextureExtensions[] { TextureExtensions.JPEG, TextureExtensions.JPG, TextureExtensions.PNG });
 
-            for (int i = 0; i < texturesPaths.Length; i++)
-            {
-                var filePath = texturesPaths[i];
+            if (texturesPaths.Length == 0) return;
 
-                this.backgroundTextureBytes = File.ReadAllBytes(filePath);
-                var sprite = LoadTexture.LoadSpriteByBytes(this.backgroundTextureBytes);
+            var filePath = texturesPaths[0];
 
-                this.backgroundImage.sprite = sprite;
-                this.backgroundSpriteWidth.text = string.Format("Width: {0}px", sprite.texture.width);
-                this.backgroundSpriteHeight.text = string.Format("Height: {0}px", sprite.texture.height);
-            }
+            this.backgroundTextureBytes = File.ReadAllBytes(filePath);
+            var sprite = LoadTexture.LoadSpriteByBytes(this.backgroundTextureBytes);
+
+            this.backgroundImage.sprite = sprite;
+            this.backgroundSpriteWidth.text = string.Format("Width: {0}px", sprite.texture.width);
+            this.backgroundSpriteHeight.text = string.Format("Height: {0}px", sprite.texture.height);
+
+            UpdateBackgroundValues();
         }
 
         public void OnFocusEditArea(bool value)
         {
             StaticState.InputFieldFocus = value;
+        }        
+
+        public void OnUpdateGridValues()
+        {
+            if (this.referencedSceneController == null) return;
+
+            var gridOffset = new Vector2(float.Parse(this.gridOffsetX.text.Replace(".", ",")), float.Parse(this.gridOffsetY.text.Replace(".", ",")));
+
+            this.referencedSceneController.GridData.UpdateValues(this.gridType.value, int.Parse(this.gridExtent.text), int.Parse(this.gridSize.text), gridOffset);
+
+            UpdateGrid(this.referencedSceneController.GridData);
+        }
+
+        public void OnUpdateBackgroundVales()
+        {
+            UpdateBackgroundValues();
         }
 
         #endregion
@@ -124,7 +162,7 @@ namespace TableRPG
         #region public methods
         public void Init(string sceneId)
         {
-            this.localSceneController = SceneManagerController.Instance.FindSceneById(sceneId);
+            this.referencedSceneController = SceneManagerController.Instance.FindSceneById(sceneId);
 
             this.createScene.gameObject.SetActive(false);
             this.saveScene.gameObject.SetActive(true);
@@ -133,7 +171,16 @@ namespace TableRPG
         }
         #endregion
 
-        #region private methods    
+        #region private methods  
+
+        private void UpdateBackgroundValues()
+        {
+            if (this.referencedSceneController == null) return;
+
+            this.referencedSceneController.BackgroundData.UpdateValues(this.backgroundTextureBytes, int.Parse(this.backgroundPixelPerUnit.text));
+
+            if (UpdateBackground != null) UpdateBackground(this.referencedSceneController.BackgroundData);
+        }
 
         private IEnumerator CloseButtonRoutine()
         {
@@ -182,7 +229,7 @@ namespace TableRPG
 
         private void SetInputContent()
         {
-            var scene = this.localSceneController;
+            var scene = this.referencedSceneController;
 
             this.sceneName.text = scene.SceneName;
             this.backgroundPixelPerUnit.text = scene.BackgroundData.PixelsPerUnits.ToString();
@@ -205,13 +252,24 @@ namespace TableRPG
 
         private void RefreshComponentAlignment()
         {
-            this.sceneName.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
-            this.backgroundPixelPerUnit.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.sceneName.AlignmentMidlineLeft();
+            this.backgroundPixelPerUnit.AlignmentMidlineLeft();
 
-            this.gridOffsetX.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
-            this.gridOffsetY.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
-            this.gridSize.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
-            this.gridExtent.textComponent.alignment = TextAlignmentOptions.MidlineLeft;
+            this.gridOffsetX.AlignmentMidlineLeft();
+            this.gridOffsetY.AlignmentMidlineLeft();
+            this.gridSize.AlignmentMidlineLeft();
+            this.gridExtent.AlignmentMidlineLeft();
+        }
+
+        private void SetCharacterValidation()
+        {
+            this.backgroundPixelPerUnit.CharacterValidationDecimal();
+            this.backgroundPixelPerUnit.CharacterValidationDecimal();
+
+            this.gridOffsetX.CharacterValidationDecimal();
+            this.gridOffsetY.CharacterValidationDecimal();
+            this.gridSize.CharacterValidationDecimal();
+            this.gridExtent.CharacterValidationDecimal();
         }
         #endregion
     }

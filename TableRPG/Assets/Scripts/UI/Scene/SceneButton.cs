@@ -29,6 +29,7 @@ namespace TableRPG
         {
             SceneButton.LoadContent -= EnableSelection;
             SceneManagerViewer.CreateSceneButton -= EnableSelection;
+            ScenePopupController.UpdateSceneName -= UpdateSceneName;
         }
 
         #endregion
@@ -39,6 +40,7 @@ namespace TableRPG
         {
             SceneButton.LoadContent += EnableSelection;
             SceneManagerViewer.CreateSceneButton += EnableSelection;
+            ScenePopupController.UpdateSceneName += UpdateSceneName;
         }
 
         public bool EqualsId(string idRef)
@@ -48,7 +50,7 @@ namespace TableRPG
 
         public void SetSceneController(SceneController scene)
         {
-            this.id = scene.Id;            
+            this.id = scene.Id;
             this.labelSceneName.text = scene.SceneName;
         }
 
@@ -59,6 +61,13 @@ namespace TableRPG
         protected virtual void EnableSelection(string sceneId)
         {
             this.background.enabled = this.id.Equals(sceneId);
+        }
+
+        protected void UpdateSceneName(string sceneId, string sceneName)
+        {
+            if (!this.id.Equals(sceneId)) return;
+            
+            this.labelSceneName.text = sceneName;
         }
 
         #endregion

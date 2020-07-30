@@ -12,11 +12,15 @@ namespace TableRPG
         private void Awake()
         {
             SceneManagerController.UpdateSceneContent += ChangeBackground;
+            ScenePopupController.UpdateBackground += ChangeBackground;
+
         }
 
         private void OnDestroy()
         {
             SceneManagerController.UpdateSceneContent -= ChangeBackground;
+            ScenePopupController.UpdateBackground -= ChangeBackground;
+
         }
 
         #region private methods
@@ -25,6 +29,11 @@ namespace TableRPG
         {
             if (scene == null) return;
             var data = scene.BackgroundData;
+            ChangeBackground(data);
+        }
+
+        private void ChangeBackground(BackgroundData data)
+        {
             var sprite = LoadTexture.LoadSpriteByBytes(data.BackgroundSpriteBytes, data.PixelsPerUnits);
             this.backgroundLayer.sprite = sprite;
         }

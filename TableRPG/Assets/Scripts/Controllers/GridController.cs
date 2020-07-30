@@ -51,12 +51,14 @@ namespace TableRPG
 
         private void Awake()
         {
-            SceneManagerController.UpdateSceneContent += GenereteGrid;
+            SceneManagerController.UpdateSceneContent += GenereteGridByScene;
+            ScenePopupController.UpdateGrid += GenereteGrid;
         }
 
         private void OnDestroy()
         {
-            SceneManagerController.UpdateSceneContent -= GenereteGrid;
+            SceneManagerController.UpdateSceneContent -= GenereteGridByScene;
+            ScenePopupController.UpdateGrid -= GenereteGrid;
         }
 
         #endregion
@@ -83,11 +85,16 @@ namespace TableRPG
             this.currentScene.SaveAllData();
         }
 
-        private void GenereteGrid(SceneController scene = null)
+        private void GenereteGridByScene(SceneController scene = null)
         {
             this.currentScene = scene;
 
-            this.gridValues = new GridValues(scene.GridData);
+            GenereteGrid(scene.GridData);            
+        }
+
+        private void GenereteGrid(GridData grid)
+        {            
+            this.gridValues = new GridValues(grid);
 
             RenderGrid();
         }
