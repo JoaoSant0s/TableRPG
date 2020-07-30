@@ -15,22 +15,7 @@ namespace TableRPG
         [SerializeField]
         private RectTransform menuButtonsArea;
 
-        [SerializeField]
-        private string sceneName;
-
-        private List<WorldButtonController> worldButtons;
-
-        public List<WorldButtonController> WorldButtons
-        {
-            get
-            {
-                if (this.worldButtons == null)
-                {
-                    this.worldButtons = new List<WorldButtonController>();
-                }
-                return this.worldButtons;
-            }
-        }
+        private const string sceneGame = "Game";
 
         #region MonoBehaviour
 
@@ -41,7 +26,7 @@ namespace TableRPG
         }
 
         private void OnDestroy()
-        {        
+        {
             WorldPopupController.CreateWorldDirectory -= RefreshWorldButtons;
             WorldButtonController.LoadWorld -= LoadWorld;
         }
@@ -75,7 +60,6 @@ namespace TableRPG
                 var button = Instantiate(this.buttonPrefab, this.menuButtonsArea);
                 button.Init(worldConfig);
                 WorldManagerController.Instance.AddWorldConfigData(worldConfig);
-                WorldButtons.Add(button);
             }
         }
 
@@ -87,13 +71,10 @@ namespace TableRPG
 
         private void CleanWorldButtons()
         {
-            for (int i = 0; i < WorldButtons.Count; i++)
+            foreach (Transform child in this.menuButtonsArea)
             {
-                var world = WorldButtons[i];
-                Destroy(world.gameObject);
+                Destroy(child.gameObject);
             }
-
-            WorldButtons.Clear();
         }
 
         private WorldConfigData LoadWorldFromPath(string filePath)
@@ -113,7 +94,7 @@ namespace TableRPG
         private void LoadWorld(string worldId)
         {
             CanvasLoadingController.Instance.EnableScene();
-            SceneManager.LoadSceneAsync(this.sceneName, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(sceneGame, LoadSceneMode.Single);
         }
 
         #endregion

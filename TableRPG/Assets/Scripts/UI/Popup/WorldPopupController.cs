@@ -47,7 +47,7 @@ namespace TableRPG
 
             var completePath = $"{directoryPath}/Config.dap";
 
-            Debugs.Log("Save map in Path:", completePath);
+            Debugs.Log("Save scene in Path:", completePath);
 
             var bf = new BinaryFormatter();
 

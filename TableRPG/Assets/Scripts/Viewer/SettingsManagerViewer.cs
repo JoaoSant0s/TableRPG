@@ -7,14 +7,18 @@ namespace TableRPG
 {
     public class SettingsManagerViewer : MonoBehaviour
     {
-        [SerializeField]
-        private string sceneName;
+        private const string sceneMenu = "Menu";
 
         #region UI
         public void OnExitGame()
         {
             CanvasLoadingController.Instance.EnableScene();
-            SceneManager.LoadSceneAsync(this.sceneName, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(sceneMenu, LoadSceneMode.Single);
+        }
+
+        public void OnQuitGame()
+        {
+            Application.Quit();
         }
         #endregion
     }

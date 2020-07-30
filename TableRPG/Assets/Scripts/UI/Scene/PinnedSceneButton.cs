@@ -16,6 +16,8 @@ namespace TableRPG
             SceneButton.LoadContent += EnableSelection;
             SceneManagerViewer.RefreshPinnedButtons += EnableSelection;
             SceneManagerViewer.CreateSceneButton += EnableSelection;
+            ScenePopupController.UpdateSceneName += UpdateSceneName;
+
         }
 
         protected override void OnDestroy()
@@ -23,6 +25,8 @@ namespace TableRPG
             base.OnDestroy();
             SceneManagerViewer.RefreshPinnedButtons -= EnableSelection;
             SceneManagerViewer.CreateSceneButton -= EnableSelection;
+            ScenePopupController.UpdateSceneName -= UpdateSceneName;
+
         }
 
         #endregion

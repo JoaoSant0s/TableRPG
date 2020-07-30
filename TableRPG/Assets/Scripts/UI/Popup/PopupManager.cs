@@ -44,11 +44,42 @@ namespace TableRPG
             }
         }
 
+        #region general region
+
+        public void CloseAllPopups(){
+            List<PopupController> copy = new List<PopupController>(InstantiatedPopups);            
+            
+            for (int i = 0; i < copy.Count; i++)
+            {
+                var popup = copy[i];
+                RemovePopup(popup);
+            }
+        }
+
+        #endregion
+
         #region Scene region
 
         public void ShowScenePopup()
         {
             ShowPopup<ScenePopupController>();
+        }
+
+        public void ShowScenePopup(string sceneId)
+        {
+            CloseScenePopup();
+            var scene = ShowPopup<ScenePopupController>();
+            scene.Init(sceneId);
+        }
+
+        private void CloseScenePopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is ScenePopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (ScenePopupController)popups[i];
+                RemovePopup(popup);
+            }
         }
 
         #endregion
@@ -59,6 +90,16 @@ namespace TableRPG
         {
             CloseWorldPopup();
             ShowPopup<WorldPopupController>();
+        }
+
+        private void CloseWorldPopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is WorldPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (WorldPopupController)popups[i];
+                RemovePopup(popup);
+            }
         }
 
         #endregion
@@ -78,18 +119,7 @@ namespace TableRPG
             {
                 RemovePopup(popups[i]);
             }
-        }
-
-        private void CloseWorldPopup()
-        {
-            var popups = InstantiatedPopups.FindAll(context => context is WorldPopupController);
-            for (int i = 0; i < popups.Count; i++)
-            {
-                var popup = (WorldPopupController)popups[i];
-                RemovePopup(popup);
-            }
         }        
-
         private void CloseWallPopup(Wall wall)
         {
             var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
@@ -102,7 +132,7 @@ namespace TableRPG
                 }
             }
         }
-
+        
         #endregion
 
         public T ShowPopup<T>() where T : PopupController

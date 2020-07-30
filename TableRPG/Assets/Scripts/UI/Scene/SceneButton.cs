@@ -8,10 +8,10 @@ namespace TableRPG
 {
     public class SceneButton : MonoBehaviour
     {
-        public delegate void OnLoadContent(string mapID);
+        public delegate void OnLoadContent(string sceneID);
         public static OnLoadContent LoadContent;
 
-        public delegate void OnDeleteContent(string mapID);
+        public delegate void OnDeleteContent(string sceneID);
         public static OnDeleteContent DeleteContent;
 
         [Header("Components")]
@@ -29,6 +29,7 @@ namespace TableRPG
         {
             SceneButton.LoadContent -= EnableSelection;
             SceneManagerViewer.CreateSceneButton -= EnableSelection;
+            ScenePopupController.UpdateSceneName -= UpdateSceneName;
         }
 
         #endregion
@@ -39,6 +40,7 @@ namespace TableRPG
         {
             SceneButton.LoadContent += EnableSelection;
             SceneManagerViewer.CreateSceneButton += EnableSelection;
+            ScenePopupController.UpdateSceneName += UpdateSceneName;
         }
 
         public bool EqualsId(string idRef)
@@ -48,7 +50,7 @@ namespace TableRPG
 
         public void SetSceneController(SceneController scene)
         {
-            this.id = scene.Id;            
+            this.id = scene.Id;
             this.labelSceneName.text = scene.SceneName;
         }
 
@@ -56,9 +58,16 @@ namespace TableRPG
 
         #region private methods                
 
-        protected void EnableSelection(string mapId)
+        protected virtual void EnableSelection(string sceneId)
         {
-            this.background.enabled = this.id.Equals(mapId);
+            this.background.enabled = this.id.Equals(sceneId);
+        }
+
+        protected void UpdateSceneName(string sceneId, string sceneName)
+        {
+            if (!this.id.Equals(sceneId)) return;
+            
+            this.labelSceneName.text = sceneName;
         }
 
         #endregion
@@ -66,7 +75,7 @@ namespace TableRPG
 
         #region UI        
 
-        public void OnLoadScene()
+        public virtual void OnLoadScene()
         {
             if (LoadContent != null) LoadContent(this.id);
         }

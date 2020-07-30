@@ -38,9 +38,9 @@ namespace TableRPG
         #endregion
 
         #region public methods
-        public void EnableScene()
+        public void EnableScene(bool value = true)
         {
-            this.panelGameObject.SetActive(true);
+            this.panelGameObject.SetActive(value);
         }
         #endregion
     }
