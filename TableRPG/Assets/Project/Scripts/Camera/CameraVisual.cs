@@ -12,25 +12,39 @@ namespace TableRPG
         [SerializeField]
         private CameraStatusValues statusValues;
 
+        [SerializeField]
+        private Color emptyColor;
+
         #region monoBehaviour methods
 
         private void Awake()
         {
             SceneManagerController.UpdateSceneContent += UpdateVisual;
             SceneManagerController.SceneDefaultContent += DefaultVisual;
+
+            ScenePopupController.UpdateBackgrondColor += UpdateBackgrondColor;
         }
 
         private void OnDestroy()
         {
             SceneManagerController.UpdateSceneContent -= UpdateVisual;
             SceneManagerController.SceneDefaultContent -= DefaultVisual;
+
+            ScenePopupController.UpdateBackgrondColor -= UpdateBackgrondColor;
         }
 
         #endregion
 
+        private void UpdateBackgrondColor(Color color)
+        {
+            this.cam.backgroundColor = color;
+        }
+
         private void UpdateVisual(SceneController scene = null)
         {
-            this.cam.backgroundColor = this.statusValues.sceneLoadedColor;
+            var color = scene.BackgroundData.BackgroundColor;
+
+            this.cam.backgroundColor = color;
         }
 
         private void DefaultVisual()

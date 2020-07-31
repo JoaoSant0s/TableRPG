@@ -35,7 +35,7 @@ namespace TableRPG
         private void CreateScene(SceneInfo info)
         {
             this.sceneName = info.sceneName;
-            this.BackgroundData = new BackgroundData(info.backgroundTextureBytes, info.backgroundPixelsPerUnit);
+            this.BackgroundData = new BackgroundData(info.backgroundTextureBytes, info.backgroundPixelsPerUnit, info.backgroundColor);
             this.GridData = new GridData(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
 
             SaveData();
@@ -45,7 +45,7 @@ namespace TableRPG
         {
             this.sceneName = info.sceneName;
 
-            this.BackgroundData.UpdateValues(info.backgroundTextureBytes, info.backgroundPixelsPerUnit);
+            this.BackgroundData.UpdateValues(info.backgroundTextureBytes, info.backgroundPixelsPerUnit, info.backgroundColor);
             this.GridData.UpdateValues(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
 
             SaveData();
@@ -198,6 +198,7 @@ namespace TableRPG
         public string sceneName;
         public byte[] backgroundTextureBytes;
         public float backgroundPixelsPerUnit;
+        public Color backgroundColor;
 
         public int gridType;
         public int gridDrawExtent;
@@ -213,6 +214,7 @@ namespace TableRPG
             this.gridType = values.gridType;
             this.gridDrawExtent = int.Parse(values.gridExtent);
             this.gridSize = int.Parse(values.gridSize);
+            this.backgroundColor = values.backgroundColor;
 
             this.gridOffset = new Vector2(float.Parse(values.gridOffsetX.Replace(".", ",")), float.Parse(values.gridOffsetY.Replace(".", ",")));
         }

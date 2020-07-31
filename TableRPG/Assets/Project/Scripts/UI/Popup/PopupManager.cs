@@ -46,9 +46,10 @@ namespace TableRPG
 
         #region general region
 
-        public void CloseAllPopups(){
-            List<PopupController> copy = new List<PopupController>(InstantiatedPopups);            
-            
+        public void CloseAllPopups()
+        {
+            List<PopupController> copy = new List<PopupController>(InstantiatedPopups);
+
             for (int i = 0; i < copy.Count; i++)
             {
                 var popup = copy[i];
@@ -119,7 +120,7 @@ namespace TableRPG
             {
                 RemovePopup(popups[i]);
             }
-        }        
+        }
         private void CloseWallPopup(Wall wall)
         {
             var popups = InstantiatedPopups.FindAll(context => context is WallPopupController);
@@ -132,7 +133,26 @@ namespace TableRPG
                 }
             }
         }
-        
+
+        #endregion
+
+        #region Color picker region
+        public PickerColorPopupController ShowColorPickerPopup()
+        {
+            CloseColorPicker();
+
+            var colorPickerPopup = ShowPopup<PickerColorPopupController>();
+            return colorPickerPopup;
+        }
+
+        private void CloseColorPicker()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is PickerColorPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                RemovePopup(popups[i]);
+            }
+        }
         #endregion
 
         public T ShowPopup<T>() where T : PopupController

@@ -2305,7 +2305,6 @@ MonoBehaviour:
     type: 3}
   sceneButtonArea: {fileID: 1610622317}
   scenePinnedButtonArea: {fileID: 361156659}
-  sceneManagerController: {fileID: 542705624}
 --- !u!4 &350847461
 Transform:
   m_ObjectHideFlags: 0
@@ -8237,6 +8236,7 @@ MonoBehaviour:
   popupPrefabs:
   - {fileID: 4426198529165485319, guid: 8e93e04cdf814e34da9e7a64e7c5d70b, type: 3}
   - {fileID: 5852820446018825072, guid: 0c9d237c7b94bf9418210f399375a6e0, type: 3}
+  - {fileID: 6640048028828334082, guid: f02305e2b5711b149bc851df70052c1f, type: 3}
 --- !u!4 &1721039689
 Transform:
   m_ObjectHideFlags: 0
@@ -9538,6 +9538,7 @@ MonoBehaviour:
   statusValues:
     sceneLoadedColor: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 1}
     emptyColor: {r: 0.3529412, g: 0.3529412, b: 0.3529412, a: 1}
+  emptyColor: {r: 0.3529412, g: 0.3529412, b: 0.3529412, a: 1}
 --- !u!1 &2136656737
 GameObject:
   m_ObjectHideFlags: 0

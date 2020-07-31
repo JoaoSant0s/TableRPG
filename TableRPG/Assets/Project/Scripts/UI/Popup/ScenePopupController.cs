@@ -12,6 +12,7 @@ namespace TableRPG
         public string backgroundPixelsPerUnit;
         public string sceneName;
         public byte[] backgroundTextureBytes;
+        public Color backgroundColor;
 
         public int gridType;
         public string gridOffsetX;
@@ -32,8 +33,10 @@ namespace TableRPG
         public static OnUpdateGrid UpdateGrid;
 
         public delegate void OnUpdateSceneName(string sceneId, string sceneName);
-
         public static OnUpdateSceneName UpdateSceneName;
+
+        public delegate void OnUpdateBackgrondColor(Color color);
+        public static OnUpdateBackgrondColor UpdateBackgrondColor;
 
         [Header("General Info")]
 
@@ -53,6 +56,12 @@ namespace TableRPG
 
         [SerializeField]
         private TMP_Text backgroundSpriteHeight;
+
+        [SerializeField]
+        private Image backgroundImageColor;
+
+        [SerializeField]
+        private TMP_Text colorBackgroundLabel;
 
         [Header("Grid Info")]
 
@@ -134,11 +143,6 @@ namespace TableRPG
             this.backgroundSpriteHeight.text = string.Format("Height: {0}px", sprite.texture.height);
 
             UpdateBackgroundValues();
-        }
-
-        public void OnFocusEditArea(bool value)
-        {
-            StaticState.InputFieldFocus = value;
         }        
 
         public void OnUpdateGridValues()
@@ -155,6 +159,12 @@ namespace TableRPG
         public void OnUpdateBackgroundVales()
         {
             UpdateBackgroundValues();
+        }
+
+        public void OnShowColorPicker()
+        {
+            var popup = PopupManager.Instance.ShowColorPickerPopup();            
+            popup.SetUpdateColorAction(UpdateBackgroundColor, this.backgroundImageColor.color);
         }
 
         #endregion
@@ -217,6 +227,7 @@ namespace TableRPG
             value.backgroundPixelsPerUnit = this.backgroundPixelPerUnit.text;
             value.sceneName = this.sceneName.text;
             value.backgroundTextureBytes = this.backgroundTextureBytes;
+            value.backgroundColor = this.backgroundImageColor.color;
 
             value.gridType = this.gridType.value;
             value.gridOffsetX = this.gridOffsetX.text;
@@ -247,6 +258,11 @@ namespace TableRPG
             this.backgroundSpriteWidth.text = string.Format("Width: {0}px", sprite.texture.width);
             this.backgroundSpriteHeight.text = string.Format("Height: {0}px", sprite.texture.height);
 
+            var backgroundColor = scene.BackgroundData.BackgroundColor;
+
+            this.backgroundImageColor.color = backgroundColor;
+            this.colorBackgroundLabel.text = $"#{ColorUtility.ToHtmlStringRGB(backgroundColor)}";
+
             RefreshComponentAlignment();
         }
 
@@ -270,6 +286,17 @@ namespace TableRPG
             this.gridOffsetY.CharacterValidationDecimal();
             this.gridSize.CharacterValidationDecimal();
             this.gridExtent.CharacterValidationDecimal();
+        }
+
+        private void UpdateBackgroundColor(Color color)
+        {
+            this.backgroundImageColor.color = color;
+
+            this.colorBackgroundLabel.text = $"#{ColorUtility.ToHtmlStringRGB(color)}";
+
+            if (this.referencedSceneController == null) return;
+
+            if (UpdateBackgrondColor != null) UpdateBackgrondColor(color);
         }
         #endregion
     }

@@ -43,6 +43,11 @@ namespace TableRPG
         {
             PopupManager.Instance.RemoveSeletedPopup(this);            
         }
+
+        public void OnFocusEditArea(bool value)
+        {
+            StaticState.InputFieldFocus = value;
+        }
         #endregion
     }
 }
