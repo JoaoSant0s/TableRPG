@@ -18,7 +18,6 @@ namespace TableRPG
         {
             this.buttonsUI.EnableBlockLightButton(this.linkedWall.EnableShadowCaster2D);
             this.buttonsUI.EnableColliderButton(this.linkedWall.EnableBoxCollider2D);
-            this.buttonsUI.SetWallColorButton(this.linkedWall.WallColor);
         }        
 
         public bool IsSameWall(Wall wall){
@@ -52,12 +51,7 @@ namespace TableRPG
         public void OnWallVisible()
         {
             //TODO
-        }
-
-        public void OnColor()
-        {
-            //TODO
-        }
+        }       
 
         #endregion
     }
@@ -69,8 +63,7 @@ namespace TableRPG
 
         public Button blockLightButton;
         public Button enableColliderButton;
-        public Button enableButton;
-        public Image colorImage;
+        public Button enableButton;        
 
         public void EnableBlockLightButton(bool value)
         {
@@ -80,11 +73,6 @@ namespace TableRPG
         public void EnableColliderButton(bool value)
         {
             this.enableColliderButton.image.color = !value ? Color.white : this.disabledColor;
-        }
-
-        public void SetWallColorButton(Color color)
-        {
-            this.colorImage.color = color;
         }
     }
 }

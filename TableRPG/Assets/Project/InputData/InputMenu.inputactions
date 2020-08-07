@@ -1,0 +1,91 @@
+{
+    "name": "InputMenu",
+    "maps": [
+        {
+            "name": "Menu",
+            "id": "502823c5-0eab-4e37-80f0-70f15647bb60",
+            "actions": [
+                {
+                    "name": "WallAction",
+                    "type": "Button",
+                    "id": "189c60d0-047d-4377-bdf3-4c5c4013d25a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "OtherAction",
+                    "type": "Button",
+                    "id": "090bb18b-786c-410b-afd2-421672e2418e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1d738120-9bc1-4524-85ca-bb9e2725163a",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Menu",
+                    "action": "WallAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "492a62a3-c9ad-466f-940b-6cff1b1365d9",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Menu",
+                    "action": "OtherAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Esc",
+            "id": "9f3dbd2c-a390-4c28-8a8f-42a64955465e",
+            "actions": [
+                {
+                    "name": "CloseAction",
+                    "type": "Button",
+                    "id": "059c476e-b004-4b75-b4f9-d9c4d43dcf04",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b4a68cab-9dee-4a30-bed4-fe28264d2584",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Menu",
+                    "action": "CloseAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Menu",
+            "bindingGroup": "Menu",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

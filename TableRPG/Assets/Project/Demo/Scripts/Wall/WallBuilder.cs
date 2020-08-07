@@ -52,6 +52,8 @@ public class WallBuilder : MonoBehaviour
     private Wall currentWall;
     private SceneController mapController;
 
+    private InputSave controls;
+
     public List<Wall> Walls
     {
         get
@@ -66,13 +68,17 @@ public class WallBuilder : MonoBehaviour
 
     private void Awake()
     {
+        this.controls = new InputSave();
+
         WorldController.ChangeWorldState += ChangeState;
 
         SceneManagerController.UpdateSceneContent += LoadScene;
-        WallInteractor.EndWallManipulation += UpdateWallData;
 
         WallSubActionViewer.GenerateWall += SetWallState;
         WallSubActionViewer.GenerateDoor += SetDoorState;
+
+        this.controls.Save.SaveAction.performed += ctx => UpdateWallData();
+        this.controls.Save.SaveAction.Enable();
     }
 
     private void OnDestroy()
@@ -80,10 +86,12 @@ public class WallBuilder : MonoBehaviour
         WorldController.ChangeWorldState -= ChangeState;
 
         SceneManagerController.UpdateSceneContent -= LoadScene;
-        WallInteractor.EndWallManipulation += UpdateWallData;
 
         WallSubActionViewer.GenerateWall -= SetWallState;
         WallSubActionViewer.GenerateDoor -= SetDoorState;
+
+        this.controls.Save.SaveAction.performed -= ctx => UpdateWallData();
+        this.controls.Save.SaveAction.Disable();
     }
 
     void Update()
@@ -165,7 +173,7 @@ public class WallBuilder : MonoBehaviour
         wall.Scale(config.scale);
 
         Walls.Add(wall);
-    }   
+    }
 
     private void EnableWallInteractions(bool active)
     {
@@ -183,7 +191,6 @@ public class WallBuilder : MonoBehaviour
         {
             EnableWallInteractions(true);
             RemoveCurrentWall();
-            UpdateWallData();
         }
 
         if (Input.GetMouseButtonDown((int)MouseButton.LEFT))
@@ -199,6 +206,8 @@ public class WallBuilder : MonoBehaviour
 
     private void UpdateWallData()
     {
+        if (!CanBuildWall()) return;
+
         this.mapController.UpdateWallData(new WallData(Walls));
     }
 

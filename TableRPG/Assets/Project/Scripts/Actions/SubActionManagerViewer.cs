@@ -25,36 +25,36 @@ namespace TableRPG
 
         private SubActionController lastSubActionControllerActived;
 
-        #region MonoBehaviour methods
+        private InputMenu control;
 
+        #region MonoBehaviour methods        
+
+        private void Awake()
+        {
+            this.control = new InputMenu();
+        }
         private void Start()
         {
             SceneManagerController.UpdateSceneContent += HideSubActions;
             SceneManagerController.CreateSceneButton += HideSubActions;
+
+            this.control.Menu.WallAction.performed += ctx => ActiveWallAction();
+            this.control.Menu.OtherAction.performed += ctx => ActiveSubAction1();
+
+            this.control.Menu.WallAction.Enable();
+            this.control.Menu.OtherAction.Enable();
         }
 
-        private void Awake()
+        private void OnDestroy()
         {
             SceneManagerController.UpdateSceneContent -= HideSubActions;
             SceneManagerController.CreateSceneButton -= HideSubActions;
-        }
 
-        private void Update()
-        {
-            if(StaticState.InputFieldFocus) return;
+            this.control.Menu.WallAction.performed -= ctx => ActiveWallAction();
+            this.control.Menu.OtherAction.performed -= ctx => ActiveSubAction1();
             
-            if (HotKeysCollections.ButtonAlpha1)
-            {
-                ActiveWallAction();
-            }
-            else if (HotKeysCollections.ButtonAlpha2)
-            {
-                ActiveSubAction1();
-            }
-            else if (HotKeysCollections.ButtonAlpha3)
-            {
-                ActiveSubAction2();
-            }
+            this.control.Menu.WallAction.Disable();
+            this.control.Menu.OtherAction.Disable();
         }
 
         #endregion
@@ -73,6 +73,8 @@ namespace TableRPG
 
         private void ActiveWallAction()
         {
+            if (StaticState.InputFieldFocus) return;
+
             var isHidding = ToggleSubAction(this.subActionsCollections.subActionWall);
             this.subActionsButtons.SelectButton(0, isHidding);
 
@@ -81,18 +83,12 @@ namespace TableRPG
 
         private void ActiveSubAction1()
         {
+            if (StaticState.InputFieldFocus) return;
+
             var isHidding = ToggleSubAction(this.subActionsCollections.subActionTest1);
             this.subActionsButtons.SelectButton(1, isHidding);
 
             InvokeChangeWorldState(WorldState.TEST_1, isHidding);
-        }
-
-        private void ActiveSubAction2()
-        {
-            var isHidding = ToggleSubAction(this.subActionsCollections.subActionTest2);
-            this.subActionsButtons.SelectButton(2, isHidding);
-
-            InvokeChangeWorldState(WorldState.TEST_2, isHidding);
         }
 
         private void InvokeChangeWorldState(WorldState state)
@@ -143,11 +139,6 @@ namespace TableRPG
         public void OnActiveSubAction1()
         {
             ActiveSubAction1();
-        }
-
-        public void OnActiveSubAction2()
-        {
-            ActiveSubAction2();
         }
         #endregion
     }

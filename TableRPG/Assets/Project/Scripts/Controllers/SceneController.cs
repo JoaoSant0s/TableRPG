@@ -38,7 +38,7 @@ namespace TableRPG
             this.BackgroundData = new BackgroundData(info.backgroundTextureBytes, info.backgroundPixelsPerUnit, info.backgroundColor);
             this.GridData = new GridData(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
 
-            SaveData();
+            SceneManagerController.Instance.StartCoroutine(SaveDataRoutine());
         }
 
         public void SetSceneInfo(SceneInfo info)
@@ -48,7 +48,7 @@ namespace TableRPG
             this.BackgroundData.UpdateValues(info.backgroundTextureBytes, info.backgroundPixelsPerUnit, info.backgroundColor);
             this.GridData.UpdateValues(info.gridType, info.gridDrawExtent, info.gridSize, info.gridOffset);
 
-            SaveData();
+            SceneManagerController.Instance.StartCoroutine(SaveDataRoutine());
         }
 
         public SceneController(SceneData data)
@@ -138,7 +138,7 @@ namespace TableRPG
         {
             this.wallData = data;
 
-            SaveData();
+            SceneManagerController.Instance.StartCoroutine(SaveDataRoutine());
         }
 
         public override string ToString()
@@ -148,7 +148,7 @@ namespace TableRPG
 
         public void SaveAllData()
         {
-            SaveData();
+            SceneManagerController.Instance.StartCoroutine(SaveDataRoutine());
         }
 
         #endregion
@@ -163,6 +163,12 @@ namespace TableRPG
             this.backgroundData = data.BackgroundData;
             this.wallData = data.WallData;
             this.gridData = data.GridData;
+        }
+
+        private IEnumerator SaveDataRoutine()
+        {
+            yield return null;
+            SaveData();
         }
 
         private void SaveData()
@@ -180,13 +186,13 @@ namespace TableRPG
 
             Debugs.Log("Save scene in Path:", completePath);
 
-            var bf = new BinaryFormatter();
+            using (FileStream file = File.Create(completePath))
+            {                
+                var bf = new BinaryFormatter();
+                bf.Serialize(file, json);
 
-            FileStream file = File.Create(completePath);
-
-            bf.Serialize(file, json);
-
-            file.Close();
+                file.Close();
+            }
         }
 
         #endregion

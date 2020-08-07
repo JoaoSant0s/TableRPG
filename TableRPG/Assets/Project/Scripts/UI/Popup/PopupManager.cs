@@ -14,6 +14,8 @@ namespace TableRPG
 
         private List<PopupController> instantiatedPopups;
 
+        private InputMenu control;
+
         public List<PopupController> InstantiatedPopups
         {
             get
@@ -28,20 +30,24 @@ namespace TableRPG
         protected override void Awake()
         {
             base.Awake();
+            this.control = new InputMenu();
+
+        }
+
+        private void Start()
+        {
             PopupController.ClosePopup += RemoveSeletedPopup;
+
+            this.control.Esc.CloseAction.performed += ctx => RemoveLastPopup();
+            this.control.Esc.CloseAction.Enable();
         }
 
         private void OnDestroy()
         {
             PopupController.ClosePopup -= RemoveSeletedPopup;
-        }
 
-        private void Update()
-        {
-            if (HotKeysCollections.ButtonEsc)
-            {
-                RemoveLastPopup();
-            }
+            this.control.Esc.CloseAction.performed -= ctx => RemoveLastPopup();
+            this.control.Esc.CloseAction.Disable();
         }
 
         #region general region
