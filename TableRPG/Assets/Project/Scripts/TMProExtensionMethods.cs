@@ -19,4 +19,9 @@ public static class TMProExtensionMethods
     {
         input.characterValidation = TMP_InputField.CharacterValidation.Integer;
     }
+
+    public static void CharacterValidationEmail(this TMP_InputField input)
+    {
+        input.characterValidation = TMP_InputField.CharacterValidation.EmailAddress;
+    }
 }

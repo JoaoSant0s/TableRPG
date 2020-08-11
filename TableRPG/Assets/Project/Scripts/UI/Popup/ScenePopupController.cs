@@ -92,12 +92,7 @@ namespace TableRPG
 
         private SceneController referencedSceneController;
 
-        #region monobehaviour methods
-
-        private void Start()
-        {
-            SetCharacterValidation();
-        }
+        #region monobehaviour methods       
 
         #endregion
 
@@ -275,18 +270,7 @@ namespace TableRPG
             this.gridOffsetY.AlignmentMidlineLeft();
             this.gridSize.AlignmentMidlineLeft();
             this.gridExtent.AlignmentMidlineLeft();
-        }
-
-        private void SetCharacterValidation()
-        {
-            this.backgroundPixelPerUnit.CharacterValidationDecimal();
-            this.backgroundPixelPerUnit.CharacterValidationDecimal();
-
-            this.gridOffsetX.CharacterValidationDecimal();
-            this.gridOffsetY.CharacterValidationDecimal();
-            this.gridSize.CharacterValidationDecimal();
-            this.gridExtent.CharacterValidationDecimal();
-        }
+        }        
 
         private void UpdateBackgroundColor(Color color)
         {
