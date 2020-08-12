@@ -20,8 +20,8 @@ namespace TableRPG
     }
     public class LoginManagerViewer : MonoBehaviour
     {
-        public delegate void OnSignInPlayer(LoginStructure login, UnityAction callback = null);
-        public static OnSignInPlayer SignInPlayer;  
+        public delegate void OnSignInPlayer(LoginStructure login, UnityAction<object> onSuccess, UnityAction<object> onFail);
+        public static OnSignInPlayer SignInPlayer;
 
         [Header("Inputs")]
         [SerializeField]
@@ -40,18 +40,29 @@ namespace TableRPG
             CanvasLoadingController.Instance.EnableScene();
             var login = new LoginStructure(this.email.text, this.password.text);
 
-            if (SignInPlayer != null) SignInPlayer(login, LoadMenuScene);
-        }
-
-        private void LoadMenuScene()
-        {
-            SceneManager.LoadSceneAsync(sceneMenu, LoadSceneMode.Single);
+            if (SignInPlayer != null) SignInPlayer(login, LoadMenuScene, LoadMenuError);
         }
 
         public void SignUp()
         {
             Debug.Log("SingUp Popup");
-            //ToDo show SignUp Popup
+
+            PopupManager.Instance.ShowSignUpPopup();
+        }
+
+        #endregion
+
+        #region private methods
+
+        private void LoadMenuScene(object result)
+        {
+            Debugs.Log(result);
+            SceneManager.LoadSceneAsync(sceneMenu, LoadSceneMode.Single);
+        }
+
+        private void LoadMenuError(object result)
+        {
+            Debugs.Log(result);
         }
 
         #endregion

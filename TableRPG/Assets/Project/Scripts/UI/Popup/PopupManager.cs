@@ -65,7 +65,28 @@ namespace TableRPG
 
         #endregion
 
+        #region SignUp
+
+        public void ShowSignUpPopup()
+        {
+            CloseSignUpPopup();
+            ShowPopup<SignUpPopupController>();
+        }
+
+        private void CloseSignUpPopup()
+        {
+            var popups = InstantiatedPopups.FindAll(context => context is SignUpPopupController);
+            for (int i = 0; i < popups.Count; i++)
+            {
+                var popup = (SignUpPopupController)popups[i];
+                RemovePopup(popup);
+            }
+        }
+
+        #endregion
+
         #region Scene region
+
 
         public void ShowScenePopup()
         {
