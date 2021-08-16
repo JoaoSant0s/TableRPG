@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class WindowCanvas : MonoBehaviour
+namespace TableRPG
 {
-    private Canvas canvas;
-    private Vector2 offsetScreen = new Vector2(25, 25);
-
-    private void Awake()
+    public class WindowCanvas : MonoBehaviour
     {
-        this.canvas = transform.GetComponentInParent<Canvas>();
-    }
+        private Canvas canvas;
+        private Vector2 offsetScreen = new Vector2(25, 25);
 
-    protected Vector2 CorrectInpuLimits(Vector2 position)
-    {
-        Rect rect = this.canvas.pixelRect;
+        private void Awake()
+        {
+            this.canvas = transform.GetComponentInParent<Canvas>();
+        }
 
-        var xPosition = Mathf.Max(offsetScreen.x, Mathf.Min(rect.width - offsetScreen.x, position.x));
-        var yPosition = Mathf.Max(offsetScreen.y, Mathf.Min(rect.height - offsetScreen.y, position.y));
+        protected Vector2 CorrectInpuLimits(Vector2 position)
+        {
+            Rect rect = this.canvas.pixelRect;
 
-        return new Vector2(xPosition, yPosition);
+            var xPosition = Mathf.Max(offsetScreen.x, Mathf.Min(rect.width - offsetScreen.x, position.x));
+            var yPosition = Mathf.Max(offsetScreen.y, Mathf.Min(rect.height - offsetScreen.y, position.y));
+
+            return new Vector2(xPosition, yPosition);
+        }
     }
 }

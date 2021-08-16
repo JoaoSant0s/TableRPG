@@ -81,7 +81,7 @@ namespace TableRPG.Server
             {
                 yield return request.SendWebRequest();
 
-                if (request.isNetworkError || request.isHttpError)
+                if (request.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debugs.Error(request.error);
                     if (onFail != null) onFail(request.error);
