@@ -16,7 +16,7 @@ namespace TableRPG
         {
             this.email = _email;
             this.password = _password;
-        }
+        }        
     }
     public class LoginManagerViewer : MonoBehaviour
     {

@@ -115,7 +115,6 @@ namespace TableRPG.Server
                 return value;
             }
 
-
             return null;
         }
 
@@ -124,8 +123,32 @@ namespace TableRPG.Server
 
     public struct FirebaseFunctions
     {
-        public static string LOGIN_SIGN_IN = "/login/signIn";
-        public static string LOGIN_SIGN_UP = "/login/signUp";
-        public static string LOGIN_LOGOUT = "/login/logout";
+        public static string LOGIN_SIGN_IN
+        {
+            get { return LoginFunction.SIGN_IN; }
+        }
+
+        public static string LOGIN_SIGN_UP
+        {
+            get { return LoginFunction.SIGN_UP; }
+        }
+
+        public static string LOGIN_LOGOUT
+        {
+            get { return LoginFunction.LOGOUT; }
+        }
+        
+        #region Login functions
+
+        private struct LoginFunction
+        {
+            public static string SIGN_IN = "/signIn";
+            public static string SIGN_UP = "/signUp";
+            public static string LOGOUT = "/logout";
+        }
+
+        #endregion
     }
+
+
 }

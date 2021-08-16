@@ -50,7 +50,7 @@ namespace TableRPG
             }
             else
             {
-                if (onFail != null) onFail("Error: password don't mathc or empty fields");
+                if (onFail != null) onFail("Error: password don't match or empty fields");
             }
 
         }

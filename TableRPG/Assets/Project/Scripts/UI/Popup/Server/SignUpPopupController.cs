@@ -63,11 +63,14 @@ namespace TableRPG
 
         private void SuccessSignUpCallback(object result)
         {
+            OnCloseButton();
+            Debugs.Log(result);
             CanvasLoadingController.Instance.EnableScene(false);
         }
 
         private void FailSignUpCallback(object result)
         {
+            OnCloseButton();
             Debugs.Log(result);
             CanvasLoadingController.Instance.EnableScene(false);
         }
